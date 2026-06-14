@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Roshni — Designing Trust Into Product-Led Growth</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:         #07070f;
+      --surf:       #0e0e1a;
+      --surf2:      #161626;
+      --acc:        #f5c84a;
+      --acc-bright: #ffefb3;
+      --acc-deep:   #d4980a;
+      --acc-dim:    rgba(245,200,74,.10);
+      --acc-border: rgba(245,200,74,.26);
+      --txt:        #ede8e0;
+      --muted:      #7e7a74;
+      --dim:        rgba(237,232,224,.32);
+      --line:       rgba(237,232,224,.07);
+      --r:          14px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--txt);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      line-height: 1.6;
+      overflow-x: hidden;
+      cursor: none;
+    }
+    @media (hover:none) { body { cursor: auto; } }
+
+    /* ── CURSOR ── */
+    #cd { position:fixed; width:6px; height:6px; background:var(--acc); border-radius:50%; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); }
+    #cr { position:fixed; width:38px; height:38px; border:1.5px solid rgba(245,200,74,.4); border-radius:50%; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:width .25s,height .25s,border-color .25s; }
+    body.hs #cr { width:54px; height:54px; border-color:var(--acc-bright); }
+    @media (hover:none) { #cd,#cr { display:none; } }
+
+    /* ── NAV ── */
+    nav {
+      position:fixed; top:0; left:0; right:0; z-index:100;
+      height:58px; display:flex; align-items:center;
+      padding:0 clamp(20px,5vw,80px);
+      border-bottom:1px solid var(--line);
+      background:rgba(7,7,15,.88);
+      backdrop-filter:blur(18px);
+    }
+    .nav-logo { font-family:'Cormorant Garamond',serif; font-size:1.15rem; font-weight:500; color:var(--txt); text-decoration:none; letter-spacing:.02em; margin-right:auto; }
+    .nav-links { display:flex; align-items:center; gap:32px; }
+    .nav-a { color:var(--muted); text-decoration:none; font-size:.84rem; font-weight:500; letter-spacing:.02em; transition:color .2s; }
+    .nav-a:hover { color:var(--txt); }
+    .nav-cta { display:inline-flex; align-items:center; gap:5px; background:var(--acc); color:#07070f; text-decoration:none; font-size:.8rem; font-weight:700; padding:8px 18px; border-radius:999px; letter-spacing:.02em; transition:opacity .2s; }
+    .nav-cta:hover { opacity:.85; }
+    @media (max-width:600px) { .nav-links .nav-a { display:none; } }
+
+    /* ── HERO ── */
+    #hero {
+      min-height:100vh; display:flex; flex-direction:column;
+      padding-top:58px; position:relative; overflow:hidden;
+    }
+    .hero-main {
+      flex:1; display:grid; grid-template-columns:1fr 420px; gap:48px;
+      align-items:center; max-width:1280px; margin:0 auto; width:100%;
+      padding:clamp(60px,8vw,100px) clamp(20px,5vw,80px) 48px;
+    }
+    @media (max-width:860px) { .hero-main { grid-template-columns:1fr; } #hero-canvas { display:none; } }
+
+    .hero-tag {
+      display:inline-flex; align-items:center; gap:8px;
+      font-size:.7rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase;
+      color:var(--acc); background:var(--acc-dim); border:1px solid var(--acc-border);
+      padding:6px 14px; border-radius:999px; margin-bottom:32px;
+      opacity:0; transform:translateY(10px);
+    }
+    .pulse { width:5px; height:5px; border-radius:50%; background:var(--acc); animation:pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.3;transform:scale(.6)} }
+
+    h1.hero-h1 {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(3rem,6.5vw,5.6rem);
+      font-weight:500; line-height:1.04; letter-spacing:-.01em;
+      margin-bottom:24px;
+    }
+    .lw { overflow:hidden; display:block; padding-bottom:0.18em; margin-bottom:-0.18em; }
+    .line { display:block; transform:translateY(110%); padding-bottom:0.04em; }
+    .line em { color:var(--acc-bright); font-style:italic; }
+
+    .hero-sub { font-size:clamp(.95rem,1.3vw,1.1rem); color:var(--muted); max-width:480px; line-height:1.75; margin-bottom:36px; opacity:0; transform:translateY(16px); }
+    .hero-btns { display:flex; gap:14px; flex-wrap:wrap; opacity:0; }
+    .btn-p { display:inline-flex; align-items:center; gap:7px; background:var(--acc); color:#07070f; text-decoration:none; font-size:.86rem; font-weight:700; padding:13px 26px; border-radius:999px; transition:opacity .2s,transform .2s; }
+    .btn-p:hover { opacity:.87; transform:translateY(-1px); }
+    .btn-g { display:inline-flex; align-items:center; gap:7px; background:transparent; color:var(--muted); text-decoration:none; font-size:.86rem; font-weight:500; padding:13px 26px; border-radius:999px; border:1px solid var(--line); transition:color .2s,border-color .2s; }
+    .btn-g:hover { color:var(--txt); border-color:rgba(237,232,224,.18); }
+
+    #hero-canvas { width:420px; height:420px; opacity:0; }
+
+    .hero-strip {
+      border-top:1px solid var(--line); display:grid; grid-template-columns:repeat(4,1fr);
+      gap:28px; max-width:1280px; margin:0 auto; width:100%;
+      padding:28px clamp(20px,5vw,80px) clamp(40px,6vw,80px);
+      opacity:0;
+    }
+    .strip-label { font-size:.66rem; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--acc); margin-bottom:8px; }
+    .strip-body { font-size:.83rem; color:var(--muted); line-height:1.6; }
+    @media (max-width:720px) { .hero-strip { grid-template-columns:repeat(2,1fr); } }
+    @media (max-width:440px) { .hero-strip { grid-template-columns:1fr; } }
+
+    /* ── MARQUEE ── */
+    .mq-wrap { overflow:hidden; border-top:1px solid var(--line); border-bottom:1px solid var(--line); background:var(--surf); }
+    .mq-track { display:flex; width:max-content; animation:mq 32s linear infinite; }
+    @keyframes mq { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+    .mq-item { display:flex; align-items:center; padding:16px 0; font-size:.68rem; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); white-space:nowrap; flex-shrink:0; }
+    .mq-item span { padding:0 22px; }
+    .mq-item .sep { color:var(--acc); }
+
+    /* ── SECTIONS ── */
+    .s { padding:clamp(72px,9vw,120px) clamp(20px,5vw,80px); }
+    .s-inner { max-width:1280px; margin:0 auto; }
+    .s-surf { background:var(--surf); }
+    .s-surf2 { background:var(--surf2); }
+
+    .s-tag { font-size:.68rem; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--acc); margin-bottom:14px; }
+    .s-h2 { font-family:'Cormorant Garamond',serif; font-size:clamp(2rem,3.8vw,3rem); font-weight:500; line-height:1.1; margin-bottom:12px; }
+    .s-desc { font-size:1rem; color:var(--muted); max-width:500px; line-height:1.75; margin-bottom:44px; }
+
+    /* ── STATEMENT ── */
+    #statement .s-inner { text-align:center; }
+    .stmt-q { font-family:'Cormorant Garamond',serif; font-size:clamp(1.7rem,3.5vw,2.9rem); font-weight:400; line-height:1.25; max-width:860px; margin:0 auto 28px; }
+    .stmt-sub { font-size:1rem; color:var(--muted); max-width:520px; margin:0 auto 28px; line-height:1.75; }
+    .stmt-co { font-family:'Cormorant Garamond',serif; font-size:1.25rem; font-style:italic; color:var(--acc-bright); }
+
+    /* ── CASE STUDIES ── */
+    .c-tabs { display:flex; border-bottom:1px solid var(--line); margin-bottom:44px; overflow-x:auto; gap:0; }
+    .c-tab { cursor:pointer; padding:13px 26px; font-size:.84rem; font-weight:500; color:var(--muted); border:none; border-bottom:2px solid transparent; background:none; transition:all .2s; white-space:nowrap; }
+    .c-tab:hover { color:var(--txt); }
+    .c-tab.active { color:var(--acc); border-bottom-color:var(--acc); }
+    .c-panel { display:none; }
+    .c-panel.active { display:block; }
+
+    .pg { display:grid; grid-template-columns:1fr 300px; gap:28px; }
+    @media (max-width:860px) { .pg { grid-template-columns:1fr; } }
+
+    .card { background:var(--surf); border:1px solid var(--line); border-radius:var(--r); padding:22px; }
+    .card-acc { background:var(--acc-dim); border:1px solid var(--acc-border); border-radius:var(--r); padding:22px; }
+
+    .pill { display:inline-block; padding:3px 11px; border-radius:999px; font-size:.66rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase; background:var(--acc-dim); color:var(--acc); border:1px solid var(--acc-border); }
+
+    .di { display:flex; align-items:flex-start; gap:9px; }
+    .db { width:5px; height:5px; border-radius:50%; background:var(--acc); flex-shrink:0; margin-top:8px; }
+    .db-d { width:5px; height:5px; border-radius:50%; background:var(--muted); opacity:.4; flex-shrink:0; margin-top:8px; }
+
+    .ph { font-family:'Cormorant Garamond',serif; font-size:clamp(1.3rem,2.2vw,1.75rem); font-weight:500; line-height:1.2; margin-bottom:14px; }
+    .pb { font-size:.9rem; color:var(--muted); line-height:1.8; }
+
+    .stat-n { font-family:'Cormorant Garamond',serif; font-size:2.5rem; font-weight:500; color:var(--acc-bright); line-height:1; }
+    .stat-u { font-size:.66rem; color:var(--muted); margin-top:2px; }
+    .stat-l { font-size:.83rem; color:var(--muted); margin-top:6px; }
+    .stat-s { font-size:.7rem; color:var(--dim); margin-top:3px; }
+
+    .bi { display:flex; align-items:flex-start; gap:14px; padding:14px 0; border-bottom:1px solid var(--line); }
+    .bi:last-child { border-bottom:none; }
+    .bn { width:26px; height:26px; border-radius:50%; background:var(--acc-dim); border:1px solid var(--acc-border); display:flex; align-items:center; justify-content:center; font-size:.64rem; font-weight:700; color:var(--acc); flex-shrink:0; }
+    .bq { border-left:3px solid var(--acc-bright); padding:14px 18px; background:var(--surf); border-radius:0 var(--r) var(--r) 0; font-size:.87rem; color:var(--muted); line-height:1.75; font-style:italic; }
+    hr.div { border:none; border-top:1px solid var(--line); margin:14px 0; }
+
+    /* ── PRINCIPLES ── */
+    .pg-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:var(--r); overflow:hidden; margin-top:44px; }
+    @media (max-width:720px) { .pg-grid { grid-template-columns:repeat(2,1fr); } }
+    @media (max-width:440px) { .pg-grid { grid-template-columns:1fr; } }
+    .pc { background:var(--surf); padding:32px 26px; transition:background .2s; }
+    .pc:hover { background:var(--surf2); }
+    .pn { font-family:'Cormorant Garamond',serif; font-size:2.8rem; font-weight:400; color:rgba(255,239,179,0.42); line-height:1; margin-bottom:14px; }
+    .pt { font-weight:600; font-size:.9rem; color:var(--txt); margin-bottom:8px; line-height:1.4; }
+    .pp { font-size:.83rem; color:var(--muted); line-height:1.7; }
+
+    /* ── METRICS ── */
+    .mg { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:44px; }
+    @media (max-width:720px) { .mg { grid-template-columns:repeat(2,1fr); } }
+    @media (max-width:440px) { .mg { grid-template-columns:1fr; } }
+    .mc { background:var(--surf); border:1px solid var(--line); border-radius:var(--r); padding:22px; }
+    .mgl { font-size:.66rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--acc); margin-bottom:18px; }
+    .mi { margin-bottom:18px; }
+    .mi:last-child { margin-bottom:0; }
+    .mn { font-size:.8rem; color:var(--muted); margin-bottom:7px; }
+    .mb { height:2px; background:var(--line); border-radius:2px; overflow:hidden; }
+    .mf { height:100%; background:linear-gradient(90deg,var(--acc-deep),var(--acc),var(--acc-bright)); border-radius:2px; transition:width 1.4s cubic-bezier(.25,1,.5,1); }
+
+    /* ── ABOUT ── */
+    .ag { display:grid; grid-template-columns:1fr 1fr; gap:72px; align-items:start; }
+    @media (max-width:860px) { .ag { grid-template-columns:1fr; gap:44px; } }
+    .ah { font-family:'Cormorant Garamond',serif; font-size:clamp(1.75rem,3vw,2.6rem); font-weight:500; line-height:1.15; margin-bottom:24px; }
+    .ab { font-size:.93rem; color:var(--muted); line-height:1.8; margin-bottom:18px; }
+    .aq { font-family:'Cormorant Garamond',serif; font-size:1.35rem; font-style:italic; color:var(--acc-bright); margin:28px 0; line-height:1.4; }
+    .a-cta { display:inline-flex; align-items:center; gap:8px; background:var(--acc); color:#07070f; text-decoration:none; font-size:.86rem; font-weight:700; padding:13px 26px; border-radius:999px; transition:opacity .2s; }
+    .a-cta:hover { opacity:.86; }
+
+    .sg { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .sc { background:var(--surf2); border:1px solid var(--line); border-radius:var(--r); padding:18px; }
+    .sc .sn { font-family:'Cormorant Garamond',serif; font-size:2.1rem; font-weight:500; color:var(--txt); line-height:1; }
+    .sc .su { font-size:.64rem; color:var(--muted); margin-top:1px; }
+    .sc .sd { font-size:.78rem; color:var(--muted); margin-top:5px; line-height:1.4; }
+    .sci { grid-column:span 2; background:var(--surf2); border:1px solid var(--line); border-radius:var(--r); padding:18px; }
+    .sci .sit { font-size:.82rem; font-weight:600; color:var(--txt); margin-bottom:5px; }
+    .sci .sis { font-size:.78rem; color:var(--muted); margin-bottom:14px; }
+    .tl { display:flex; flex-wrap:wrap; gap:7px; }
+    .ts { display:inline-block; padding:3px 10px; border-radius:999px; font-size:.64rem; font-weight:500; letter-spacing:.04em; text-transform:uppercase; background:var(--surf); color:var(--muted); border:1px solid var(--line); }
+
+    /* ── FOOTER ── */
+    footer { padding:32px clamp(20px,5vw,80px); border-top:1px solid var(--line); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px; }
+    .fl { font-family:'Cormorant Garamond',serif; font-size:1.05rem; font-weight:500; color:var(--txt); text-decoration:none; }
+    .fc { font-size:.78rem; color:var(--muted); }
+    .fla { font-size:.78rem; color:var(--muted); text-decoration:none; transition:color .2s; }
+    .fla:hover { color:var(--acc); }
+
+    /* ── REVEAL ── */
+    .rv { opacity:0; transform:translateY(24px); }
+    .rv2 { opacity:0; transform:translateY(16px); }
+
+    /* ── LOADER ── */
+    #loader {
+      position:fixed; inset:0; z-index:9000;
+      background:var(--bg);
+      display:flex; align-items:center; justify-content:center;
+      flex-direction:column;
+      transition:transform .75s cubic-bezier(.76,0,.24,1);
+    }
+    #loader.exit { transform:translateY(-100%); }
+
+    .ld-brand {
+      font-family:'Cormorant Garamond',serif;
+      font-size:1.4rem; font-weight:500; letter-spacing:.04em;
+      color:rgba(237,232,224,.3);
+      margin-bottom:52px;
+    }
+
+    .ld-items { width:300px; margin-bottom:28px; }
+
+    .ld-item {
+      display:flex; align-items:center; justify-content:space-between;
+      font-size:.68rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase;
+      color:rgba(237,232,224,.2);
+      padding:8px 0; border-bottom:1px solid rgba(237,232,224,.05);
+      opacity:0; transform:translateX(-12px);
+      transition:opacity .4s ease, transform .4s ease, color .3s ease;
+    }
+    .ld-item.on { opacity:1; transform:translateX(0); color:rgba(237,232,224,.55); }
+    .ld-item.done { color:rgba(245,200,74,.85); }
+    .ld-tick { opacity:0; transition:opacity .25s ease .1s; font-size:.8rem; }
+    .ld-item.done .ld-tick { opacity:1; }
+
+    .ld-bar-wrap {
+      width:300px; height:1.5px;
+      background:rgba(237,232,224,.07);
+      border-radius:2px; overflow:hidden;
+      margin-bottom:20px;
+    }
+    .ld-bar {
+      height:100%;
+      background:linear-gradient(90deg,#d4980a,#f5c84a,#ffefb3);
+      width:0%; border-radius:2px;
+    }
+
+    .ld-status {
+      font-size:.62rem; font-weight:700; letter-spacing:.18em; text-transform:uppercase;
+      color:rgba(237,232,224,.18);
+      transition:color .4s ease;
+    }
+    .ld-status.ready { color:var(--acc); }
+
+    /* ── LIGHT MODE ── */
+    [data-theme="light"] {
+      --bg:         #f5f0e8;
+      --surf:       #ece7dc;
+      --surf2:      #e2dccf;
+      --acc:        #c08008;
+      --acc-bright: #8a6000;
+      --acc-deep:   #5e4200;
+      --acc-dim:    rgba(192,128,8,.08);
+      --acc-border: rgba(192,128,8,.2);
+      --txt:        #1a1612;
+      --muted:      #6b6258;
+      --dim:        rgba(26,22,18,.28);
+      --line:       rgba(26,22,18,.09);
+    }
+    [data-theme="light"] body { cursor: auto; }
+    [data-theme="light"] #cd,[data-theme="light"] #cr { display:none; }
+    [data-theme="light"] nav { background:rgba(245,240,232,.92); }
+    [data-theme="light"] .btn-g:hover { border-color:rgba(26,22,18,.22); }
+    [data-theme="light"] .ld-brand { color:rgba(26,22,18,.35); }
+    [data-theme="light"] .ld-item { color:rgba(26,22,18,.25); border-bottom-color:rgba(26,22,18,.06); }
+    [data-theme="light"] .ld-item.on { color:rgba(26,22,18,.6); }
+    [data-theme="light"] .ld-bar-wrap { background:rgba(26,22,18,.08); }
+    [data-theme="light"] .ld-status { color:rgba(26,22,18,.22); }
+    [data-theme="light"] .pn { color:rgba(140,96,0,.28); }
+    [data-theme="light"] .nav-cta { color:#fff; }
+    [data-theme="light"] .btn-p { color:#fff; }
+    [data-theme="light"] .a-cta { color:#fff; }
+
+    /* Theme toggle */
+    .theme-btn {
+      width:34px; height:34px; border-radius:50%; border:1px solid var(--line);
+      background:var(--surf); display:flex; align-items:center; justify-content:center;
+      cursor:pointer; transition:all .2s; flex-shrink:0; color:var(--muted);
+      font-size:15px; line-height:1;
+    }
+    .theme-btn:hover { border-color:var(--acc); color:var(--acc); }
+
+    /* ── VIDEO INTRO SECTION ── */
+    #vid-intro {
+      position:relative; width:100%; height:100vh;
+      overflow:hidden;
+      display:flex; align-items:flex-end;
+      /* Rich editorial dark gradient — no video bg needed */
+      background:
+        radial-gradient(ellipse 70% 80% at 75% 50%, rgba(30,18,50,.85) 0%, transparent 70%),
+        radial-gradient(ellipse 55% 60% at 20% 80%, rgba(10,6,20,.9) 0%, transparent 65%),
+        linear-gradient(135deg, #0a0610 0%, #07050f 40%, #0d0818 100%);
+    }
+
+    /* Foreground video — right-anchored talking head */
+    .vid-fg {
+      position:absolute;
+      right:0; bottom:0;
+      height:100%; width:58%;
+      object-fit:cover; object-position:center top;
+      z-index:1;
+      opacity:0;
+      transition:opacity 1s ease;
+      /* Tight fade — video only, left edge blends into dark bg */
+      mask-image:linear-gradient(to left, rgba(0,0,0,1) 55%, rgba(0,0,0,.5) 78%, rgba(0,0,0,0) 100%);
+      -webkit-mask-image:linear-gradient(to left, rgba(0,0,0,1) 55%, rgba(0,0,0,.5) 78%, rgba(0,0,0,0) 100%);
+    }
+    .vid-fg.playing { opacity:1; }
+    @media (max-width:768px) {
+      .vid-fg { width:100%; opacity:.55;
+        mask-image:linear-gradient(to bottom, rgba(0,0,0,.8) 50%, rgba(0,0,0,0));
+        -webkit-mask-image:linear-gradient(to bottom, rgba(0,0,0,.8) 50%, rgba(0,0,0,0));
+      }
+    }
+
+    /* Cinematic gradient overlays */
+    .vid-grad-left {
+      position:absolute; inset:0; z-index:2; pointer-events:none;
+      background:linear-gradient(to right,
+        rgba(7,5,15,1) 0%,
+        rgba(7,5,15,1) 22%,
+        rgba(7,5,15,.85) 38%,
+        rgba(7,5,15,.2) 58%,
+        transparent 72%);
+    }
+    .vid-grad-top {
+      position:absolute; top:0; left:0; right:0; height:200px; z-index:2; pointer-events:none;
+      background:linear-gradient(to bottom,rgba(5,4,12,.95),transparent);
+    }
+    /* Corner seal — kills the bleed where left + top gradients don't fully overlap */
+    .vid-corner {
+      position:absolute; top:0; left:0; width:45%; height:45%; z-index:2; pointer-events:none;
+      background:radial-gradient(ellipse at top left, rgba(5,4,12,1) 20%, rgba(5,4,12,.5) 55%, transparent 100%);
+    }
+    .vid-grad-bot {
+      position:absolute; bottom:0; left:0; right:0; height:280px; z-index:2; pointer-events:none;
+      background:linear-gradient(to top,rgba(5,4,12,.85),transparent);
+    }
+
+    /* Bokeh canvas overlay */
+    #bokeh-canvas {
+      position:absolute; inset:0; z-index:3; pointer-events:none; opacity:.7;
+    }
+
+    /* Content overlay */
+    .vid-content {
+      position:relative; z-index:4;
+      padding:0 clamp(28px,6vw,100px) clamp(64px,8vw,110px);
+      max-width:680px;
+    }
+    .vid-tag {
+      display:inline-flex; align-items:center; gap:8px;
+      font-size:.68rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+      color:rgba(245,200,74,.85);
+      border:1px solid rgba(245,200,74,.25);
+      padding:5px 14px; border-radius:999px;
+      margin-bottom:28px;
+      opacity:0;
+    }
+    .vid-name {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(3.5rem,9vw,8rem);
+      font-weight:600; line-height:.96; letter-spacing:-.02em;
+      color:#fff; margin-bottom:20px;
+      opacity:0;
+    }
+    .vid-name span { display:block; }
+    .vid-name .name-acc { color:#f5c84a; font-style:italic; }
+    .vid-role {
+      font-size:clamp(.85rem,1.4vw,1rem); color:rgba(237,232,224,.6);
+      letter-spacing:.04em; line-height:1.7; margin-bottom:36px;
+      opacity:0;
+    }
+    .vid-role strong { color:rgba(245,200,74,.9); font-weight:600; }
+    .vid-btns {
+      display:flex; gap:12px; flex-wrap:wrap; opacity:0;
+    }
+    .vbtn {
+      display:inline-flex; align-items:center; gap:8px;
+      font-size:.8rem; font-weight:700; letter-spacing:.04em;
+      padding:11px 22px; border-radius:999px; cursor:pointer;
+      transition:all .22s; border:none;
+    }
+    .vbtn-pri { background:#f5c84a; color:#07070f; }
+    .vbtn-pri:hover { background:#ffefb3; }
+    .vbtn-glass {
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.15);
+      color:rgba(237,232,224,.8);
+      backdrop-filter:blur(12px);
+    }
+    .vbtn-glass:hover { background:rgba(255,255,255,.14); color:#fff; }
+
+    /* Controls (bottom right) */
+    .vid-controls {
+      position:absolute; bottom:clamp(28px,5vw,52px); right:clamp(20px,4vw,52px);
+      z-index:5; display:flex; flex-direction:column; gap:10px; align-items:center;
+    }
+    .vctrl {
+      width:42px; height:42px; border-radius:50%;
+      background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2);
+      backdrop-filter:blur(16px);
+      display:flex; align-items:center; justify-content:center;
+      cursor:pointer; color:#fff; font-size:15px;
+      transition:all .2s;
+    }
+    .vctrl:hover { background:rgba(255,255,255,.2); border-color:rgba(255,255,255,.4); }
+    .vctrl svg { width:16px; height:16px; }
+
+    /* Sound hint badge */
+    .sound-hint {
+      position:absolute; top:80px; right:clamp(20px,4vw,52px); z-index:5;
+      display:flex; align-items:center; gap:8px;
+      font-size:.68rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase;
+      color:rgba(237,232,224,.7);
+      background:rgba(0,0,0,.35); border:1px solid rgba(255,255,255,.12);
+      backdrop-filter:blur(12px);
+      padding:8px 16px; border-radius:999px;
+      transition:opacity .5s ease;
+    }
+    .sound-hint .sh-dot {
+      width:6px; height:6px; border-radius:50%; background:#f5c84a;
+      animation:pulse 1.8s infinite;
+    }
+    .sound-hint.hidden { opacity:0; pointer-events:none; }
+
+    /* Scroll indicator */
+    .vid-scroll {
+      position:absolute; bottom:clamp(20px,4vw,40px); left:50%;
+      transform:translateX(-50%); z-index:5;
+      display:flex; flex-direction:column; align-items:center; gap:8px;
+      cursor:pointer; color:rgba(237,232,224,.5); transition:color .2s;
+    }
+    .vid-scroll:hover { color:rgba(237,232,224,.9); }
+    .vid-scroll span {
+      font-size:.6rem; font-weight:600; letter-spacing:.16em; text-transform:uppercase;
+    }
+    .scroll-line {
+      width:1px; height:40px;
+      background:linear-gradient(to bottom, rgba(245,200,74,.8), transparent);
+      animation:scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%,100%{opacity:.3;transform:scaleY(.6) translateY(-4px)}
+      50%{opacity:1;transform:scaleY(1) translateY(4px)}
+    }
+  </style>
+</head>
+<body>
+  <!-- LOADER -->
+  <div id="loader">
+    <div class="ld-brand">Roshni</div>
+    <div class="ld-items">
+      <div class="ld-item"><span>Reviewing risk frameworks</span><span class="ld-tick">✓</span></div>
+      <div class="ld-item"><span>Verifying compliance protocols</span><span class="ld-tick">✓</span></div>
+      <div class="ld-item"><span>Activating growth systems</span><span class="ld-tick">✓</span></div>
+    </div>
+    <div class="ld-bar-wrap"><div class="ld-bar" id="ld-bar"></div></div>
+    <div class="ld-status" id="ld-status">Inspection in progress</div>
+  </div>
+
+  <div id="cd"></div>
+  <div id="cr"></div>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">Roshni</a>
+    <div class="nav-links">
+      <a href="#work" class="nav-a">Work</a>
+      <a href="#principles" class="nav-a">Thinking</a>
+      <a href="#about" class="nav-a">About</a>
+      <a href="https://linkedin.com/in/roshnipm" target="_blank" rel="noopener" class="nav-cta">Connect →</a>
+      <button class="theme-btn" id="theme-toggle" aria-label="Toggle light/dark mode" title="Toggle theme">☀︎</button>
+    </div>
+  </nav>
+
+  <!-- VIDEO INTRO -->
+  <section id="vid-intro">
+    <!-- Ambient blurred BG -->
+    <!-- video injected by JS after loader exits -->
+
+    <!-- Cinematic gradient layers -->
+    <div class="vid-grad-left"></div>
+    <div class="vid-grad-top"></div>
+    <div class="vid-grad-bot"></div>
+    <div class="vid-corner"></div>
+
+    <!-- Bokeh particle overlay -->
+    <canvas id="bokeh-canvas"></canvas>
+
+    <!-- Text content (left) -->
+    <div class="vid-content">
+      <div class="vid-tag">
+        <span class="sh-dot" style="width:6px;height:6px;border-radius:50%;background:#f5c84a;animation:pulse 1.8s infinite;display:inline-block"></span>
+        Product Lead · Compliance as a Growth Engine
+      </div>
+      <div class="vid-name">
+        <span>Roshni</span>
+      </div>
+      <p class="vid-role">
+        Building <strong>compliance as a growth engine</strong> —<br>
+        from KYB pipelines to risk-adjusted onboarding at scale.
+      </p>
+      <div class="vid-btns">
+        <a href="#work" class="vbtn vbtn-pri">View case studies ↓</a>
+        <a href="#about" class="vbtn vbtn-glass">About me</a>
+      </div>
+    </div>
+
+    <!-- Playback controls (bottom right) -->
+    <div class="vid-controls" id="vid-controls">
+      <button class="vctrl" id="vid-mute-btn" aria-label="Toggle mute">
+        <!-- muted icon -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+          <line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>
+        </svg>
+      </button>
+      <button class="vctrl" id="vid-play-btn" aria-label="Toggle play">
+        <!-- pause icon (video starts playing) -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Tap-for-sound badge -->
+    <div class="sound-hint" id="sound-hint">
+      <span class="sh-dot"></span>
+      TAP FOR SOUND
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="vid-scroll" id="vid-scroll" onclick="document.getElementById('hero').scrollIntoView({behavior:'smooth'})">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-main">
+      <div>
+        <div class="hero-tag"><div class="pulse"></div>Product Lead · Fintech · Stockholm</div>
+        <h1 class="hero-h1">
+          <span class="lw"><span class="line">Designing trust</span></span>
+          <span class="lw"><span class="line">into <em>product-led</em></span></span>
+          <span class="lw"><span class="line">growth.</span></span>
+        </h1>
+        <p class="hero-sub">I build products at the intersection of growth, risk, and customer experience — leading Internal Tools, Risk and Compliance to make regulated products genuinely work for everyone.</p>
+        <div class="hero-btns">
+          <a href="#work" class="btn-p">View case studies →</a>
+          <a href="#about" class="btn-g">About me</a>
+        </div>
+      </div>
+      <canvas id="hero-canvas" width="420" height="420"></canvas>
+    </div>
+    <div class="hero-strip">
+      <div><p class="strip-label">Growth</p><p class="strip-body">Product-led growth, onboarding, activation, PLG motion design</p></div>
+      <div><p class="strip-label">Risk &amp; Compliance</p><p class="strip-body">KYB, KYC, AML, fraud prevention, decisioning platforms</p></div>
+      <div><p class="strip-label">Platforms</p><p class="strip-body">Internal tooling, operational platforms, case management</p></div>
+      <div><p class="strip-label">Leadership</p><p class="strip-body">Cross-functional teams across Product, Eng, Data, Ops, Compliance</p></div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="mq-wrap">
+    <div class="mq-track">
+      <div class="mq-item"><span>Product-Led Growth</span><span class="sep">·</span><span>Risk &amp; Compliance</span><span class="sep">·</span><span>Internal Tooling</span><span class="sep">·</span><span>KYB / KYC</span><span class="sep">·</span><span>Fraud Prevention</span><span class="sep">·</span><span>AML</span><span class="sep">·</span><span>Onboarding</span><span class="sep">·</span><span>Decisioning Platforms</span><span class="sep">·</span><span>Fintech</span><span class="sep">·</span></div>
+      <div class="mq-item" aria-hidden="true"><span>Product-Led Growth</span><span class="sep">·</span><span>Risk &amp; Compliance</span><span class="sep">·</span><span>Internal Tooling</span><span class="sep">·</span><span>KYB / KYC</span><span class="sep">·</span><span>Fraud Prevention</span><span class="sep">·</span><span>AML</span><span class="sep">·</span><span>Onboarding</span><span class="sep">·</span><span>Decisioning Platforms</span><span class="sep">·</span><span>Fintech</span><span class="sep">·</span></div>
+    </div>
+  </div>
+
+  <!-- STATEMENT -->
+  <section id="statement" class="s s-surf">
+    <div class="s-inner">
+      <p class="s-tag rv">The product challenge</p>
+      <p class="stmt-q rv">Most companies treat compliance as a gate. Growth teams optimise for conversion. Risk teams optimise for control. Operations absorbs the inefficiencies in between.</p>
+      <p class="stmt-sub rv">The question I ask is not how to choose between growth and compliance. It is how to design systems that make both possible at the same time.</p>
+      <p class="stmt-co rv">"Compliance should be an asset, not a bottleneck."</p>
+    </div>
+  </section>
+
+  <!-- CASE STUDIES -->
+  <section id="work" class="s">
+    <div class="s-inner">
+      <div class="rv">
+        <p class="s-tag">Selected work</p>
+        <h2 class="s-h2">Case studies</h2>
+        <p class="s-desc">Three different dimensions of the same capability: building products that grow businesses while managing risk intelligently.</p>
+      </div>
+      <div class="c-tabs rv">
+        <button class="c-tab active" onclick="showCase(0,this)">01 · Compliance as Growth</button>
+        <button class="c-tab" onclick="showCase(1,this)">02 · Decision Intelligence</button>
+        <button class="c-tab" onclick="showCase(2,this)">03 · Stopping Fraud at Scale</button>
+      </div>
+
+      <!-- PANEL 0 -->
+      <div class="c-panel active" id="case-0">
+        <div class="pg">
+          <div style="display:flex;flex-direction:column;gap:22px">
+            <div>
+              <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:18px">
+                <span class="pill">Growth Strategy</span><span class="pill">Customer Experience</span><span class="pill">Platform Vision</span>
+              </div>
+              <h3 class="ph">Turning compliance from a gate into a growth enabler</h3>
+              <p class="pb">Regulated products carry a structural tax: customers must prove themselves before experiencing value. The standard response is to accept the friction and optimise around it. The better answer is to redesign the architecture entirely. I led the product vision and team to do exactly that across onboarding, KYB, KYC, and the operational layer beneath them.</p>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+              <div class="card">
+                <p style="font-size:.64rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:14px">The old model</p>
+                <div style="display:flex;flex-direction:column;gap:9px">
+                  <div class="di"><div class="db-d"></div><p style="font-size:.83rem;color:var(--muted)">Everyone through the same heavy verification queue</p></div>
+                  <div class="di"><div class="db-d"></div><p style="font-size:.83rem;color:var(--muted)">Value delayed until compliance is satisfied</p></div>
+                  <div class="di"><div class="db-d"></div><p style="font-size:.83rem;color:var(--muted)">Operations absorb the inefficiency in spreadsheets</p></div>
+                  <div class="di"><div class="db-d"></div><p style="font-size:.83rem;color:var(--muted)">Growth and risk permanently in tension</p></div>
+                </div>
+              </div>
+              <div class="card-acc">
+                <p style="font-size:.64rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);margin-bottom:14px">The new model</p>
+                <div style="display:flex;flex-direction:column;gap:9px">
+                  <div class="di"><div class="db"></div><p style="font-size:.83rem;color:var(--muted)">Progressive trust: controls calibrated to actual risk</p></div>
+                  <div class="di"><div class="db"></div><p style="font-size:.83rem;color:var(--muted)">Friction at moments of risk, not moments of curiosity</p></div>
+                  <div class="di"><div class="db"></div><p style="font-size:.83rem;color:var(--muted)">Compliance embedded in product, not process</p></div>
+                  <div class="di"><div class="db"></div><p style="font-size:.83rem;color:var(--muted)">Decisions auditable and measurable by default</p></div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <p style="font-size:.64rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:14px">What we built</p>
+              <div class="bi"><div class="bn">1</div><div><p style="font-weight:600;font-size:.86rem;margin-bottom:3px">Progressive profiling across the onboarding journey</p><p style="font-size:.8rem;color:var(--muted)">Collect information only when necessary, tied to specific risk thresholds rather than a single upfront gate</p></div></div>
+              <div class="bi"><div class="bn">2</div><div><p style="font-weight:600;font-size:.86rem;margin-bottom:3px">An operational platform that replaced manual workflows</p><p style="font-size:.8rem;color:var(--muted)">Moved queue management, case review, and audit trails out of spreadsheets and into a productised internal tool</p></div></div>
+              <div class="bi"><div class="bn">3</div><div><p style="font-weight:600;font-size:.86rem;margin-bottom:3px">Decision transparency at every layer</p><p style="font-size:.8rem;color:var(--muted)">Every policy configurable. Every decision traceable. SLA visibility baked in from day one.</p></div></div>
+            </div>
+            <div class="bq">The future of regulated products is not less compliance. It is smarter compliance. The organisations that win will make controls invisible for legitimate customers while remaining highly effective against risk.</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <p style="font-size:.64rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)">Scale</p>
+            <div class="card"><div class="stat-n">4 teams</div><p class="stat-l">Product organisation led</p><p class="stat-s">19 specialists across Product, Engineering, Data, Fraud, and Operations</p></div>
+            <div class="card">
+              <p style="font-size:.83rem;font-weight:600;margin-bottom:10px">Platforms owned</p>
+              <div style="display:flex;flex-direction:column;gap:7px">
+                <div class="di"><div class="db"></div><p style="font-size:.8rem;color:var(--muted)">Customer onboarding</p></div>
+                <div class="di"><div class="db"></div><p style="font-size:.8rem;color:var(--muted)">KYB and KYC</p></div>
+                <div class="di"><div class="db"></div><p style="font-size:.8rem;color:var(--muted)">Fraud detection</p></div>
+                <div class="di"><div class="db"></div><p style="font-size:.8rem;color:var(--muted)">AML investigations</p></div>
+                <div class="di"><div class="db"></div><p style="font-size:.8rem;color:var(--muted)">Operational review tooling</p></div>
+              </div>
+            </div>
+            <div class="card"><p style="font-size:.83rem;font-weight:600;margin-bottom:6px">Strategic outcome</p><p style="font-size:.8rem;color:var(--muted);line-height:1.6">Reduced manual process dependency. Increased decision consistency. Positioned compliance as a competitive advantage rather than a cost centre.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL 1 -->
+      <div class="c-panel" id="case-1">
+        <div class="pg">
+          <div style="display:flex;flex-direction:column;gap:22px">
+            <div>
+              <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:18px"><span class="pill">Platform Strategy</span><span class="pill">Technical Leadership</span><span class="pill">Risk Operations</span></div>
+              <h3 class="ph">Building a decision intelligence platform for fraud and AML</h3>
+              <p class="pb">Fraud and AML controls were distributed across multiple disconnected systems. The result was slow iteration, limited visibility into what was working, and an operational team spending most of their time on process rather than judgement. I led the strategy and cross-functional migration to consolidate decisioning onto a single platform.</p>
+            </div>
+            <div class="card">
+              <p style="font-size:.64rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:18px">What the platform enabled</p>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+                <div><p style="font-weight:600;font-size:.83rem;margin-bottom:3px">Centralised decision engine</p><p style="font-size:.78rem;color:var(--muted)">All fraud and AML decisions through a single, observable layer</p></div>
+                <div><p style="font-weight:600;font-size:.83rem;margin-bottom:3px">Rule management framework</p><p style="font-size:.78rem;color:var(--muted)">Teams could iterate on rules without engineering overhead</p></div>
+                <div><p style="font-weight:600;font-size:.83rem;margin-bottom:3px">Experimentation capability</p><p style="font-size:.78rem;color:var(--muted)">Shadow mode and A/B testing for rules before going live</p></div>
+                <div><p style="font-weight:600;font-size:.83rem;margin-bottom:3px">Case management integration</p><p style="font-size:.78rem;color:var(--muted)">Decisions surfaced directly into analyst workflows</p></div>
+              </div>
+            </div>
+            <div>
+              <p style="font-size:.64rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px">Leadership approach</p>
+              <p class="pb" style="margin-bottom:14px">The platform thinking here mattered more than the technical choices. Fraud tools are only as good as the operating model built around them. I worked across Fraud Operations, AML, Compliance, Engineering, and Data Science to align on a shared decisioning layer.</p>
+              <div class="bq">Building risk platforms is not about rule engines. It is about creating an operating system for decision making across a company.</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <p style="font-size:.64rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)">Results</p>
+            <div class="card"><div class="stat-n">112k</div><p class="stat-u">euros</p><p class="stat-l">Fraud identified via the new platform</p><p class="stat-s">961 transactions across 388 cards</p></div>
+            <div class="card"><div class="stat-n">18k+</div><p class="stat-l">Live transactions processed in production rollout</p><p class="stat-s">13 timeouts total</p></div>
+            <div class="card"><div class="stat-n">41.7%</div><p class="stat-l">Detection rate on resolved investigations</p></div>
+            <div class="card"><div class="stat-n">10</div><p class="stat-l">Fraud scenarios launched</p><p class="stat-s">Enabled retirement path from legacy AML tooling</p></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL 2 -->
+      <div class="c-panel" id="case-2">
+        <div class="pg">
+          <div style="display:flex;flex-direction:column;gap:22px">
+            <div>
+              <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:18px"><span class="pill">Customer Trust</span><span class="pill">Fraud Prevention</span><span class="pill">Measurable Outcomes</span></div>
+              <h3 class="ph">Stopping account takeover and card fraud at scale</h3>
+              <p class="pb">Account takeover attacks and card fraud were creating real customer harm and meaningful financial losses. Existing controls were reactive. I led the product strategy to shift from detection after the fact to intervention in the moment, while keeping the experience low-friction for legitimate customers.</p>
+            </div>
+            <div class="card">
+              <p style="font-size:.64rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:16px">What we shipped</p>
+              <div style="display:flex;flex-direction:column;gap:14px">
+                <div><p style="font-weight:600;font-size:.83rem;margin-bottom:3px">Magic link protection</p><p style="font-size:.78rem;color:var(--muted)">Suspicious login detection with a customer challenge flow and automated account protection. An emergency kill-switch for the operations team when patterns escalated.</p></div>
+                <hr class="div"/>
+                <div><p style="font-weight:600;font-size:.83rem;margin-bottom:3px">ATO recovery flow</p><p style="font-size:.78rem;color:var(--muted)">Self-service recovery: logout all devices, freeze all cards, notify administrators, and a fast path back to a secure account. Reduced support load significantly.</p></div>
+                <hr class="div"/>
+                <div><p style="font-weight:600;font-size:.83rem;margin-bottom:3px">Asda fraud pattern intervention</p><p style="font-size:.78rem;color:var(--muted)">Identified a large card-not-present attack pattern. Analysed 2,876 historic chargebacks representing 624k in fraudulent spend across 717 affected customers, then designed and shipped targeted controls.</p></div>
+              </div>
+            </div>
+            <div class="bq">Fraud prevention succeeds when security controls become part of the customer experience. The goal is making the right thing easy for legitimate customers and difficult for bad actors.</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <p style="font-size:.64rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)">Impact</p>
+            <div class="card"><div class="stat-n">258k</div><p class="stat-u">euros prevented</p><p class="stat-l">ATO losses stopped</p><p class="stat-s">54 fraud events detected</p></div>
+            <div class="card"><div class="stat-n">95%</div><p class="stat-l">Reduction in monthly fraud chargebacks post-intervention</p></div>
+            <div class="card" style="background:var(--surf2)">
+              <p style="font-size:.64rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Before</p>
+              <p style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:500">142 cases/mo</p>
+              <p style="font-size:.7rem;color:var(--muted);margin-top:3px">64,006 euros in losses</p>
+            </div>
+            <div class="card" style="border-color:var(--acc-border)">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><p style="font-size:.64rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">After</p><span class="pill">95% down</span></div>
+              <p style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:500;color:var(--acc-bright)">8 cases/mo</p>
+              <p style="font-size:.7rem;color:var(--muted);margin-top:3px">3,378 euros in losses</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRINCIPLES -->
+  <section id="principles" class="s s-surf">
+    <div class="s-inner">
+      <div class="rv">
+        <p class="s-tag">How I think</p>
+        <h2 class="s-h2">Product principles</h2>
+        <p class="s-desc">These are not process rules. They are design decisions I make repeatedly, in different products, across different teams.</p>
+      </div>
+      <div class="pg-grid">
+        <div class="pc rv2"><p class="pn">01</p><p class="pt">Trust is earned, not assumed</p><p class="pp">Not every user needs the same level of scrutiny. The cost of treating everyone as high-risk is paid in conversion and customer experience. Apply verification proportionally to the actual risk in front of you.</p></div>
+        <div class="pc rv2"><p class="pn">02</p><p class="pt">Friction is a design decision, not a compliance requirement</p><p class="pp">Every step you add to an onboarding or verification flow has a cost. The question is not whether friction exists but whether it is placed at the right moment for the right reason.</p></div>
+        <div class="pc rv2"><p class="pn">03</p><p class="pt">The operating model is part of the product</p><p class="pp">Compliance workflows that live in spreadsheets and email threads are not compliant. Policies need to be configurable. Decisions need to be auditable. Controls need to be measurable.</p></div>
+        <div class="pc rv2"><p class="pn">04</p><p class="pt">Automate the volume, protect the judgement</p><p class="pp">Analysts should be investigating exceptions, not processing queues. Automation is not about replacing humans. It is about reserving human expertise for the cases where it actually creates value.</p></div>
+        <div class="pc rv2"><p class="pn">05</p><p class="pt">Auditability is a product feature</p><p class="pp">Every decision should be explainable. Every control should be traceable. The audit trail is not added at the end because a regulator asked for it. It is designed in from the start.</p></div>
+        <div class="pc rv2"><p class="pn">06</p><p class="pt">Good metrics span both sides of the trade-off</p><p class="pp">Optimising for conversion at the expense of fraud losses is not success. Optimising for risk controls at the expense of activation is not either. The dashboard needs to show both at once.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- METRICS -->
+  <section id="metrics" class="s">
+    <div class="s-inner">
+      <div class="rv">
+        <p class="s-tag">What good looks like</p>
+        <h2 class="s-h2">The metric framework</h2>
+        <p class="s-desc">Optimising one dimension at the expense of the others is not a win. These four groups define the full picture of a healthy platform.</p>
+      </div>
+      <div class="mg rv">
+        <div class="mc"><p class="mgl">Growth</p><div class="mi"><p class="mn">Activation rate</p><div class="mb"><div class="mf" style="width:0" data-w="78%"></div></div></div><div class="mi"><p class="mn">Conversion rate</p><div class="mb"><div class="mf" style="width:0" data-w="65%"></div></div></div><div class="mi"><p class="mn">Time to first value</p><div class="mb"><div class="mf" style="width:0" data-w="82%"></div></div></div></div>
+        <div class="mc"><p class="mgl">Risk</p><div class="mi"><p class="mn">Fraud losses</p><div class="mb"><div class="mf" style="width:0" data-w="91%"></div></div></div><div class="mi"><p class="mn">Regulatory incidents</p><div class="mb"><div class="mf" style="width:0" data-w="95%"></div></div></div><div class="mi"><p class="mn">False positives</p><div class="mb"><div class="mf" style="width:0" data-w="72%"></div></div></div></div>
+        <div class="mc"><p class="mgl">Operations</p><div class="mi"><p class="mn">Straight-through rate</p><div class="mb"><div class="mf" style="width:0" data-w="88%"></div></div></div><div class="mi"><p class="mn">Analyst productivity</p><div class="mb"><div class="mf" style="width:0" data-w="74%"></div></div></div><div class="mi"><p class="mn">Review queue size</p><div class="mb"><div class="mf" style="width:0" data-w="69%"></div></div></div></div>
+        <div class="mc"><p class="mgl">Experience</p><div class="mi"><p class="mn">Verification completion</p><div class="mb"><div class="mf" style="width:0" data-w="85%"></div></div></div><div class="mi"><p class="mn">Customer effort score</p><div class="mb"><div class="mf" style="width:0" data-w="79%"></div></div></div><div class="mi"><p class="mn">Time to approval</p><div class="mb"><div class="mf" style="width:0" data-w="83%"></div></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="s s-surf">
+    <div class="s-inner">
+      <div class="ag rv">
+        <div>
+          <p class="s-tag">About</p>
+          <h2 class="ah">Hi, I'm Roshni. I build products regulated businesses can grow on.</h2>
+          <p class="ab">I'm a Product Lead based in Stockholm, specialising in the intersection of growth and trust. I've spent years building and scaling fraud, AML, KYB/KYC, and onboarding platforms used by millions of customers across fintech. My edge is making compliance a competitive advantage — turning friction into conversion, and risk into a product feature.</p>
+          <p class="ab">I grew up in Chennai, and somewhere between India and Sweden I developed strong opinions about product, cold-weather hiking, and the right ratio of oat milk in a flat white. I have done Spartan races, chased the Northern Lights in Abisko, and I am convinced that fika is one of the better cultural inventions of the 20th century. I share my apartment with a dog and a cat who have very different opinions about that.</p>
+          <p class="ab">I am curious by default, collaborative by nature, and outcome-driven above everything else.</p>
+          <p class="aq">"Compliance should be an asset, not a bottleneck."</p>
+          <a href="https://linkedin.com/in/roshnipm" target="_blank" rel="noopener" class="a-cta">
+            <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            Connect on LinkedIn
+          </a>
+        </div>
+        <div>
+          <div class="sg">
+            <div class="sc"><p class="sn">4+</p><p class="sd">Teams led simultaneously</p></div>
+            <div class="sc"><p class="sn">19+</p><p class="sd">Specialists across disciplines</p></div>
+            <div class="sc"><p class="sn">370k+</p><p class="su">euros</p><p class="sd">Fraud losses prevented</p></div>
+            <div class="sc"><p class="sn">95%</p><p class="sd">Fraud reduction on targeted attack</p></div>
+            <div class="sci">
+              <p class="sit">Based in Stockholm. Originally from Chennai.</p>
+              <p class="sis">Hiking trails, Spartan races, Northern Lights in Abisko, fika, dog and cat parent.</p>
+              <div class="tl">
+                <span class="ts">Product-Led Growth</span><span class="ts">KYB / KYC</span><span class="ts">Fraud</span><span class="ts">AML</span><span class="ts">Risk Platforms</span><span class="ts">Internal Tooling</span><span class="ts">Fintech</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <a href="#" class="fl">Roshni</a>
+    <p class="fc">Designing trust into product-led growth.</p>
+    <a href="https://linkedin.com/in/roshnipm" target="_blank" rel="noopener" class="fla">LinkedIn →</a>
+  </footer>
+
+  <script>
+  // ── LOADER ──
+  (function(){
+    const loader  = document.getElementById('loader');
+    const items   = document.querySelectorAll('.ld-item');
+    const bar     = document.getElementById('ld-bar');
+    const status  = document.getElementById('ld-status');
+
+    // Progress bar: fill over 2.4s
+    requestAnimationFrame(()=>{
+      bar.style.transition = 'width 2.4s cubic-bezier(.4,0,.2,1)';
+      bar.style.width = '100%';
+    });
+
+    // Check items one by one
+    [[0,320],[1,880],[2,1480]].forEach(([i,delay])=>{
+      setTimeout(()=>{
+        items[i].classList.add('on');
+        setTimeout(()=>items[i].classList.add('done'), 380);
+      }, delay);
+    });
+
+    // Status update
+    setTimeout(()=>{ status.textContent='Trust verified · Approved'; status.classList.add('ready'); }, 2100);
+
+    // Slide out
+    setTimeout(()=>{
+      loader.classList.add('exit');
+      setTimeout(()=>loader.remove(), 800);
+    }, 2800);
+  })();
+
+  // ── CURSOR ──
+  (function(){
+    if (!window.matchMedia('(hover:hover)').matches) return;
+    const dot = document.getElementById('cd'), ring = document.getElementById('cr');
+    let mx=0,my=0,rx=0,ry=0;
+    document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; dot.style.cssText=`left:${mx}px;top:${my}px`; });
+    (function loop(){ rx+=(mx-rx)*.11; ry+=(my-ry)*.11; ring.style.cssText=`left:${rx}px;top:${ry}px`; requestAnimationFrame(loop); })();
+    document.querySelectorAll('a,button').forEach(el=>{
+      el.addEventListener('mouseenter',()=>document.body.classList.add('hs'));
+      el.addEventListener('mouseleave',()=>document.body.classList.remove('hs'));
+    });
+  })();
+
+  // ── PRODUCT NETWORK GRAPH ──
+  (function(){
+    const canvas = document.getElementById('hero-canvas');
+    const ctx = canvas.getContext('2d');
+    const W = 420, H = 420;
+
+    // ── Hub nodes (main product domains) ──
+    const hubDefs = [
+      { ox:115, oy:112, label:'Growth',   r:6.5 },
+      { ox:305, oy:100, label:'Risk',     r:6.5 },
+      { ox:100, oy:305, label:'Platform', r:6.5 },
+      { ox:318, oy:310, label:'Ops',      r:5.5 },
+      { ox:210, oy:205, label:'Trust',    r:5   },
+    ];
+
+    // ── Hub-to-hub explicit connection pairs ──
+    const hubLinks = [
+      [0,4],[1,4],[2,4],[3,4],   // all → Trust (center)
+      [0,1],[0,2],[1,3],[2,3],   // perimeter
+      [1,2],                     // diagonal: Risk ↔ Platform
+    ];
+
+    // ── Satellite labels per hub ──
+    const satellites = [
+      ['KYB','KYC','Onboard','Convert','Activate','PLG'],
+      ['Fraud','AML','Rules','Alerts','Score','Policy'],
+      ['Cases','Queue','Review','APIs','Tools','Audit'],
+      ['SLA','Metrics','Data','Reports','Monitor'],
+      ['Comply','Decide'],
+    ];
+
+    // Build node list: hubs first, then satellites
+    const nodes = hubDefs.map((h,i) => ({
+      x:h.ox, y:h.oy, ox:h.ox, oy:h.oy,
+      r:h.r, label:h.label, hub:true, cluster:i,
+      phase:Math.random()*Math.PI*2,
+    }));
+
+    satellites.forEach((lbls, ci) => {
+      const hub = hubDefs[ci];
+      lbls.forEach((lbl,i) => {
+        const angle = (i/lbls.length)*Math.PI*2 + ci*0.7;
+        const dist  = 46 + Math.random()*36;
+        const sx = Math.max(14, Math.min(W-14, hub.ox + Math.cos(angle)*dist));
+        const sy = Math.max(14, Math.min(H-14, hub.oy + Math.sin(angle)*dist));
+        nodes.push({
+          x:sx, y:sy, ox:sx, oy:sy,
+          r: 2.2 + Math.random()*1.4,
+          label:lbl, hub:false, cluster:ci,
+          alpha: 0.42 + Math.random()*0.38,
+          phase: Math.random()*Math.PI*2,
+        });
+      });
+    });
+
+    const HUB_N = hubDefs.length;
+
+    // ── Pulse state ──
+    const pulses = hubDefs.map(()=>({ r:0, a:0, on:false }));
+    setInterval(()=>{
+      const i = Math.floor(Math.random()*HUB_N);
+      pulses[i] = { r:0, a:0.55, on:true };
+    }, 900);
+
+    let t = 0;
+    function themeColors() {
+      const light = document.documentElement.getAttribute('data-theme') === 'light';
+      return {
+        light,
+        acc:        light ? 'rgba(160,100,0,'    : 'rgba(245,200,74,',
+        accBright:  light ? 'rgba(120,75,0,'     : 'rgba(255,239,179,',
+        hubCore:    light ? 'rgba(160,100,0,0.88)': 'rgba(245,200,74,0.92)',
+        hubRing:    light ? 'rgba(160,100,0,0.30)': 'rgba(245,200,74,0.28)',
+        glowStop:   light ? 'rgba(160,100,0,0.10)': 'rgba(245,200,74,0.14)',
+        labelTxt:   light ? 'rgba(50,30,0,0.72)'  : 'rgba(237,232,224,0.72)',
+        satLabel:   light ? 'rgba(50,30,0,'        : 'rgba(237,232,224,',
+      };
+    }
+
+    function draw(){
+      ctx.clearRect(0, 0, W, H);
+      t += 0.0055;
+      const C = themeColors();
+
+      // Float all nodes
+      nodes.forEach(n => {
+        const amp = n.hub ? 4 : 8;
+        n.x = n.ox + Math.sin(t*0.55 + n.phase) * amp;
+        n.y = n.oy + Math.cos(t*0.42 + n.phase*1.3) * amp;
+      });
+
+      // Update pulses
+      pulses.forEach(p => {
+        if(p.on){ p.r += 1.2; p.a -= 0.016; if(p.a<=0) p.on=false; }
+      });
+
+      // ── Draw satellite→hub connection lines ──
+      for(let i = HUB_N; i < nodes.length; i++){
+        const n = nodes[i], h = nodes[n.cluster];
+        const dx=n.x-h.x, dy=n.y-h.y, dist=Math.sqrt(dx*dx+dy*dy);
+        const alpha = Math.max(0, 0.22 - dist*0.0018);
+        ctx.beginPath();
+        ctx.moveTo(h.x, h.y);
+        ctx.lineTo(n.x, n.y);
+        ctx.strokeStyle = C.acc + alpha + ')';
+        ctx.lineWidth = 0.7;
+        ctx.stroke();
+      }
+
+      // ── Draw hub→hub connections with animated data-flow dashes ──
+      const dashOff = (t * 35) % 24;
+      hubLinks.forEach(([ai,bi]) => {
+        const a = nodes[ai], b = nodes[bi];
+        // Base ghost line
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
+        ctx.strokeStyle = C.acc + '0.06)';
+        ctx.lineWidth = 1; ctx.setLineDash([]); ctx.stroke();
+        // Animated dash (data flow)
+        ctx.save();
+        ctx.setLineDash([5,18]);
+        ctx.lineDashOffset = -dashOff;
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
+        ctx.strokeStyle = C.accBright + '0.22)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        ctx.restore();
+      });
+      ctx.setLineDash([]);
+
+      // ── Draw pulse rings ──
+      pulses.forEach((p,i) => {
+        if(!p.on) return;
+        const n = nodes[i];
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.r + p.r, 0, Math.PI*2);
+        ctx.strokeStyle = C.accBright + p.a + ')';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      });
+
+      // ── Draw satellite nodes ──
+      for(let i = HUB_N; i < nodes.length; i++){
+        const n = nodes[i];
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.r, 0, Math.PI*2);
+        ctx.fillStyle = C.acc + n.alpha + ')';
+        ctx.fill();
+        // tiny label
+        ctx.font = '500 7.5px DM Sans,sans-serif';
+        ctx.fillStyle = C.satLabel + (n.alpha * 0.65) + ')';
+        ctx.textAlign = 'center';
+        ctx.fillText(n.label, n.x, n.y - n.r - 4);
+      }
+
+      // ── Draw hub nodes ──
+      for(let i = 0; i < HUB_N; i++){
+        const n = nodes[i];
+        // Ambient glow
+        const grd = ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,n.r*6);
+        grd.addColorStop(0, C.glowStop);
+        grd.addColorStop(1,'rgba(0,0,0,0)');
+        ctx.beginPath(); ctx.arc(n.x,n.y,n.r*6,0,Math.PI*2);
+        ctx.fillStyle=grd; ctx.fill();
+        // Outer ring
+        ctx.beginPath(); ctx.arc(n.x,n.y,n.r+3.5,0,Math.PI*2);
+        ctx.strokeStyle= C.hubRing; ctx.lineWidth=1; ctx.stroke();
+        // Core
+        ctx.beginPath(); ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
+        ctx.fillStyle= C.hubCore; ctx.fill();
+        // Label below
+        ctx.font = '600 8.5px DM Sans,sans-serif';
+        ctx.fillStyle = C.labelTxt;
+        ctx.textAlign = 'center';
+        ctx.letterSpacing = '0.08em';
+        ctx.fillText(n.label.toUpperCase(), n.x, n.y + n.r + 15);
+      }
+
+      requestAnimationFrame(draw);
+    }
+    draw();
+  })();
+
+  // ── GSAP ──
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Hero tag
+  gsap.to('.hero-tag',{opacity:1,y:0,duration:.6,ease:'power2.out',delay:.2});
+
+  // Hero headline lines clip-reveal
+  gsap.to('.hero-h1 .line',{y:0,duration:1,ease:'power3.out',stagger:.12,delay:.35});
+
+  // Sub + buttons
+  gsap.to('.hero-sub',{opacity:1,y:0,duration:.8,ease:'power2.out',delay:.85});
+  gsap.to('.hero-btns',{opacity:1,duration:.6,ease:'power2.out',delay:1.05});
+
+  // Canvas + strip
+  gsap.to('#hero-canvas',{opacity:1,duration:1.4,ease:'power2.out',delay:.5});
+  gsap.to('.hero-strip',{opacity:1,duration:.8,ease:'power2.out',delay:1.2});
+
+  // Scroll reveals
+  document.querySelectorAll('.rv').forEach(el=>{
+    gsap.fromTo(el,{opacity:0,y:26},{opacity:1,y:0,duration:.8,ease:'power2.out',
+      scrollTrigger:{trigger:el,start:'top 87%',toggleActions:'play none none none'}});
+  });
+
+  // Principles stagger
+  gsap.fromTo('.rv2',{opacity:0,y:18},{opacity:1,y:0,duration:.6,ease:'power2.out',stagger:.07,
+    scrollTrigger:{trigger:'.pg-grid',start:'top 80%'}});
+
+  // Metric bars
+  ScrollTrigger.create({trigger:'.mg',start:'top 76%',onEnter:()=>{
+    document.querySelectorAll('.mf').forEach((b,i)=>{
+      setTimeout(()=>{ b.style.width=b.dataset.w; },i*55);
+    });
+  }});
+
+  // Tab switch
+  window.showCase = function(i,btn){
+    document.querySelectorAll('.c-panel').forEach(p=>p.classList.remove('active'));
+    document.querySelectorAll('.c-tab').forEach(t=>t.classList.remove('active'));
+    document.getElementById('case-'+i).classList.add('active');
+    btn.classList.add('active');
+  };
+  /* ── THEME TOGGLE ── */
+  (function(){
+    const html = document.documentElement;
+    const btn  = document.getElementById('theme-toggle');
+    const saved = localStorage.getItem('theme');
+    if (saved === 'light') { html.setAttribute('data-theme','light'); btn.textContent='🌙'; }
+    btn.addEventListener('click', () => {
+      const isLight = html.getAttribute('data-theme') === 'light';
+      if (isLight) {
+        html.removeAttribute('data-theme');
+        btn.textContent='☀︎';
+        localStorage.setItem('theme','dark');
+      } else {
+        html.setAttribute('data-theme','light');
+        btn.textContent='🌙';
+        localStorage.setItem('theme','light');
+      }
+    });
+  })();
+
+  /* ── VIDEO INTRO CONTROLS ── */
+  (function(){
+    const muteBtn = document.getElementById('vid-mute-btn');
+    const playBtn = document.getElementById('vid-play-btn');
+    const hint    = document.getElementById('sound-hint');
+    const introSection = document.getElementById('vid-intro');
+
+    const MUTED_ICON   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>`;
+    const UNMUTED_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>`;
+    const PLAY_ICON    = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>`;
+    const PAUSE_ICON   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>`;
+
+    let fgV = null;
+    let videoEnded = false;
+
+    // ── Create & inject video element only after loader exits ──
+    setTimeout(() => {
+      fgV = document.createElement('video');
+      fgV.id = 'vid-fg';
+      fgV.className = 'vid-fg';
+      fgV.src = 'roshni.mp4';
+      fgV.setAttribute('playsinline', '');
+      fgV.setAttribute('disablepictureinpicture', '');
+      fgV.setAttribute('disableremoteplayback', '');
+      fgV.muted = false;
+      introSection.appendChild(fgV);
+
+      // Play once listener
+      fgV.addEventListener('ended', () => {
+        videoEnded = true;
+        playBtn.innerHTML = PLAY_ICON;
+      });
+
+      // Scroll-away pause
+      new IntersectionObserver(entries => {
+        if (!entries[0].isIntersecting && fgV && !fgV.paused) {
+          fgV.pause();
+          playBtn.innerHTML = PLAY_ICON;
+        }
+      }, { threshold: 0.1 }).observe(introSection);
+
+      // Start playing
+      fgV.play().then(() => {
+        fgV.classList.add('playing');
+        muteBtn.innerHTML = UNMUTED_ICON;
+        hint && hint.classList.add('hidden');
+        playBtn.innerHTML = PAUSE_ICON;
+      }).catch(() => {
+        fgV.muted = true;
+        fgV.play().then(() => {
+          fgV.classList.add('playing');
+          muteBtn.innerHTML = MUTED_ICON;
+          playBtn.innerHTML = PAUSE_ICON;
+        }).catch(() => {});
+      });
+
+      // Auto-hide sound hint after 5s if unmuted
+      setTimeout(() => { if (fgV && !fgV.muted && hint) hint.classList.add('hidden'); }, 5000);
+
+    }, 3000); // inject after loader finishes
+
+    // Mute toggle
+    muteBtn.addEventListener('click', () => {
+      if (!fgV) return;
+      const goMuted = !fgV.muted;
+      fgV.muted = goMuted;
+      muteBtn.innerHTML = goMuted ? MUTED_ICON : UNMUTED_ICON;
+      hint && hint.classList.add('hidden');
+    });
+
+    // Play/Pause
+    playBtn.addEventListener('click', () => {
+      if (!fgV) return;
+      if (fgV.paused) {
+        if (videoEnded) { fgV.currentTime = 0; videoEnded = false; }
+        fgV.play().catch(()=>{});
+        fgV.classList.add('playing');
+        playBtn.innerHTML = PAUSE_ICON;
+      } else {
+        fgV.pause();
+        playBtn.innerHTML = PLAY_ICON;
+      }
+    });
+
+    // Tap anywhere on section to unmute (common pattern)
+    introSection.addEventListener('click', () => {
+      if (fgV.muted) {
+        fgV.muted = false;
+        muteBtn.innerHTML = UNMUTED_ICON;
+        hint && hint.classList.add('hidden');
+      }
+    }, { once: true });
+  })();
+
+  /* ── BOKEH CANVAS ── */
+  (function(){
+    const canvas = document.getElementById('bokeh-canvas');
+    const ctx    = canvas.getContext('2d');
+    const COLORS = ['rgba(245,200,74,', 'rgba(255,239,179,', 'rgba(255,255,255,'];
+    let W, H, particles = [], mouse = {x:.5, y:.5};
+
+    function resize() {
+      W = canvas.width  = canvas.offsetWidth;
+      H = canvas.height = canvas.offsetHeight;
+    }
+
+    function mkParticle() {
+      return {
+        // Keep particles away from edges (0.12–0.88) so glow never clips into corners
+        x: 0.12 + Math.random() * 0.76,
+        y: 0.12 + Math.random() * 0.76,
+        r: 3 + Math.random() * 16,          // smaller max radius (was 28)
+        alpha: 0.04 + Math.random() * 0.10, // slightly softer (was .14)
+        speed: 0.00008 + Math.random() * 0.00012,
+        phase: Math.random() * Math.PI * 2,
+        drift: (Math.random() - 0.5) * 0.00006,
+        color: COLORS[Math.floor(Math.random() * COLORS.length)],
+      };
+    }
+
+    function init() {
+      resize();
+      particles = Array.from({length: 55}, mkParticle);
+    }
+
+    function draw(t) {
+      ctx.clearRect(0, 0, W, H);
+      const mx = mouse.x, my = mouse.y;
+      for (const p of particles) {
+        p.phase += p.speed * 16;
+        const rawX = p.x + Math.sin(p.phase + p.drift * t) * 0.04 + (mx - 0.5) * 0.015;
+        const rawY = p.y + Math.cos(p.phase * 0.7) * 0.025 + (my - 0.5) * 0.01;
+        // Clamp so particles never reach the corners
+        const px = Math.max(0.08, Math.min(0.92, rawX)) * W;
+        const py = Math.max(0.08, Math.min(0.92, rawY)) * H;
+        const grd = ctx.createRadialGradient(px, py, 0, px, py, p.r * 2.5);
+        grd.addColorStop(0,   p.color + p.alpha + ')');
+        grd.addColorStop(0.5, p.color + (p.alpha * 0.4) + ')');
+        grd.addColorStop(1,   p.color + '0)');
+        ctx.beginPath();
+        ctx.arc(px, py, p.r * 2.5, 0, Math.PI * 2);
+        ctx.fillStyle = grd;
+        ctx.fill();
+      }
+      requestAnimationFrame(draw);
+    }
+
+    window.addEventListener('resize', resize);
+    document.getElementById('vid-intro').addEventListener('mousemove', e => {
+      const r = canvas.getBoundingClientRect();
+      mouse.x = (e.clientX - r.left) / r.width;
+      mouse.y = (e.clientY - r.top)  / r.height;
+    });
+
+    init();
+    requestAnimationFrame(draw);
+  })();
+
+  /* ── VIDEO INTRO GSAP ENTRANCE ── */
+  gsap.set('.vid-tag',  {opacity:0, y:24});
+  gsap.set('.vid-name', {opacity:0, y:40});
+  gsap.set('.vid-role', {opacity:0, y:24});
+  gsap.set('.vid-btns', {opacity:0, y:16});
+  gsap.set('.vid-controls', {opacity:0, x:12});
+  gsap.set('.vid-scroll',   {opacity:0});
+  gsap.timeline({delay:.3})
+    .to('.vid-tag',      {opacity:1, y:0, duration:.7, ease:'power2.out'})
+    .to('.vid-name',     {opacity:1, y:0, duration:.9, ease:'power3.out'}, '-=.4')
+    .to('.vid-role',     {opacity:1, y:0, duration:.7, ease:'power2.out'}, '-=.5')
+    .to('.vid-btns',     {opacity:1, y:0, duration:.6, ease:'power2.out'}, '-=.4')
+    .to('.vid-controls', {opacity:1, x:0, duration:.5, ease:'power2.out'}, '-=.5')
+    .to('.vid-scroll',   {opacity:1,       duration:.5, ease:'power2.out'}, '-=.3');
+
+  </script>
+</body>
+</html>
