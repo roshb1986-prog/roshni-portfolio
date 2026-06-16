@@ -328,20 +328,18 @@
         linear-gradient(135deg, #0a0610 0%, #07050f 40%, #0d0818 100%);
     }
 
-    /* Foreground video — right-anchored talking head */
+    /* Foreground photo — right-anchored portrait */
     .vid-fg {
       position:absolute;
       right:0; bottom:0;
       height:100%; width:58%;
-      object-fit:cover; object-position:center top;
+      object-fit:cover; object-position:center center;
       z-index:1;
-      opacity:0;
-      transition:opacity 1s ease;
-      /* Tight fade — video only, left edge blends into dark bg */
+      opacity:1;
+      /* Left edge blends into dark bg */
       mask-image:linear-gradient(to left, rgba(0,0,0,1) 55%, rgba(0,0,0,.5) 78%, rgba(0,0,0,0) 100%);
       -webkit-mask-image:linear-gradient(to left, rgba(0,0,0,1) 55%, rgba(0,0,0,.5) 78%, rgba(0,0,0,0) 100%);
     }
-    .vid-fg.playing { opacity:1; }
     @media (max-width:768px) {
       .vid-fg { width:100%; opacity:.55;
         mask-image:linear-gradient(to bottom, rgba(0,0,0,.8) 50%, rgba(0,0,0,0));
@@ -512,8 +510,8 @@
 
   <!-- VIDEO INTRO -->
   <section id="vid-intro">
-    <!-- Ambient blurred BG -->
-    <!-- video injected by JS after loader exits -->
+    <!-- Hero photo -->
+    <img class="vid-fg" src="roshni-photo.jpg" alt="Roshni" id="vid-fg">
 
     <!-- Cinematic gradient layers -->
     <div class="vid-grad-left"></div>
@@ -541,29 +539,6 @@
         <a href="#work" class="vbtn vbtn-pri">View case studies ↓</a>
         <a href="#about" class="vbtn vbtn-glass">About me</a>
       </div>
-    </div>
-
-    <!-- Playback controls (bottom right) -->
-    <div class="vid-controls" id="vid-controls">
-      <button class="vctrl" id="vid-mute-btn" aria-label="Toggle mute">
-        <!-- muted icon -->
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-          <line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>
-        </svg>
-      </button>
-      <button class="vctrl" id="vid-play-btn" aria-label="Toggle play">
-        <!-- pause icon (video starts playing) -->
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>
-        </svg>
-      </button>
-    </div>
-
-    <!-- Tap-for-sound badge -->
-    <div class="sound-hint" id="sound-hint">
-      <span class="sh-dot"></span>
-      🔇 Click anywhere for sound
     </div>
 
     <!-- Scroll indicator -->
@@ -1132,107 +1107,6 @@
   })();
 
   /* ── VIDEO INTRO CONTROLS ── */
-  (function(){
-    const muteBtn = document.getElementById('vid-mute-btn');
-    const playBtn = document.getElementById('vid-play-btn');
-    const hint    = document.getElementById('sound-hint');
-    const introSection = document.getElementById('vid-intro');
-
-    const MUTED_ICON   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>`;
-    const UNMUTED_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>`;
-    const PLAY_ICON    = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>`;
-    const PAUSE_ICON   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>`;
-
-    let fgV = null;
-    let videoEnded = false;
-
-    // ── Create & inject video element only after loader exits ──
-    setTimeout(() => {
-      fgV = document.createElement('video');
-      fgV.id = 'vid-fg';
-      fgV.className = 'vid-fg';
-      fgV.src = 'roshni.mp4';
-      fgV.setAttribute('playsinline', '');
-      fgV.setAttribute('disablepictureinpicture', '');
-      fgV.setAttribute('disableremoteplayback', '');
-      fgV.muted = false;
-      introSection.appendChild(fgV);
-
-      // Play once listener
-      fgV.addEventListener('ended', () => {
-        videoEnded = true;
-        playBtn.innerHTML = PLAY_ICON;
-      });
-
-      // Scroll-away pause
-      new IntersectionObserver(entries => {
-        if (!entries[0].isIntersecting && fgV && !fgV.paused) {
-          fgV.pause();
-          playBtn.innerHTML = PLAY_ICON;
-        }
-      }, { threshold: 0.1 }).observe(introSection);
-
-      // Start playing
-      fgV.play().then(() => {
-        fgV.classList.add('playing');
-        muteBtn.innerHTML = UNMUTED_ICON;
-        hint && hint.classList.add('hidden');
-        playBtn.innerHTML = PAUSE_ICON;
-      }).catch(() => {
-        fgV.muted = true;
-        fgV.play().then(() => {
-          fgV.classList.add('playing');
-          muteBtn.innerHTML = MUTED_ICON;
-          playBtn.innerHTML = PAUSE_ICON;
-        }).catch(() => {});
-      });
-
-      // Auto-hide sound hint after 5s only if unmuted autoplay succeeded
-      setTimeout(() => { if (fgV && !fgV.muted && hint) hint.classList.add('hidden'); }, 5000);
-
-    }, 3000); // inject after loader finishes
-
-    // Clicking the hint badge directly unmutes
-    hint && hint.addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (!fgV) return;
-      fgV.muted = false;
-      muteBtn.innerHTML = UNMUTED_ICON;
-      hint.classList.add('hidden');
-    });
-
-    // Mute toggle
-    muteBtn.addEventListener('click', () => {
-      if (!fgV) return;
-      const goMuted = !fgV.muted;
-      fgV.muted = goMuted;
-      muteBtn.innerHTML = goMuted ? MUTED_ICON : UNMUTED_ICON;
-      hint && hint.classList.add('hidden');
-    });
-
-    // Play/Pause
-    playBtn.addEventListener('click', () => {
-      if (!fgV) return;
-      if (fgV.paused) {
-        if (videoEnded) { fgV.currentTime = 0; videoEnded = false; }
-        fgV.play().catch(()=>{});
-        fgV.classList.add('playing');
-        playBtn.innerHTML = PAUSE_ICON;
-      } else {
-        fgV.pause();
-        playBtn.innerHTML = PLAY_ICON;
-      }
-    });
-
-    // Tap anywhere on section to unmute (common pattern)
-    introSection.addEventListener('click', () => {
-      if (fgV.muted) {
-        fgV.muted = false;
-        muteBtn.innerHTML = UNMUTED_ICON;
-        hint && hint.classList.add('hidden');
-      }
-    }, { once: true });
-  })();
 
   /* ── BOKEH CANVAS ── */
   (function(){
@@ -1298,20 +1172,20 @@
     requestAnimationFrame(draw);
   })();
 
-  /* ── VIDEO INTRO GSAP ENTRANCE ── */
+  /* ── HERO ENTRANCE ── */
   gsap.set('.vid-tag',  {opacity:0, y:24});
   gsap.set('.vid-name', {opacity:0, y:40});
   gsap.set('.vid-role', {opacity:0, y:24});
   gsap.set('.vid-btns', {opacity:0, y:16});
-  gsap.set('.vid-controls', {opacity:0, x:12});
   gsap.set('.vid-scroll',   {opacity:0});
+  gsap.set('#vid-fg', {opacity:0, x:30});
   gsap.timeline({delay:.3})
-    .to('.vid-tag',      {opacity:1, y:0, duration:.7, ease:'power2.out'})
-    .to('.vid-name',     {opacity:1, y:0, duration:.9, ease:'power3.out'}, '-=.4')
-    .to('.vid-role',     {opacity:1, y:0, duration:.7, ease:'power2.out'}, '-=.5')
-    .to('.vid-btns',     {opacity:1, y:0, duration:.6, ease:'power2.out'}, '-=.4')
-    .to('.vid-controls', {opacity:1, x:0, duration:.5, ease:'power2.out'}, '-=.5')
-    .to('.vid-scroll',   {opacity:1,       duration:.5, ease:'power2.out'}, '-=.3');
+    .to('#vid-fg',       {opacity:1, x:0,  duration:1.2, ease:'power2.out'})
+    .to('.vid-tag',      {opacity:1, y:0,  duration:.7,  ease:'power2.out'}, '-=.9')
+    .to('.vid-name',     {opacity:1, y:0,  duration:.9,  ease:'power3.out'}, '-=.4')
+    .to('.vid-role',     {opacity:1, y:0,  duration:.7,  ease:'power2.out'}, '-=.5')
+    .to('.vid-btns',     {opacity:1, y:0,  duration:.6,  ease:'power2.out'}, '-=.4')
+    .to('.vid-scroll',   {opacity:1,        duration:.5,  ease:'power2.out'}, '-=.3');
 
   </script>
 </body>
