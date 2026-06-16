@@ -7,8 +7,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet"/>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrambleTextPlugin.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -345,7 +346,7 @@
     }
     .lanyard-clip-anchor {
       position:absolute;
-      top:0; left:50%;
+      top:0; left:60%;
       transform:translateX(-50%);
       z-index:5;
       pointer-events:none;
@@ -496,6 +497,14 @@
     }
     .vid-name span { display:block; }
     .vid-name .name-acc { color:#f5c84a; font-style:italic; }
+    .vid-tagline {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(1.5rem,3.2vw,2.4rem);
+      font-style:italic; font-weight:500; line-height:1.15;
+      color:#d4ff00; letter-spacing:.005em;
+      margin:-6px 0 22px; min-height:1.2em;
+      text-shadow:0 0 22px rgba(200,240,0,.28);
+    }
     .vid-role {
       font-size:clamp(.85rem,1.4vw,1rem); color:rgba(237,232,224,.6);
       letter-spacing:.04em; line-height:1.7; margin-bottom:36px;
@@ -657,6 +666,7 @@
       <div class="vid-name">
         <span>Roshni</span>
       </div>
+      <p class="vid-tagline" id="vid-tagline">Compliance as a growth engine.</p>
       <p class="vid-role">
         Building <strong>compliance as a growth engine</strong> —<br>
         from KYB pipelines to risk-adjusted onboarding at scale.
@@ -1173,6 +1183,7 @@
 
   // ── GSAP ──
   gsap.registerPlugin(ScrollTrigger);
+  if (typeof ScrambleTextPlugin !== 'undefined') gsap.registerPlugin(ScrambleTextPlugin);
 
   // Hero tag
   gsap.to('.hero-tag',{opacity:1,y:0,duration:.6,ease:'power2.out',delay:.2});
@@ -1339,15 +1350,41 @@
   /* ── HERO TEXT ENTRANCE ── */
   gsap.set('.vid-tag',  {opacity:0, y:24});
   gsap.set('.vid-name', {opacity:0, y:40});
+  gsap.set('.vid-tagline', {opacity:0, y:20});
   gsap.set('.vid-role', {opacity:0, y:24});
   gsap.set('.vid-btns', {opacity:0, y:16});
   gsap.set('.vid-scroll', {opacity:0});
   gsap.timeline({delay:.3})
-    .to('.vid-tag',   {opacity:1, y:0, duration:.7, ease:'power2.out'})
-    .to('.vid-name',  {opacity:1, y:0, duration:.9, ease:'power3.out'}, '-=.4')
-    .to('.vid-role',  {opacity:1, y:0, duration:.7, ease:'power2.out'}, '-=.5')
-    .to('.vid-btns',  {opacity:1, y:0, duration:.6, ease:'power2.out'}, '-=.4')
-    .to('.vid-scroll',{opacity:1,      duration:.5, ease:'power2.out'}, '-=.3');
+    .to('.vid-tag',     {opacity:1, y:0, duration:.7, ease:'power2.out'})
+    .to('.vid-name',    {opacity:1, y:0, duration:.9, ease:'power3.out'}, '-=.4')
+    .to('.vid-tagline', {opacity:1, y:0, duration:.6, ease:'power2.out', onComplete:startTagline}, '-=.45')
+    .to('.vid-role',    {opacity:1, y:0, duration:.7, ease:'power2.out'}, '-=.4')
+    .to('.vid-btns',    {opacity:1, y:0, duration:.6, ease:'power2.out'}, '-=.4')
+    .to('.vid-scroll',  {opacity:1,      duration:.5, ease:'power2.out'}, '-=.3');
+
+  /* ── SCRAMBLE TAGLINE (rotating) ── */
+  function startTagline() {
+    const el = document.getElementById('vid-tagline');
+    if (!el) return;
+    const phrases = [
+      'Compliance as a growth engine.',
+      'Risk, turned into runway.',
+      'Trust, engineered into the product.',
+      'KYB pipelines that scale.',
+    ];
+    // Scramble-reveal the first phrase, then rotate through the rest forever.
+    if (typeof ScrambleTextPlugin === 'undefined') { el.textContent = phrases[0]; return; }
+    let i = 0;
+    const tl = gsap.timeline({repeat:-1, repeatDelay:0});
+    phrases.forEach((_, idx) => {
+      const next = phrases[(idx + 1) % phrases.length];
+      tl.to(el, {
+        duration: 1.1,
+        scrambleText: { text: next, chars: 'upperAndLowerCase', speed: 0.5, revealDelay: 0.35 },
+        ease: 'none',
+      }, idx === 0 ? 0.4 : '+=2.2');
+    });
+  }
 
   /* ── LANYARD PHYSICS PENDULUM ── */
   (function(){
@@ -1357,10 +1394,11 @@
     if (!wrap || !card || !ropePath) return;
 
     // Pendulum constants
-    const ROPE_LEN  = 295;   // pixels from clip to card top
+    const ROPE_LEN  = 430;   // pixels from clip to card top (longer strap)
     const GRAVITY   = 2.6;   // tuned so one swing ≈ 1.8s
     const DAMPING   = 0.9925; // per-frame damping at 60fps
     const MAX_ANGLE = 1.25;  // ~72° hard limit
+    const ANCHOR_X  = 0.6;   // attach right-of-centre to fill the right space
 
     let angle    = 1.05;  // start swung right — physics carries it centre
     let velocity = 0;
@@ -1372,7 +1410,7 @@
 
     function getAttach() {
       // Rope attaches at very top-centre of wrap (under the clip)
-      return { x: wrap.offsetWidth * 0.5, y: 20 };
+      return { x: wrap.offsetWidth * ANCHOR_X, y: 20 };
     }
 
     function applyState() {
