@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Roshni — Product Network</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{width:100%;height:100%;overflow:hidden;background:#080808;font-family:'Space Grotesk',sans-serif;}
+
+/* ── TOPBAR ──────────────────────────────────────────────── */
+#topbar{
+  position:fixed;top:0;left:0;right:0;z-index:200;height:44px;
+  background:rgba(8,8,8,.92);border-bottom:1px solid rgba(200,160,50,.07);
+  display:flex;align-items:center;justify-content:space-between;padding:0 28px;
+}
+#topbar-name{font-size:.75rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(200,170,80,.7);}
+#topbar-mid{display:flex;align-items:center;gap:12px;}
+#topbar-node{font-size:.68rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:rgba(200,170,80,.55);opacity:0;transition:opacity .4s;}
+#topbar-node.show{opacity:1;}
+#voice-bar{display:flex;align-items:flex-end;gap:2px;height:14px;opacity:0;transition:opacity .3s;}
+#voice-bar.speaking{opacity:1;}
+.vb{width:2px;border-radius:1px;background:rgba(220,170,50,.7);animation:vbounce .45s ease infinite alternate;}
+.vb:nth-child(2){animation-delay:.08s;}.vb:nth-child(3){animation-delay:.18s;height:12px!important;}.vb:nth-child(4){animation-delay:.12s;}.vb:nth-child(5){animation-delay:.04s;}
+@keyframes vbounce{from{height:3px;opacity:.4;}to{height:12px;opacity:1;}}
+#sound-btn{background:none;border:1px solid rgba(200,160,50,.18);color:rgba(200,160,50,.45);border-radius:4px;padding:4px 14px;font-size:.62rem;font-weight:500;letter-spacing:.08em;cursor:pointer;font-family:inherit;transition:all .2s;}
+#sound-btn:hover{border-color:rgba(200,160,50,.5);color:rgba(230,190,60,.9);}
+
+/* ── NETWORK STAGE ───────────────────────────────────────── */
+#net{position:fixed;top:44px;left:0;right:0;bottom:0;overflow:hidden;}
+
+/* ── SVG ─────────────────────────────────────────────────── */
+#path-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;}
+
+/* ── HUB NODES ───────────────────────────────────────────── */
+.hub{position:absolute;transform:translate(-50%,-50%);cursor:pointer;z-index:10;user-select:none;}
+.hub-circle{
+  width:54px;height:54px;border-radius:50%;
+  background:radial-gradient(circle at 38% 32%, #ffe090 0%, #d48a0a 40%, #7a4500 100%);
+  box-shadow:0 0 14px rgba(220,170,40,.55),0 0 28px rgba(200,140,20,.25),inset 0 0 8px rgba(255,240,160,.25);
+  transition:box-shadow .4s,transform .3s;
+  position:relative;z-index:2;
+}
+.hub:hover .hub-circle{box-shadow:0 0 22px rgba(255,200,50,.75),0 0 44px rgba(220,160,30,.38),inset 0 0 12px rgba(255,240,160,.35);transform:scale(1.06);}
+.hub.active .hub-circle{
+  box-shadow:0 0 28px rgba(255,210,60,.9),0 0 60px rgba(230,170,30,.55),0 0 100px rgba(210,140,20,.2),inset 0 0 14px rgba(255,245,170,.4);
+}
+/* Pulsing ring */
+.hub-ring{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:76px;height:76px;border-radius:50%;
+  border:1px solid rgba(220,175,55,.4);
+  opacity:0;z-index:1;pointer-events:none;
+}
+.hub.active .hub-ring{opacity:1;animation:ringpulse 2.2s ease-in-out infinite;}
+@keyframes ringpulse{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.45;}50%{transform:translate(-50%,-50%) scale(1.22);opacity:.12;}}
+/* Second ring for trust hub */
+.hub-ring2{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:96px;height:96px;border-radius:50%;
+  border:1px solid rgba(220,175,55,.2);
+  opacity:0;z-index:1;pointer-events:none;
+}
+.hub.active .hub-ring2{opacity:1;animation:ringpulse 2.2s ease-in-out .5s infinite;}
+/* Hub label */
+.hub-label{
+  position:absolute;top:calc(100% + 10px);left:50%;transform:translateX(-50%);
+  font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:rgba(200,165,70,.45);white-space:nowrap;transition:color .4s;
+}
+.hub.active .hub-label{color:rgba(245,205,80,.9);}
+.hub:hover .hub-label{color:rgba(230,190,70,.75);}
+/* Trust hub is slightly larger */
+#hub-trust .hub-circle{width:62px;height:62px;}
+#hub-trust .hub-ring{width:86px;height:86px;}
+
+/* ── SATELLITE DOTS ──────────────────────────────────────── */
+.sat{position:absolute;transform:translate(-50%,-50%);z-index:8;pointer-events:none;transition:opacity .4s;}
+.sat-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:rgba(195,155,45,.5);
+  box-shadow:0 0 5px rgba(190,145,35,.35);
+  transition:all .4s;
+}
+.sat-label{
+  position:absolute;font-size:.58rem;font-weight:400;letter-spacing:.03em;
+  color:rgba(170,140,55,.4);white-space:nowrap;pointer-events:none;transition:color .4s;
+}
+/* Satellite active state (when its hub is selected) */
+.sat.active .sat-dot{background:rgba(240,190,60,.85);box-shadow:0 0 7px rgba(235,180,50,.65);}
+.sat.active .sat-label{color:rgba(220,180,65,.75);}
+
+/* ── AVATAR ──────────────────────────────────────────────── */
+#avatar{
+  position:absolute;width:42px;height:42px;border-radius:50%;overflow:hidden;
+  border:1.5px solid rgba(245,195,60,.85);
+  box-shadow:0 0 16px rgba(230,175,45,.6),0 0 32px rgba(210,150,30,.3);
+  z-index:15;transform:translate(-50%,-50%);pointer-events:none;
+  transition:left 950ms cubic-bezier(.4,0,.2,1),top 950ms cubic-bezier(.4,0,.2,1);
+}
+#avatar img{width:100%;height:100%;object-fit:cover;object-position:center 18%;}
+
+/* ── PULSE ORB ───────────────────────────────────────────── */
+#pulse-dot{
+  position:absolute;width:6px;height:6px;border-radius:50%;
+  background:#ffd050;box-shadow:0 0 8px rgba(255,205,50,1),0 0 18px rgba(240,175,40,.7);
+  z-index:14;transform:translate(-50%,-50%);pointer-events:none;opacity:0;
+  transition:left 680ms cubic-bezier(.4,0,.2,1),top 680ms cubic-bezier(.4,0,.2,1);
+}
+
+/* ── INFO PANEL ──────────────────────────────────────────── */
+#panel{
+  position:fixed;bottom:0;left:50%;
+  transform:translateX(-50%) translateY(110%);
+  width:min(620px,88vw);
+  background:rgba(8,8,8,.97);
+  border:1px solid rgba(200,160,50,.13);border-bottom:none;
+  border-radius:12px 12px 0 0;
+  padding:22px 28px 20px;z-index:100;
+  transition:transform .4s cubic-bezier(.4,0,.2,1);
+}
+#panel.open{transform:translateX(-50%) translateY(0);}
+#panel-close{position:absolute;top:14px;right:14px;background:none;border:none;color:rgba(180,150,60,.35);font-size:.85rem;cursor:pointer;padding:4px 8px;transition:color .2s;font-family:inherit;}
+#panel-close:hover{color:rgba(230,190,60,.8);}
+#panel-title{font-size:1.1rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(235,195,70,.88);margin-bottom:3px;}
+#panel-tag{font-size:.56rem;font-weight:500;letter-spacing:.13em;text-transform:uppercase;color:rgba(160,130,50,.55);margin-bottom:14px;}
+#panel-wins{list-style:none;display:flex;flex-direction:column;gap:8px;}
+#panel-wins li{font-size:.77rem;line-height:1.6;color:rgba(175,160,115,.7);padding-left:16px;position:relative;}
+#panel-wins li::before{content:'—';position:absolute;left:0;color:rgba(200,160,50,.35);}
+#panel-quote{font-size:.8rem;font-style:italic;color:rgba(155,135,75,.5);border-left:1.5px solid rgba(200,160,50,.18);padding-left:12px;margin-top:13px;line-height:1.55;}
+
+/* ── HINT ────────────────────────────────────────────────── */
+#hint{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(140,115,45,.3);z-index:50;pointer-events:none;transition:opacity .6s;}
+#hint.hidden{opacity:0;}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div id="topbar">
+  <div id="topbar-name">Roshni · Product Network</div>
+  <div id="topbar-mid">
+    <div id="topbar-node"></div>
+    <div id="voice-bar">
+      <div class="vb" style="height:4px"></div>
+      <div class="vb" style="height:7px"></div>
+      <div class="vb" style="height:12px"></div>
+      <div class="vb" style="height:5px"></div>
+      <div class="vb" style="height:3px"></div>
+    </div>
+  </div>
+  <button id="sound-btn" onclick="toggleSound()">▶ Sound on</button>
+</div>
+
+<!-- NETWORK -->
+<div id="net">
+  <svg id="path-svg">
+    <defs>
+      <filter id="axon-glow" x="-60%" y="-60%" width="220%" height="220%">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="b1"/>
+        <feGaussianBlur in="SourceGraphic" stdDeviation="7"   result="b2"/>
+        <feMerge><feMergeNode in="b2"/><feMergeNode in="b1"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- HUBS -->
+  <div class="hub" id="hub-growth"   data-x="28" data-y="30" onclick="travelTo('growth')">
+    <div class="hub-ring"></div><div class="hub-circle"></div><div class="hub-label">Growth</div>
+  </div>
+  <div class="hub" id="hub-risk"     data-x="68" data-y="27" onclick="travelTo('risk')">
+    <div class="hub-ring"></div><div class="hub-circle"></div><div class="hub-label">Risk</div>
+  </div>
+  <div class="hub" id="hub-trust"    data-x="50" data-y="50" onclick="travelTo('trust')">
+    <div class="hub-ring"></div><div class="hub-ring2"></div><div class="hub-circle"></div><div class="hub-label">Trust</div>
+  </div>
+  <div class="hub" id="hub-platform" data-x="28" data-y="66" onclick="travelTo('platform')">
+    <div class="hub-ring"></div><div class="hub-circle"></div><div class="hub-label">Platform</div>
+  </div>
+  <div class="hub" id="hub-ops"      data-x="70" data-y="66" onclick="travelTo('ops')">
+    <div class="hub-ring"></div><div class="hub-circle"></div><div class="hub-label">Ops</div>
+  </div>
+
+  <!-- SATELLITES — Growth -->
+  <div class="sat" data-hub="growth" data-x="18" data-y="17"><div class="sat-dot"></div><div class="sat-label" style="top:-17px;left:50%;transform:translateX(-50%)">Activate</div></div>
+  <div class="sat" data-hub="growth" data-x="35" data-y="15"><div class="sat-dot"></div><div class="sat-label" style="top:-17px;left:50%;transform:translateX(-50%)">PLG</div></div>
+  <div class="sat" data-hub="growth" data-x="42" data-y="23"><div class="sat-dot"></div><div class="sat-label" style="top:-17px;left:50%;transform:translateX(-50%)">KYB</div></div>
+  <div class="sat" data-hub="growth" data-x="27" data-y="41"><div class="sat-dot"></div><div class="sat-label" style="top:9px;left:50%;transform:translateX(-50%)">Onboard</div></div>
+  <div class="sat" data-hub="growth" data-x="13" data-y="28"><div class="sat-dot"></div><div class="sat-label" style="top:-17px;left:50%;transform:translateX(-50%)">Convert</div></div>
+
+  <!-- SATELLITES — Risk -->
+  <div class="sat" data-hub="risk" data-x="64" data-y="13"><div class="sat-dot"></div><div class="sat-label" style="top:-17px;left:50%;transform:translateX(-50%)">Score</div></div>
+  <div class="sat" data-hub="risk" data-x="78" data-y="16"><div class="sat-dot"></div><div class="sat-label" style="top:-17px;left:50%;transform:translateX(-50%)">Policy</div></div>
+  <div class="sat" data-hub="risk" data-x="82" data-y="27"><div class="sat-dot"></div><div class="sat-label" style="top:-17px;left:8px">Fraud</div></div>
+  <div class="sat" data-hub="risk" data-x="57" data-y="35"><div class="sat-dot"></div><div class="sat-label" style="top:-17px;left:50%;transform:translateX(-50%)">Rules</div></div>
+  <div class="sat" data-hub="risk" data-x="63" data-y="38"><div class="sat-dot"></div><div class="sat-label" style="top:-17px;left:50%;transform:translateX(-50%)">AML</div></div>
+  <div class="sat" data-hub="risk" data-x="69" data-y="40"><div class="sat-dot"></div><div class="sat-label" style="top:9px;left:50%;transform:translateX(-50%)">Decide</div></div>
+
+  <!-- SATELLITES — Trust -->
+  <div class="sat" data-hub="trust" data-x="41" data-y="40"><div class="sat-dot"></div><div class="sat-label" style="top:-17px;left:50%;transform:translateX(-50%)">KYC</div></div>
+  <div class="sat" data-hub="trust" data-x="35" data-y="50"><div class="sat-dot"></div><div class="sat-label" style="top:-17px;left:50%;transform:translateX(-50%)">Comply</div></div>
+
+  <!-- SATELLITES — Platform -->
+  <div class="sat" data-hub="platform" data-x="13" data-y="49"><div class="sat-dot"></div><div class="sat-label" style="top:-17px;left:50%;transform:translateX(-50%)">APIs</div></div>
+  <div class="sat" data-hub="platform" data-x="38" data-y="60"><div class="sat-dot"></div><div class="sat-label" style="top:-17px;left:50%;transform:translateX(-50%)">Tools</div></div>
+  <div class="sat" data-hub="platform" data-x="13" data-y="62"><div class="sat-dot"></div><div class="sat-label" style="top:-17px;left:50%;transform:translateX(-50%)">Review</div></div>
+  <div class="sat" data-hub="platform" data-x="14" data-y="75"><div class="sat-dot"></div><div class="sat-label" style="top:9px;left:50%;transform:translateX(-50%)">Queue</div></div>
+  <div class="sat" data-hub="platform" data-x="29" data-y="78"><div class="sat-dot"></div><div class="sat-label" style="top:9px;left:50%;transform:translateX(-50%)">Cases</div></div>
+  <div class="sat" data-hub="platform" data-x="39" data-y="72"><div class="sat-dot"></div><div class="sat-label" style="top:9px;left:50%;transform:translateX(-50%)">Audit</div></div>
+
+  <!-- SATELLITES — Ops -->
+  <div class="sat" data-hub="ops" data-x="73" data-y="54"><div class="sat-dot"></div><div class="sat-label" style="top:-17px;left:8px">Data</div></div>
+  <div class="sat" data-hub="ops" data-x="81" data-y="62"><div class="sat-dot"></div><div class="sat-label" style="top:-17px;left:8px">Reports</div></div>
+  <div class="sat" data-hub="ops" data-x="82" data-y="72"><div class="sat-dot"></div><div class="sat-label" style="top:-17px;left:8px">Monitor</div></div>
+  <div class="sat" data-hub="ops" data-x="57" data-y="64"><div class="sat-dot"></div><div class="sat-label" style="top:-17px;left:50%;transform:translateX(-50%)">Metrics</div></div>
+  <div class="sat" data-hub="ops" data-x="63" data-y="80"><div class="sat-dot"></div><div class="sat-label" style="top:9px;left:50%;transform:translateX(-50%)">SLA</div></div>
+
+  <!-- AVATAR -->
+  <div id="avatar"><img src="roshni-photo.jpg" alt="Roshni"/></div>
+  <!-- PULSE -->
+  <div id="pulse-dot"></div>
+</div>
+
+<!-- PANEL -->
+<div id="panel">
+  <button id="panel-close" onclick="closePanel()">✕</button>
+  <div id="panel-title"></div>
+  <div id="panel-tag"></div>
+  <ul id="panel-wins"></ul>
+  <div id="panel-quote"></div>
+</div>
+
+<!-- HINT -->
+<div id="hint">Auto-navigating · Click any node to explore</div>
+
+<script>
+// ─────────────────────────────────────────────────────────────
+// CONTENT
+// ─────────────────────────────────────────────────────────────
+const CONTENT = {
+  growth:{
+    title:'GROWTH', tag:'PLG · ONBOARDING · CONVERSION · KYB',
+    wins:[
+      'Improved conversion by redesigning onboarding where compliance created unnecessary friction',
+      'Built KYC/KYB flows that treat identity verification as a product feature, not a compliance tax',
+      'Compliance done right is a growth lever — I\'ve proven it commercially, not just argued it theoretically',
+      'Reduced customer drop-off during regulated onboarding through progressive disclosure and automation',
+    ],
+    quote:'"Did we improve conversion? Did we create a better customer experience? Those are the questions I care about."',
+    voice:'Growth. I\'ve redesigned onboarding and identity flows to convert more customers — without cutting compliance corners.',
+  },
+  risk:{
+    title:'RISK', tag:'FRAUD · AML · DECISIONING · RULES · SCORING',
+    wins:[
+      'Led initiatives preventing hundreds of thousands of euros in fraud losses',
+      'Modernised decisioning platforms powering fraud, KYC, KYB, and AML operations at scale',
+      'Built rules engines and scoring systems that balance risk with customer experience',
+      'Risk and compliance done right is a competitive advantage — not just a cost centre',
+    ],
+    quote:'"What connects onboarding, fraud prevention, AML, and KYC is trust. That\'s the thread through everything I\'ve built."',
+    voice:'Risk at scale. I\'ve built decisioning systems preventing millions in losses — while keeping the customer experience intact.',
+  },
+  trust:{
+    title:'TRUST', tag:'THE CORE — WHERE EVERYTHING CONNECTS',
+    wins:[
+      'Trust is the thread connecting growth, risk, platform, and operations',
+      'Trust between customers and businesses. Between regulators and organisations. Between teams and leadership.',
+      'When you get trust right — growth follows, risk reduces, and operations scale',
+      'You\'re not hiring someone to manage a backlog — you\'re hiring someone who stays until the hard problem is actually solved',
+    ],
+    quote:'"Take an ambiguous problem. Align stakeholders. Build the systems. Drive measurable outcomes. That\'s the job."',
+    voice:'Trust is the thread through everything. Growth, risk, platform, ops — they all connect here. This is the product I build.',
+  },
+  platform:{
+    title:'PLATFORM', tag:'DECISIONING · TOOLING · AUTOMATION · APIS',
+    wins:[
+      'Built decisioning systems scaling from hundreds to tens of thousands of decisions per day',
+      'Designed internal tooling that gave ops, compliance, and analyst teams product-grade experiences',
+      'When you build the platform right, every team using it gets better — without shipping another feature',
+      'Platforms create leverage — one good platform investment compounds across every team that uses it',
+    ],
+    quote:'"When you improve the platform, you improve how the whole organisation operates — not just one team."',
+    voice:'Platform thinking. I build the systems that make every team better — decisioning, tooling, automation, at scale.',
+  },
+  ops:{
+    title:'OPS', tag:'OPERATIONAL SCALE · SYSTEMS · REPORTING · SLA',
+    wins:[
+      'Helped organisations move from manual, spreadsheet-driven operations to scalable product-led systems',
+      'Built decision intelligence replacing analyst guesswork with auditable, automated decisions',
+      'Designed operational dashboards and reporting that gave leadership real-time visibility for the first time',
+      'When you improve those systems, you improve how the entire organisation operates',
+    ],
+    quote:'"I\'ve always been drawn to operational systems because they sit at the heart of how a company works."',
+    voice:'Operational scale. I turn manual, analyst-driven processes into product-led systems that run themselves.',
+  },
+};
+
+// Hub-to-hub edges (dashed connections)
+const HUB_EDGES = [
+  ['growth','risk'],['growth','trust'],
+  ['risk','trust'],
+  ['trust','platform'],['trust','ops'],
+  ['platform','ops'],
+];
+
+// Auto-journey order
+const JOURNEY = ['growth','risk','trust','ops','platform'];
+const TRAVEL_DUR = 950;
+const PAUSE_PER_NODE = 5000;
+
+let W, H;
+let currentHub = 'growth';
+let soundOn = true;
+let selectedVoice = null;
+let journeyIdx = 0;
+let journeyTimer = null;
+let manualMode = false;
+
+// ─── LAYOUT ──────────────────────────────────────────────────
+function placeAll() {
+  const net = document.getElementById('net');
+  W = net.clientWidth; H = net.clientHeight;
+  document.querySelectorAll('.hub').forEach(el => {
+    el.style.left = (parseFloat(el.dataset.x)/100 * W) + 'px';
+    el.style.top  = (parseFloat(el.dataset.y)/100 * H) + 'px';
+  });
+  document.querySelectorAll('.sat').forEach(el => {
+    el.style.left = (parseFloat(el.dataset.x)/100 * W) + 'px';
+    el.style.top  = (parseFloat(el.dataset.y)/100 * H) + 'px';
+  });
+}
+
+function hubPos(id) {
+  const el = document.getElementById('hub-' + id);
+  if (!el) return { x: W/2, y: H/2 };
+  return { x: parseFloat(el.style.left), y: parseFloat(el.style.top) };
+}
+
+// ─── SVG BUILD ────────────────────────────────────────────────
+function buildSVG() {
+  const svg = document.getElementById('path-svg');
+  [...svg.children].forEach(c => { if (c.tagName !== 'defs') c.remove(); });
+
+  // Hub-to-hub dashed base paths + lit overlays
+  HUB_EDGES.forEach(([a, b]) => {
+    const pa = hubPos(a), pb = hubPos(b);
+    // Slight curve through midpoint
+    const mx = (pa.x + pb.x) / 2, my = (pa.y + pb.y) / 2;
+    const d = `M${pa.x},${pa.y} Q${mx},${my} ${pb.x},${pb.y}`;
+
+    // Dashed base (always visible)
+    const base = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    base.setAttribute('d', d);
+    base.setAttribute('fill', 'none');
+    base.setAttribute('stroke', 'rgba(190,148,42,.18)');
+    base.setAttribute('stroke-width', '1');
+    base.setAttribute('stroke-dasharray', '5 8');
+    svg.appendChild(base);
+
+    // Lit overlay (animated on travel)
+    const lit = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    lit.setAttribute('d', d);
+    lit.setAttribute('fill', 'none');
+    lit.setAttribute('stroke', 'rgba(255,205,60,.95)');
+    lit.setAttribute('stroke-width', '1.8');
+    lit.setAttribute('stroke-linecap', 'round');
+    lit.setAttribute('filter', 'url(#axon-glow)');
+    lit.setAttribute('opacity', '0');
+    lit.id = `pl-${a}-${b}`;
+    const len = lit.getTotalLength ? lit.getTotalLength() : 300;
+    lit.setAttribute('stroke-dasharray', len);
+    lit.setAttribute('stroke-dashoffset', len);
+    svg.appendChild(lit);
+  });
+
+  // Satellite-to-hub thin lines
+  document.querySelectorAll('.sat').forEach(el => {
+    const hp = hubPos(el.dataset.hub);
+    const sx = parseFloat(el.style.left), sy = parseFloat(el.style.top);
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute('x1', hp.x); line.setAttribute('y1', hp.y);
+    line.setAttribute('x2', sx);   line.setAttribute('y2', sy);
+    line.setAttribute('stroke', 'rgba(160,120,30,.18)');
+    line.setAttribute('stroke-width', '0.65');
+    svg.appendChild(line);
+  });
+}
+
+function getLitPath(a, b) {
+  return document.getElementById(`pl-${a}-${b}`) ||
+         document.getElementById(`pl-${b}-${a}`);
+}
+
+// ─── AVATAR ───────────────────────────────────────────────────
+function placeAvatar() {
+  const p = hubPos(currentHub);
+  const av = document.getElementById('avatar');
+  av.style.transition = 'none';
+  av.style.left = p.x + 'px';
+  av.style.top  = p.y + 'px';
+}
+
+// ─── ILLUMINATE ───────────────────────────────────────────────
+function illuminate(fromId, toId, onDone) {
+  const pFrom = hubPos(fromId), pTo = hubPos(toId);
+  const pulse = document.getElementById('pulse-dot');
+  const av    = document.getElementById('avatar');
+
+  // Avatar glides to destination hub
+  av.style.transition = `left ${TRAVEL_DUR}ms cubic-bezier(.4,0,.2,1), top ${TRAVEL_DUR}ms cubic-bezier(.4,0,.2,1)`;
+  av.style.left = pTo.x + 'px';
+  av.style.top  = pTo.y + 'px';
+
+  // Pulse orb races ahead
+  pulse.style.transition = 'none';
+  pulse.style.left = pFrom.x + 'px';
+  pulse.style.top  = pFrom.y + 'px';
+  pulse.style.opacity = '1';
+  setTimeout(() => {
+    pulse.style.transition = `left ${TRAVEL_DUR * .7}ms cubic-bezier(.4,0,.2,1), top ${TRAVEL_DUR * .7}ms cubic-bezier(.4,0,.2,1)`;
+    pulse.style.left = pTo.x + 'px';
+    pulse.style.top  = pTo.y + 'px';
+  }, 16);
+  setTimeout(() => { pulse.style.opacity = '0'; }, TRAVEL_DUR * .7 + 120);
+
+  // Axon path draws itself
+  const litPath = getLitPath(fromId, toId);
+  if (litPath) {
+    const len = litPath.getTotalLength ? litPath.getTotalLength() : 300;
+    litPath.style.strokeDasharray  = len + 'px';
+    litPath.style.strokeDashoffset = len + 'px';
+    litPath.style.opacity = '1';
+    litPath.style.transition = 'none';
+    setTimeout(() => {
+      litPath.style.transition = `stroke-dashoffset ${TRAVEL_DUR}ms cubic-bezier(.4,0,.2,1)`;
+      litPath.style.strokeDashoffset = '0';
+      setTimeout(() => {
+        litPath.style.transition = 'opacity 1.5s ease';
+        litPath.style.opacity = '0';
+        setTimeout(() => { litPath.style.transition = ''; }, 1600);
+      }, TRAVEL_DUR + 3200);
+    }, 32);
+  }
+
+  setTimeout(() => { onDone && onDone(); }, TRAVEL_DUR + 60);
+}
+
+// ─── SATELLITES ───────────────────────────────────────────────
+function setSatellites(hubId, on) {
+  document.querySelectorAll(`.sat[data-hub="${hubId}"]`).forEach(s => {
+    s.classList.toggle('active', on);
+  });
+}
+
+// ─── PANEL ────────────────────────────────────────────────────
+function showPanel(id) {
+  const d = CONTENT[id]; if (!d) return;
+  document.getElementById('panel-title').textContent = d.title;
+  document.getElementById('panel-tag').textContent   = d.tag;
+  document.getElementById('panel-wins').innerHTML    = d.wins.map(w => `<li>${w}</li>`).join('');
+  document.getElementById('panel-quote').textContent = d.quote;
+  document.getElementById('panel').classList.add('open');
+}
+function closePanel() { document.getElementById('panel').classList.remove('open'); }
+
+// ─── TRAVEL ───────────────────────────────────────────────────
+function travelTo(toId, fromJourney) {
+  if (!fromJourney) {
+    manualMode = true;
+    if (journeyTimer) { clearTimeout(journeyTimer); journeyTimer = null; }
+    document.getElementById('hint').classList.add('hidden');
+  }
+  if (toId === currentHub) { showPanel(toId); return; }
+
+  // Deactivate old hub
+  setSatellites(currentHub, false);
+  document.getElementById('hub-' + currentHub)?.classList.remove('active');
+  closePanel();
+
+  const fromId = currentHub;
+  currentHub = toId;
+
+  // Activate new hub
+  document.getElementById('hub-' + toId)?.classList.add('active');
+  setSatellites(toId, true);
+
+  // Topbar
+  const tn = document.getElementById('topbar-node');
+  tn.textContent = CONTENT[toId]?.title || toId.toUpperCase();
+  tn.classList.add('show');
+
+  // Animate
+  illuminate(fromId, toId, () => {
+    showPanel(toId);
+    speak(CONTENT[toId]?.voice || '');
+    // Bounce hub on arrival
+    const circle = document.querySelector(`#hub-${toId} .hub-circle`);
+    gsap.fromTo(circle, { scale: 1.25 }, { scale: 1, duration: 0.55, ease: 'elastic.out(1,.5)' });
+  });
+}
+window.travelTo = travelTo;
+
+// ─── AUTO-JOURNEY ─────────────────────────────────────────────
+function startJourney() {
+  journeyIdx = 1; // GROWTH already shown
+  stepJourney();
+}
+function stepJourney() {
+  if (manualMode || journeyIdx >= JOURNEY.length) return;
+  travelTo(JOURNEY[journeyIdx], true);
+  journeyIdx++;
+  journeyTimer = setTimeout(stepJourney, TRAVEL_DUR + PAUSE_PER_NODE);
+}
+
+// ─── VOICE ────────────────────────────────────────────────────
+function initVoice() {
+  if (!window.speechSynthesis) return;
+  const pick = () => {
+    const voices = speechSynthesis.getVoices();
+    if (!voices.length) return;
+    selectedVoice =
+      voices.find(v => v.name === 'Samantha') ||
+      voices.find(v => v.name === 'Flo (English (United States))') ||
+      voices.find(v => v.name === 'Karen') ||
+      voices.find(v => v.name === 'Moira') ||
+      null;
+  };
+  pick();
+  speechSynthesis.addEventListener('voiceschanged', pick);
+}
+function speak(text) {
+  if (!soundOn || !window.speechSynthesis) return;
+  speechSynthesis.cancel();
+  if (!selectedVoice) initVoice();
+  const u = new SpeechSynthesisUtterance(text);
+  u.rate = 0.86; u.pitch = 1.08; u.volume = 1;
+  if (selectedVoice) u.voice = selectedVoice;
+  const bar = document.getElementById('voice-bar');
+  bar.classList.add('speaking');
+  u.onend = u.onerror = () => bar.classList.remove('speaking');
+  speechSynthesis.speak(u);
+}
+function toggleSound() {
+  soundOn = !soundOn;
+  document.getElementById('sound-btn').textContent = soundOn ? '▶ Sound on' : '✕ Sound off';
+  if (!soundOn && window.speechSynthesis) speechSynthesis.cancel();
+}
+window.toggleSound = toggleSound;
+
+// ─── INIT ─────────────────────────────────────────────────────
+function init() {
+  placeAll();
+  buildSVG();
+  placeAvatar();
+
+  // Start at GROWTH
+  document.getElementById('hub-growth').classList.add('active');
+  setSatellites('growth', true);
+  showPanel('growth');
+  initVoice();
+
+  setTimeout(() => {
+    speak(CONTENT.growth.voice);
+    setTimeout(startJourney, 2200);
+  }, 900);
+}
+
+window.addEventListener('resize', () => { placeAll(); buildSVG(); placeAvatar(); });
+if (document.readyState === 'complete') { setTimeout(init, 50); }
+else { window.addEventListener('load', () => setTimeout(init, 50)); }
+</script>
+</body>
+</html>
