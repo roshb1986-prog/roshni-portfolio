@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet"/>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -328,25 +329,120 @@
         linear-gradient(135deg, #0a0610 0%, #07050f 40%, #0d0818 100%);
     }
 
-    /* Foreground video — right-anchored talking head */
-    .vid-fg {
+    /* ── LANYARD ── */
+    .lanyard-wrap {
       position:absolute;
-      right:0; bottom:0;
-      height:100%; width:58%;
-      object-fit:cover; object-position:center top;
-      z-index:1;
-      opacity:0;
-      transition:opacity 1s ease;
-      /* Tight fade — video only, left edge blends into dark bg */
-      mask-image:linear-gradient(to left, rgba(0,0,0,1) 55%, rgba(0,0,0,.5) 78%, rgba(0,0,0,0) 100%);
-      -webkit-mask-image:linear-gradient(to left, rgba(0,0,0,1) 55%, rgba(0,0,0,.5) 78%, rgba(0,0,0,0) 100%);
+      inset:0;
+      z-index:4;
+      pointer-events:none;
     }
-    .vid-fg.playing { opacity:1; }
+    #lanyard-rope-svg {
+      position:absolute;
+      inset:0;
+      width:100%; height:100%;
+      overflow:visible;
+      pointer-events:none;
+    }
+    .lanyard-clip-anchor {
+      position:absolute;
+      top:0; left:50%;
+      transform:translateX(-50%);
+      z-index:5;
+      pointer-events:none;
+    }
+    .lanyard-clip {
+      width:18px; height:20px;
+      background:linear-gradient(160deg,#d8d8d8,#888,#c8c8c8);
+      border-radius:4px 4px 2px 2px;
+      box-shadow:0 2px 8px rgba(0,0,0,.6);
+      position:relative;
+    }
+    .lanyard-clip::after {
+      content:'';
+      position:absolute;
+      bottom:-6px; left:50%; transform:translateX(-50%);
+      width:10px; height:7px;
+      background:linear-gradient(to bottom,#aaa,#666);
+      border-radius:0 0 5px 5px;
+    }
+    /* badge card — transform set by physics JS each frame */
+    .lanyard-card {
+      position:absolute;
+      top:0; left:0;
+      width:clamp(210px,21vw,295px);
+      background:#faf9f6;
+      border-radius:18px;
+      box-shadow:
+        0 40px 100px rgba(0,0,0,.6),
+        0 8px 30px rgba(0,0,0,.35),
+        inset 0 1px 0 rgba(255,255,255,.9);
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.15);
+      will-change:transform,filter;
+      cursor:grab;
+      pointer-events:all;
+      opacity:0;
+      transform-origin:top center;
+    }
+    .lanyard-card:active { cursor:grabbing; }
+    .lcard-hole {
+      position:absolute;
+      top:10px; left:50%; transform:translateX(-50%);
+      width:12px; height:12px;
+      background:#d8d5d0;
+      border-radius:50%;
+      border:2px solid #bbb;
+      z-index:3;
+      box-shadow:inset 0 1px 3px rgba(0,0,0,.3);
+    }
+    .lcard-photo-wrap {
+      width:100%;
+      height:clamp(230px,32vh,360px);
+      overflow:hidden;
+    }
+    .lcard-photo {
+      width:100%; height:100%;
+      object-fit:cover;
+      object-position:center 20%;
+      display:block;
+    }
+    .lcard-footer {
+      padding:12px 14px 14px;
+      background:#faf9f6;
+      text-align:center;
+      border-top:1px solid rgba(26,22,18,.07);
+    }
+    .lcard-name {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(.95rem,1.2vw,1.2rem);
+      font-weight:600;
+      color:#1a1612;
+      letter-spacing:.01em;
+      line-height:1.1;
+    }
+    .lcard-role {
+      font-size:.58rem;
+      font-weight:700;
+      letter-spacing:.13em;
+      text-transform:uppercase;
+      color:#8a7f74;
+      margin-top:3px;
+    }
+    .lcard-badge {
+      display:inline-block;
+      margin-top:8px;
+      font-size:.55rem;
+      font-weight:800;
+      letter-spacing:.1em;
+      text-transform:uppercase;
+      background:#c8f000;
+      color:#1a1612;
+      padding:3px 10px;
+      border-radius:999px;
+    }
     @media (max-width:768px) {
-      .vid-fg { width:100%; opacity:.55;
-        mask-image:linear-gradient(to bottom, rgba(0,0,0,.8) 50%, rgba(0,0,0,0));
-        -webkit-mask-image:linear-gradient(to bottom, rgba(0,0,0,.8) 50%, rgba(0,0,0,0));
-      }
+      .lanyard-card { width:clamp(140px,36vw,180px); }
+      .lcard-photo-wrap { height:clamp(150px,24vh,220px); }
     }
 
     /* Cinematic gradient overlays */
@@ -514,8 +610,36 @@
 
   <!-- VIDEO INTRO -->
   <section id="vid-intro">
-    <!-- Ambient blurred BG -->
-    <!-- video injected by JS after loader exits -->
+    <!-- Lanyard badge (physics-driven) -->
+    <div class="lanyard-wrap" id="lanyard-wrap">
+      <!-- SVG bezier rope - path updated by physics JS -->
+      <svg id="lanyard-rope-svg" aria-hidden="true">
+        <defs>
+          <filter id="rope-glow" x="-60%" y="-60%" width="220%" height="220%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="3.5" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <path id="lanyard-rope-path" fill="none" stroke="#c8f000" stroke-width="13"
+              stroke-linecap="round" filter="url(#rope-glow)"/>
+      </svg>
+      <!-- Fixed clip at top center -->
+      <div class="lanyard-clip-anchor" id="lanyard-clip-anchor">
+        <div class="lanyard-clip"></div>
+      </div>
+      <!-- Badge card - transform set by physics JS -->
+      <div class="lanyard-card" id="lanyard-card">
+        <div class="lcard-hole"></div>
+        <div class="lcard-photo-wrap">
+          <img class="lcard-photo" src="roshni-headshot.jpg" alt="Roshni">
+        </div>
+        <div class="lcard-footer">
+          <div class="lcard-name">Roshni</div>
+          <div class="lcard-role">Product Lead</div>
+          <div class="lcard-badge">Compliance × Growth</div>
+        </div>
+      </div>
+    </div>
 
     <!-- Cinematic gradient layers -->
     <div class="vid-grad-left"></div>
@@ -543,29 +667,6 @@
         <a href="#work" class="vbtn vbtn-pri">View case studies ↓</a>
         <a href="#about" class="vbtn vbtn-glass">About me</a>
       </div>
-    </div>
-
-    <!-- Playback controls (bottom right) -->
-    <div class="vid-controls" id="vid-controls">
-      <button class="vctrl" id="vid-mute-btn" aria-label="Toggle mute">
-        <!-- muted icon -->
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
-          <line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>
-        </svg>
-      </button>
-      <button class="vctrl" id="vid-play-btn" aria-label="Toggle play">
-        <!-- pause icon (video starts playing) -->
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>
-        </svg>
-      </button>
-    </div>
-
-    <!-- Tap-for-sound badge -->
-    <div class="sound-hint" id="sound-hint">
-      <span class="sh-dot"></span>
-      🔇 Click anywhere for sound
     </div>
 
     <!-- Scroll indicator -->
@@ -1134,186 +1235,235 @@
   })();
 
   /* ── VIDEO INTRO CONTROLS ── */
-  (function(){
-    const muteBtn = document.getElementById('vid-mute-btn');
-    const playBtn = document.getElementById('vid-play-btn');
-    const hint    = document.getElementById('sound-hint');
-    const introSection = document.getElementById('vid-intro');
 
-    const MUTED_ICON   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>`;
-    const UNMUTED_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>`;
-    const PLAY_ICON    = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>`;
-    const PAUSE_ICON   = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>`;
-
-    let fgV = null;
-    let videoEnded = false;
-
-    // ── Create & inject video element only after loader exits ──
-    setTimeout(() => {
-      fgV = document.createElement('video');
-      fgV.id = 'vid-fg';
-      fgV.className = 'vid-fg';
-      fgV.src = 'roshni.mp4';
-      fgV.setAttribute('playsinline', '');
-      fgV.setAttribute('disablepictureinpicture', '');
-      fgV.setAttribute('disableremoteplayback', '');
-      fgV.muted = false;
-      introSection.appendChild(fgV);
-
-      // Play once listener
-      fgV.addEventListener('ended', () => {
-        videoEnded = true;
-        playBtn.innerHTML = PLAY_ICON;
-      });
-
-      // Scroll-away pause
-      new IntersectionObserver(entries => {
-        if (!entries[0].isIntersecting && fgV && !fgV.paused) {
-          fgV.pause();
-          playBtn.innerHTML = PLAY_ICON;
-        }
-      }, { threshold: 0.1 }).observe(introSection);
-
-      // Start playing
-      fgV.play().then(() => {
-        fgV.classList.add('playing');
-        muteBtn.innerHTML = UNMUTED_ICON;
-        hint && hint.classList.add('hidden');
-        playBtn.innerHTML = PAUSE_ICON;
-      }).catch(() => {
-        fgV.muted = true;
-        fgV.play().then(() => {
-          fgV.classList.add('playing');
-          muteBtn.innerHTML = MUTED_ICON;
-          playBtn.innerHTML = PAUSE_ICON;
-        }).catch(() => {});
-      });
-
-      // Auto-hide sound hint after 5s only if unmuted autoplay succeeded
-      setTimeout(() => { if (fgV && !fgV.muted && hint) hint.classList.add('hidden'); }, 5000);
-
-    }, 3000); // inject after loader finishes
-
-    // Clicking the hint badge directly unmutes
-    hint && hint.addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (!fgV) return;
-      fgV.muted = false;
-      muteBtn.innerHTML = UNMUTED_ICON;
-      hint.classList.add('hidden');
-    });
-
-    // Mute toggle
-    muteBtn.addEventListener('click', () => {
-      if (!fgV) return;
-      const goMuted = !fgV.muted;
-      fgV.muted = goMuted;
-      muteBtn.innerHTML = goMuted ? MUTED_ICON : UNMUTED_ICON;
-      hint && hint.classList.add('hidden');
-    });
-
-    // Play/Pause
-    playBtn.addEventListener('click', () => {
-      if (!fgV) return;
-      if (fgV.paused) {
-        if (videoEnded) { fgV.currentTime = 0; videoEnded = false; }
-        fgV.play().catch(()=>{});
-        fgV.classList.add('playing');
-        playBtn.innerHTML = PAUSE_ICON;
-      } else {
-        fgV.pause();
-        playBtn.innerHTML = PLAY_ICON;
-      }
-    });
-
-    // Tap anywhere on section to unmute (common pattern)
-    introSection.addEventListener('click', () => {
-      if (fgV.muted) {
-        fgV.muted = false;
-        muteBtn.innerHTML = UNMUTED_ICON;
-        hint && hint.classList.add('hidden');
-      }
-    }, { once: true });
-  })();
-
-  /* ── BOKEH CANVAS ── */
+  /* ── THREE.JS DEPTH PARTICLES ── */
   (function(){
     const canvas = document.getElementById('bokeh-canvas');
-    const ctx    = canvas.getContext('2d');
-    const COLORS = ['rgba(245,200,74,', 'rgba(255,239,179,', 'rgba(255,255,255,'];
-    let W, H, particles = [], mouse = {x:.5, y:.5};
+    if (!canvas) return;
+
+    // Fallback to Canvas 2D if Three.js failed to load
+    if (typeof THREE === 'undefined') {
+      const ctx = canvas.getContext('2d');
+      const COLORS = ['rgba(245,200,74,','rgba(255,239,179,','rgba(255,255,255,'];
+      let W, H, particles = [], mouse = {x:.5,y:.5};
+      const resize = () => { W = canvas.width = canvas.offsetWidth; H = canvas.height = canvas.offsetHeight; };
+      const mkP = () => ({ x:.12+Math.random()*.76, y:.12+Math.random()*.76, r:3+Math.random()*14, alpha:.04+Math.random()*.1, speed:.00008+Math.random()*.00012, phase:Math.random()*Math.PI*2, drift:(Math.random()-.5)*.00006, color:COLORS[Math.floor(Math.random()*COLORS.length)] });
+      resize(); particles = Array.from({length:55},mkP);
+      const draw = t => { ctx.clearRect(0,0,W,H); for(const p of particles){ p.phase+=p.speed*16; const px=Math.max(.08,Math.min(.92,p.x+Math.sin(p.phase)*0.04+(mouse.x-.5)*.015))*W; const py=Math.max(.08,Math.min(.92,p.y+Math.cos(p.phase*.7)*.025+(mouse.y-.5)*.01))*H; const g=ctx.createRadialGradient(px,py,0,px,py,p.r*2.5); g.addColorStop(0,p.color+p.alpha+')'); g.addColorStop(1,p.color+'0)'); ctx.beginPath(); ctx.arc(px,py,p.r*2.5,0,Math.PI*2); ctx.fillStyle=g; ctx.fill(); } requestAnimationFrame(draw); };
+      window.addEventListener('resize', resize);
+      requestAnimationFrame(draw);
+      return;
+    }
+
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha:true, antialias:false });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+    renderer.setClearColor(0x000000, 0);
+
+    const scene  = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 60);
+    camera.position.z = 5;
 
     function resize() {
-      W = canvas.width  = canvas.offsetWidth;
-      H = canvas.height = canvas.offsetHeight;
+      const w = canvas.clientWidth  || canvas.offsetWidth;
+      const h = canvas.clientHeight || canvas.offsetHeight;
+      if (!w || !h) return;
+      renderer.setSize(w, h, false);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
     }
-
-    function mkParticle() {
-      return {
-        // Keep particles away from edges (0.12–0.88) so glow never clips into corners
-        x: 0.12 + Math.random() * 0.76,
-        y: 0.12 + Math.random() * 0.76,
-        r: 3 + Math.random() * 16,          // smaller max radius (was 28)
-        alpha: 0.04 + Math.random() * 0.10, // slightly softer (was .14)
-        speed: 0.00008 + Math.random() * 0.00012,
-        phase: Math.random() * Math.PI * 2,
-        drift: (Math.random() - 0.5) * 0.00006,
-        color: COLORS[Math.floor(Math.random() * COLORS.length)],
-      };
-    }
-
-    function init() {
-      resize();
-      particles = Array.from({length: 55}, mkParticle);
-    }
-
-    function draw(t) {
-      ctx.clearRect(0, 0, W, H);
-      const mx = mouse.x, my = mouse.y;
-      for (const p of particles) {
-        p.phase += p.speed * 16;
-        const rawX = p.x + Math.sin(p.phase + p.drift * t) * 0.04 + (mx - 0.5) * 0.015;
-        const rawY = p.y + Math.cos(p.phase * 0.7) * 0.025 + (my - 0.5) * 0.01;
-        // Clamp so particles never reach the corners
-        const px = Math.max(0.08, Math.min(0.92, rawX)) * W;
-        const py = Math.max(0.08, Math.min(0.92, rawY)) * H;
-        const grd = ctx.createRadialGradient(px, py, 0, px, py, p.r * 2.5);
-        grd.addColorStop(0,   p.color + p.alpha + ')');
-        grd.addColorStop(0.5, p.color + (p.alpha * 0.4) + ')');
-        grd.addColorStop(1,   p.color + '0)');
-        ctx.beginPath();
-        ctx.arc(px, py, p.r * 2.5, 0, Math.PI * 2);
-        ctx.fillStyle = grd;
-        ctx.fill();
-      }
-      requestAnimationFrame(draw);
-    }
-
     window.addEventListener('resize', resize);
-    document.getElementById('vid-intro').addEventListener('mousemove', e => {
-      const r = canvas.getBoundingClientRect();
-      mouse.x = (e.clientX - r.left) / r.width;
-      mouse.y = (e.clientY - r.top)  / r.height;
+    resize();
+
+    // Layer 1 — many small warm specks (various depths)
+    const N1 = 400;
+    const pos1 = new Float32Array(N1 * 3);
+    const col1 = new Float32Array(N1 * 3);
+    const WARM = [[.99,.82,.29],[1,.94,.7],[.98,.7,.35],[1,1,1]];
+    for (let i = 0; i < N1; i++) {
+      pos1[i*3]   = (Math.random()-.5) * 20;
+      pos1[i*3+1] = (Math.random()-.5) * 14;
+      pos1[i*3+2] = (Math.random()-.5) * 9 - 1;
+      const c = WARM[Math.floor(Math.random()*WARM.length)];
+      col1[i*3]=c[0]; col1[i*3+1]=c[1]; col1[i*3+2]=c[2];
+    }
+    const geo1 = new THREE.BufferGeometry();
+    geo1.setAttribute('position', new THREE.BufferAttribute(pos1, 3));
+    geo1.setAttribute('color',    new THREE.BufferAttribute(col1, 3));
+    scene.add(new THREE.Points(geo1, new THREE.PointsMaterial({
+      vertexColors:true, size:.07, transparent:true, opacity:.5,
+      blending:THREE.AdditiveBlending, depthWrite:false, sizeAttenuation:true,
+    })));
+
+    // Layer 2 — fewer large diffuse blobs (bokeh background)
+    const N2 = 60;
+    const pos2 = new Float32Array(N2 * 3);
+    for (let i = 0; i < N2; i++) {
+      pos2[i*3]   = (Math.random()-.5) * 16;
+      pos2[i*3+1] = (Math.random()-.5) * 12;
+      pos2[i*3+2] = (Math.random()-.5) * 5 - 3;
+    }
+    const geo2 = new THREE.BufferGeometry();
+    geo2.setAttribute('position', new THREE.BufferAttribute(pos2, 3));
+    scene.add(new THREE.Points(geo2, new THREE.PointsMaterial({
+      color:0xffd07a, size:.3, transparent:true, opacity:.11,
+      blending:THREE.AdditiveBlending, depthWrite:false, sizeAttenuation:true,
+    })));
+
+    let mx=0, my=0, tmx=0, tmy=0;
+    const intro = document.getElementById('vid-intro');
+    if (intro) intro.addEventListener('mousemove', e => {
+      const r = intro.getBoundingClientRect();
+      mx = (e.clientX - r.left) / r.width  - 0.5;
+      my = (e.clientY - r.top)  / r.height - 0.5;
     });
 
-    init();
-    requestAnimationFrame(draw);
+    const clock = new THREE.Clock();
+    let alive = true;
+    (function animate() {
+      if (!alive) return;
+      requestAnimationFrame(animate);
+      const t = clock.getElapsedTime();
+      tmx += (mx - tmx) * 0.03;
+      tmy += (my - tmy) * 0.03;
+      scene.rotation.y = tmx * 0.28 + t * 0.006;
+      scene.rotation.x = tmy * 0.14 + Math.sin(t * 0.11) * 0.018;
+      renderer.render(scene, camera);
+    })();
+
+    if (typeof IntersectionObserver !== 'undefined') {
+      new IntersectionObserver(([e]) => {
+        alive = e.isIntersecting;
+        if (alive) (function a(){ requestAnimationFrame(a); renderer.render(scene, camera); })();
+      }, {threshold:.01}).observe(canvas);
+    }
   })();
 
-  /* ── VIDEO INTRO GSAP ENTRANCE ── */
+  /* ── HERO TEXT ENTRANCE ── */
   gsap.set('.vid-tag',  {opacity:0, y:24});
   gsap.set('.vid-name', {opacity:0, y:40});
   gsap.set('.vid-role', {opacity:0, y:24});
   gsap.set('.vid-btns', {opacity:0, y:16});
-  gsap.set('.vid-controls', {opacity:0, x:12});
-  gsap.set('.vid-scroll',   {opacity:0});
+  gsap.set('.vid-scroll', {opacity:0});
   gsap.timeline({delay:.3})
-    .to('.vid-tag',      {opacity:1, y:0, duration:.7, ease:'power2.out'})
-    .to('.vid-name',     {opacity:1, y:0, duration:.9, ease:'power3.out'}, '-=.4')
-    .to('.vid-role',     {opacity:1, y:0, duration:.7, ease:'power2.out'}, '-=.5')
-    .to('.vid-btns',     {opacity:1, y:0, duration:.6, ease:'power2.out'}, '-=.4')
-    .to('.vid-controls', {opacity:1, x:0, duration:.5, ease:'power2.out'}, '-=.5')
-    .to('.vid-scroll',   {opacity:1,       duration:.5, ease:'power2.out'}, '-=.3');
+    .to('.vid-tag',   {opacity:1, y:0, duration:.7, ease:'power2.out'})
+    .to('.vid-name',  {opacity:1, y:0, duration:.9, ease:'power3.out'}, '-=.4')
+    .to('.vid-role',  {opacity:1, y:0, duration:.7, ease:'power2.out'}, '-=.5')
+    .to('.vid-btns',  {opacity:1, y:0, duration:.6, ease:'power2.out'}, '-=.4')
+    .to('.vid-scroll',{opacity:1,      duration:.5, ease:'power2.out'}, '-=.3');
+
+  /* ── LANYARD PHYSICS PENDULUM ── */
+  (function(){
+    const wrap     = document.getElementById('lanyard-wrap');
+    const card     = document.getElementById('lanyard-card');
+    const ropePath = document.getElementById('lanyard-rope-path');
+    if (!wrap || !card || !ropePath) return;
+
+    // Pendulum constants
+    const ROPE_LEN  = 295;   // pixels from clip to card top
+    const GRAVITY   = 2.6;   // tuned so one swing ≈ 1.8s
+    const DAMPING   = 0.9925; // per-frame damping at 60fps
+    const MAX_ANGLE = 1.25;  // ~72° hard limit
+
+    let angle    = 1.05;  // start swung right — physics carries it centre
+    let velocity = 0;
+    let dragging = false;
+    let dragStartX = 0, dragStartAngle = 0;
+    let lastDragX = 0, lastDragTime = 0;
+
+    const CARD_W = card.offsetWidth  || 260;
+
+    function getAttach() {
+      // Rope attaches at very top-centre of wrap (under the clip)
+      return { x: wrap.offsetWidth * 0.5, y: 20 };
+    }
+
+    function applyState() {
+      const a = getAttach();
+      const cx = a.x + Math.sin(angle) * ROPE_LEN;  // card centre-x
+      const ty = a.y + Math.cos(angle) * ROPE_LEN;  // card top-y
+
+      // Translate card: top-centre at (cx, ty)
+      const tx = cx - CARD_W * 0.5;
+      // Subtle self-tilt as it swings (3D feel without Three.js on the card)
+      const tiltDeg = angle * (180 / Math.PI) * 0.15;
+      card.style.transform = `translate(${tx}px,${ty}px) rotate(${tiltDeg}deg)`;
+
+      // Dynamic drop-shadow shifts direction and stretches with speed
+      const shadowX  = angle * 28;
+      const shadowBlur = Math.min(28 + Math.abs(velocity) * 550, 72);
+      card.style.filter = `drop-shadow(${shadowX}px 20px ${shadowBlur}px rgba(0,0,0,.52))`;
+
+      // SVG rope: cubic bezier — hangs naturally from clip, meets card top
+      // Control points: first leaves clip nearly vertical, second arrives at swing angle
+      const cp1x = a.x  + Math.sin(angle) * ROPE_LEN * 0.12;
+      const cp1y = a.y  + ROPE_LEN * 0.38;
+      const cp2x = cx   + Math.sin(angle) * ROPE_LEN * 0.06;
+      const cp2y = ty   - ROPE_LEN * 0.28;
+      // Extra sag when moving fast (rope waves during swing)
+      const sag = Math.abs(velocity) * 60;
+      ropePath.setAttribute('d',
+        `M${a.x},${a.y} C${cp1x},${cp1y+sag} ${cp2x},${cp2y+sag} ${cx},${ty}`);
+    }
+
+    let lastTs = null;
+    function tick(ts) {
+      if (!lastTs) lastTs = ts;
+      // Normalize dt to 60fps frames (cap at 3 to avoid spiral after tab focus)
+      const dt = Math.min((ts - lastTs) / 16.667, 3);
+      lastTs = ts;
+
+      if (!dragging) {
+        // θ'' = -(g/L) sin(θ)  — true pendulum equation
+        const angAccel = -(GRAVITY / ROPE_LEN) * Math.sin(angle) * dt;
+        velocity = (velocity + angAccel) * Math.pow(DAMPING, dt);
+        angle += velocity * dt;
+        angle = Math.max(-MAX_ANGLE, Math.min(MAX_ANGLE, angle));
+
+        // Micro-impulse when nearly still to maintain life
+        if (Math.abs(velocity) < 0.0012 && Math.abs(angle) < 0.04) {
+          velocity += Math.sin(ts * 0.00028) * 0.0008;
+        }
+      }
+
+      applyState();
+      requestAnimationFrame(tick);
+    }
+
+    // ── Drag / grab ──
+    card.addEventListener('pointerdown', e => {
+      dragging = true;
+      dragStartX = e.clientX;
+      dragStartAngle = angle;
+      lastDragX = e.clientX;
+      lastDragTime = e.timeStamp;
+      velocity = 0;
+      card.setPointerCapture(e.pointerId);
+      e.preventDefault();
+    });
+
+    window.addEventListener('pointermove', e => {
+      if (!dragging) return;
+      const dx = e.clientX - dragStartX;
+      angle = Math.max(-MAX_ANGLE, Math.min(MAX_ANGLE, dragStartAngle + dx / ROPE_LEN));
+      // Track instantaneous velocity for flick-release
+      const elapsed = e.timeStamp - lastDragTime;
+      if (elapsed > 0) velocity = ((e.clientX - lastDragX) / ROPE_LEN) / (elapsed / 16.667);
+      lastDragX = e.clientX;
+      lastDragTime = e.timeStamp;
+    });
+
+    window.addEventListener('pointerup', () => {
+      if (!dragging) return;
+      dragging = false;
+      // Clamp release velocity so it can't fling past limits
+      velocity = Math.max(-0.09, Math.min(0.09, velocity));
+    });
+
+    // ── Entrance: fade in, physics runs immediately from start angle ──
+    setTimeout(() => gsap.to(card, { opacity:1, duration:.4, ease:'power1.out' }), 480);
+
+    requestAnimationFrame(tick);
+  })();
 
   </script>
 
