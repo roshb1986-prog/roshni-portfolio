@@ -69,15 +69,19 @@
 
     /* ── HERO ── */
     #hero {
-      min-height:100vh; display:flex; flex-direction:column;
       padding-top:58px; position:relative; overflow:hidden;
     }
-    .hero-main {
-      flex:1; display:grid; grid-template-columns:1fr 420px; gap:48px;
-      align-items:center; max-width:1280px; margin:0 auto; width:100%;
-      padding:clamp(60px,8vw,100px) clamp(20px,5vw,80px) 48px;
+    .hero-cap {
+      max-width:780px; margin:0 auto; text-align:center;
+      padding:clamp(64px,8vw,110px) clamp(20px,5vw,80px) 4px;
     }
-    @media (max-width:860px) { .hero-main { grid-template-columns:1fr; } #hero-canvas { display:none; } }
+    .hero-caph {
+      font-family:'Cormorant Garamond',serif; font-size:clamp(2rem,4vw,3.3rem);
+      font-weight:500; line-height:1.12; letter-spacing:-.01em; margin:14px 0 16px;
+    }
+    .hero-capsub { font-size:clamp(.95rem,1.2vw,1.1rem); color:var(--muted); line-height:1.7; max-width:620px; margin:0 auto; }
+    .hero-cap #hero-canvas { display:block; margin:18px auto 0; }
+    @media (max-width:860px) { #hero-canvas { display:none !important; } }
 
     .hero-tag {
       display:inline-flex; align-items:center; gap:8px;
@@ -798,20 +802,10 @@
 
   <!-- HERO -->
   <section id="hero" class="s-surf">
-    <div class="hero-main">
-      <div>
-        <div class="hero-tag"><div class="pulse"></div>Product Lead · Fintech · Stockholm</div>
-        <h1 class="hero-h1">
-          <span class="lw"><span class="line">Designing trust</span></span>
-          <span class="lw"><span class="line">into <em>product-led</em></span></span>
-          <span class="lw"><span class="line">growth.</span></span>
-        </h1>
-        <p class="hero-sub">I build products at the intersection of growth, risk, and customer experience — leading Internal Tools, Risk and Compliance to make regulated products genuinely work for everyone.</p>
-        <div class="hero-btns">
-          <a href="#work" class="btn-p">View case studies →</a>
-          <a href="#about" class="btn-g">About me</a>
-        </div>
-      </div>
+    <div class="hero-cap">
+      <p class="s-tag rv">How I work</p>
+      <h2 class="hero-caph rv">Growth and risk, built to move as one</h2>
+      <p class="hero-capsub rv">I work across the whole system — product-led growth, risk &amp; compliance, and the platforms that connect them — so they reinforce each other instead of fighting.</p>
       <canvas id="hero-canvas" width="420" height="420"></canvas>
     </div>
     <div class="hero-strip">
