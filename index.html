@@ -6,7 +6,7 @@
   <title>Roshni — Designing Trust Into Product-Led Growth</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Anton&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet"/>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrambleTextPlugin.min.js"></script>
@@ -142,13 +142,82 @@
     .stmt-sub { font-size:1rem; color:var(--muted); max-width:520px; margin:0 auto 28px; line-height:1.75; }
     .stmt-co { font-family:'Cormorant Garamond',serif; font-size:1.25rem; font-style:italic; color:var(--acc-bright); }
 
-    /* ── CASE STUDIES ── */
-    .c-tabs { display:flex; border-bottom:1px solid var(--line); margin-bottom:44px; overflow-x:auto; gap:0; }
-    .c-tab { cursor:pointer; padding:13px 26px; font-size:.84rem; font-weight:500; color:var(--muted); border:none; border-bottom:2px solid transparent; background:none; transition:all .2s; white-space:nowrap; }
-    .c-tab:hover { color:var(--txt); }
-    .c-tab.active { color:var(--acc); border-bottom-color:var(--acc); }
-    .c-panel { display:none; }
-    .c-panel.active { display:block; }
+    /* ── DISPLAY / PLAYFUL TYPE ── */
+    .display { font-family:'Anton',sans-serif; font-weight:400; text-transform:uppercase; letter-spacing:.012em; line-height:.98; }
+    .hand { font-family:'Caveat',cursive; }
+
+    /* ── Shared display bits (used by the work section headings) ── */
+    .bring-inner { max-width:680px; text-align:center; position:relative; z-index:3; }
+    .bring-h { font-size:clamp(2.4rem,6.4vw,4.8rem); color:var(--txt); }
+    .bring-sub { font-family:'Caveat',cursive; font-size:clamp(1.4rem,2.7vw,2.15rem); font-weight:600; color:var(--muted); margin-top:12px; line-height:1.25; }
+    .bring-sub em { font-style:normal; color:var(--acc); }
+
+    /* ── HERO SKILL ORBIT (Three.js) ── */
+    .orbit-wrap {
+      position:absolute;
+      top:47%; left:51%; right:1.5%;
+      height:min(50vh,440px);
+      z-index:3;
+    }
+    .orbit-cap {
+      position:absolute; top:-2px; left:50%; transform:translateX(-50%);
+      font-family:'Caveat',cursive; font-size:clamp(1.1rem,1.5vw,1.5rem); font-weight:600;
+      color:var(--acc-bright); white-space:nowrap; pointer-events:none; z-index:2;
+    }
+    #orbit-canvas { width:100%; height:100%; display:block; cursor:grab; touch-action:none; }
+    #orbit-canvas:active { cursor:grabbing; }
+    .orbit-hint {
+      position:absolute; bottom:2px; left:50%; transform:translateX(-50%);
+      display:flex; align-items:center; gap:8px;
+      font-size:.6rem; font-weight:700; letter-spacing:.22em; text-transform:uppercase;
+      color:var(--dim); pointer-events:none;
+    }
+    .orbit-hint svg { width:14px; height:14px; }
+    @media (max-width:900px) { .orbit-wrap { display:none; } }
+
+    /* ── CASE STUDIES — folder stack ── */
+    .folders { position:relative; margin-top:clamp(40px,5vw,64px); }
+    .folder { position:sticky; top:calc(96px + var(--i) * 22px); margin-bottom:30px; }
+    .folder:last-child { margin-bottom:0; }
+    .folder-card {
+      position:relative;
+      background:var(--fbg,#fff);
+      padding:54px clamp(24px,3vw,40px) clamp(26px,3vw,38px);
+      clip-path:polygon(0 30px, 16px 30px, 16px 0, 38% 0, calc(38% + 26px) 30px, 100% 30px, 100% 100%, 0 100%);
+      filter:
+        drop-shadow(1.4px 0 0 var(--txt)) drop-shadow(-1.4px 0 0 var(--txt))
+        drop-shadow(0 1.4px 0 var(--txt)) drop-shadow(0 -1.4px 0 var(--txt))
+        drop-shadow(0 26px 30px rgba(22,36,46,.16));
+    }
+    .folder-tablabel {
+      position:absolute; top:6px; left:30px;
+      font-size:.78rem; font-weight:500; letter-spacing:.04em; color:var(--txt);
+    }
+    .folder-grid { display:grid; grid-template-columns:1fr 1fr; gap:clamp(24px,3vw,48px); align-items:center; }
+    @media (max-width:760px) { .folder-grid { grid-template-columns:1fr; gap:22px; } }
+    .folder-pills { display:flex; flex-wrap:wrap; gap:7px; margin-bottom:16px; }
+    .fpill { font-size:.62rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--acc-bright); background:rgba(60,111,156,.12); border:1px solid rgba(60,111,156,.24); padding:4px 11px; border-radius:999px; }
+    .folder-title { font-size:clamp(1.7rem,3vw,2.6rem); color:var(--txt); margin-bottom:14px; }
+    .folder-desc { font-size:.92rem; color:#3a4b57; line-height:1.7; margin-bottom:22px; max-width:46ch; }
+    .folder-view {
+      display:inline-flex; align-items:center; gap:8px;
+      font-size:.72rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+      color:var(--txt); background:none; border:none; cursor:pointer; padding:0;
+    }
+    .folder-view .fv-arrow { transition:transform .3s ease; }
+    .folder.open .folder-view .fv-arrow { transform:rotate(90deg); }
+    /* metric panel (right) */
+    .fmetrics { background:rgba(255,255,255,.5); border:1px solid rgba(22,36,46,.12); border-radius:14px; padding:clamp(20px,2.4vw,30px); }
+    .fm-big { display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
+    .fm-n { font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(2.6rem,5vw,3.8rem); color:var(--acc-bright); line-height:.9; }
+    .fm-cap { font-size:.74rem; color:#52606b; line-height:1.5; }
+    .fm-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:20px; padding-top:18px; border-top:1px solid rgba(22,36,46,.1); }
+    .fm-s-n { font-family:'Anton',sans-serif; font-weight:400; font-size:1.5rem; color:var(--txt); line-height:1; }
+    .fm-s-l { font-size:.68rem; color:#52606b; margin-top:5px; line-height:1.4; }
+    /* expandable detail */
+    .folder-detail { max-height:0; overflow:hidden; transition:max-height .5s cubic-bezier(.4,0,.2,1); }
+    .folder.open .folder-detail { max-height:640px; }
+    .fd-inner { margin-top:26px; padding-top:24px; border-top:1px solid rgba(22,36,46,.12); }
 
     .pg { display:grid; grid-template-columns:1fr 300px; gap:28px; }
     @media (max-width:860px) { .pg { grid-template-columns:1fr; } }
@@ -281,33 +350,35 @@
     .ld-status.ready { color:var(--acc); }
 
     /* ── LIGHT MODE ── */
+    /* Serene Sky — calm, professional blue system */
     [data-theme="light"] {
-      --bg:         #f5f0e8;
-      --surf:       #ece7dc;
-      --surf2:      #e2dccf;
-      --acc:        #c08008;
-      --acc-bright: #8a6000;
-      --acc-deep:   #5e4200;
-      --acc-dim:    rgba(192,128,8,.08);
-      --acc-border: rgba(192,128,8,.2);
-      --txt:        #1a1612;
-      --muted:      #6b6258;
-      --dim:        rgba(26,22,18,.28);
-      --line:       rgba(26,22,18,.09);
+      --bg:         #F0F8FF;   /* alice blue — page */
+      --surf:       #FFFFFF;   /* white — cards */
+      --surf2:      #E4F1F7;   /* powder-tinted surface */
+      --acc:        #3C6F9C;   /* steel blue — primary accent (legible) */
+      --acc-bright: #2A557C;   /* deep steel — emphasis text */
+      --acc-deep:   #87CEEB;   /* sky blue — light end of gradients */
+      --acc-dim:    rgba(70,130,180,.10);
+      --acc-border: rgba(70,130,180,.24);
+      --txt:        #16242E;   /* deep slate */
+      --muted:      #5C6B78;   /* slate grey-blue */
+      --dim:        rgba(22,36,46,.30);
+      --line:       rgba(22,36,46,.10);
     }
     [data-theme="light"] body { cursor: auto; }
     [data-theme="light"] #cd,[data-theme="light"] #cr { display:none; }
-    [data-theme="light"] nav { background:rgba(245,240,232,.92); }
+    [data-theme="light"] nav { background:rgba(240,248,255,.92); }
     [data-theme="light"] .btn-g:hover { border-color:rgba(26,22,18,.22); }
     [data-theme="light"] .ld-brand { color:rgba(26,22,18,.35); }
     [data-theme="light"] .ld-item { color:rgba(26,22,18,.25); border-bottom-color:rgba(26,22,18,.06); }
     [data-theme="light"] .ld-item.on { color:rgba(26,22,18,.6); }
     [data-theme="light"] .ld-bar-wrap { background:rgba(26,22,18,.08); }
     [data-theme="light"] .ld-status { color:rgba(26,22,18,.22); }
-    [data-theme="light"] .pn { color:rgba(140,96,0,.28); }
+    [data-theme="light"] .pn { color:rgba(60,111,156,.32); }
     [data-theme="light"] .nav-cta { color:#fff; }
     [data-theme="light"] .btn-p { color:#fff; }
     [data-theme="light"] .a-cta { color:#fff; }
+    [data-theme="light"] .vbtn-pri { color:#fff; }
 
     /* Theme toggle */
     .theme-btn {
@@ -323,11 +394,11 @@
       position:relative; width:100%; height:100vh;
       overflow:hidden;
       display:flex; align-items:flex-end;
-      /* Rich editorial dark gradient — no video bg needed */
+      /* Serene Sky — light hero that merges into the skills section below */
       background:
-        radial-gradient(ellipse 70% 80% at 75% 50%, rgba(30,18,50,.85) 0%, transparent 70%),
-        radial-gradient(ellipse 55% 60% at 20% 80%, rgba(10,6,20,.9) 0%, transparent 65%),
-        linear-gradient(135deg, #0a0610 0%, #07050f 40%, #0d0818 100%);
+        radial-gradient(circle, rgba(60,111,156,.12) 1.4px, transparent 1.6px) 0 0 / 38px 38px,
+        radial-gradient(ellipse 80% 70% at 72% 30%, var(--acc-dim) 0%, transparent 72%),
+        var(--bg);
     }
 
     /* ── LANYARD ── */
@@ -346,7 +417,7 @@
     }
     .lanyard-clip-anchor {
       position:absolute;
-      top:0; left:60%;
+      top:0; left:42%;
       transform:translateX(-50%);
       z-index:5;
       pointer-events:none;
@@ -447,33 +518,8 @@
     }
 
     /* Cinematic gradient overlays */
-    .vid-grad-left {
-      position:absolute; inset:0; z-index:2; pointer-events:none;
-      background:linear-gradient(to right,
-        rgba(7,5,15,1) 0%,
-        rgba(7,5,15,1) 22%,
-        rgba(7,5,15,.85) 38%,
-        rgba(7,5,15,.2) 58%,
-        transparent 72%);
-    }
-    .vid-grad-top {
-      position:absolute; top:0; left:0; right:0; height:200px; z-index:2; pointer-events:none;
-      background:linear-gradient(to bottom,rgba(5,4,12,.95),transparent);
-    }
-    /* Corner seal — kills the bleed where left + top gradients don't fully overlap */
-    .vid-corner {
-      position:absolute; top:0; left:0; width:45%; height:45%; z-index:2; pointer-events:none;
-      background:radial-gradient(ellipse at top left, rgba(5,4,12,1) 20%, rgba(5,4,12,.5) 55%, transparent 100%);
-    }
-    .vid-grad-bot {
-      position:absolute; bottom:0; left:0; right:0; height:280px; z-index:2; pointer-events:none;
-      background:linear-gradient(to top,rgba(5,4,12,.85),transparent);
-    }
-
-    /* Bokeh canvas overlay */
-    #bokeh-canvas {
-      position:absolute; inset:0; z-index:3; pointer-events:none; opacity:.7;
-    }
+    /* Dark vignette overlays + bokeh removed for the light hero */
+    .vid-grad-left, .vid-grad-top, .vid-corner, .vid-grad-bot, #bokeh-canvas { display:none; }
 
     /* Content overlay */
     .vid-content {
@@ -484,8 +530,8 @@
     .vid-tag {
       display:inline-flex; align-items:center; gap:8px;
       font-size:.68rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
-      color:rgba(245,200,74,.85);
-      border:1px solid rgba(245,200,74,.25);
+      color:var(--acc);
+      border:1px solid var(--acc-border);
       padding:5px 14px; border-radius:999px;
       margin-bottom:28px;
     }
@@ -493,23 +539,45 @@
       font-family:'Cormorant Garamond',serif;
       font-size:clamp(3.5rem,9vw,8rem);
       font-weight:600; line-height:.96; letter-spacing:-.02em;
-      color:#fff; margin-bottom:20px;
+      color:var(--txt); margin-bottom:20px;
     }
     .vid-name span { display:block; }
-    .vid-name .name-acc { color:#f5c84a; font-style:italic; }
+    .vid-name .name-acc { color:var(--acc); font-style:italic; }
+    /* Living tagline — out of flow, sits just right of the lanyard */
+    .vid-tagline-wrap {
+      position:absolute;
+      left:calc(50% + 135px);   /* just past the centred badge's right edge */
+      right:clamp(20px,3vw,56px);
+      top:40%; transform:translateY(-50%);
+      z-index:4;
+      pointer-events:none;
+    }
     .vid-tagline {
+      margin:0;
       font-family:'Cormorant Garamond',serif;
-      font-size:clamp(1.5rem,3.2vw,2.4rem);
-      font-style:italic; font-weight:500; line-height:1.15;
-      color:#d4ff00; letter-spacing:.005em;
-      margin:-6px 0 22px; min-height:1.2em;
-      text-shadow:0 0 22px rgba(200,240,0,.28);
+      font-size:clamp(1.6rem,2.7vw,2.9rem);
+      font-style:italic; font-weight:500; line-height:1.12;
+      color:var(--acc-bright); letter-spacing:.005em;
+      text-align:left;
+      text-shadow:none;
+      white-space:nowrap;       /* one line — fills the full width to the right */
+    }
+    .vid-tagline::before {
+      content:'';
+      display:block;
+      width:38px; height:2px;
+      background:var(--acc);
+      margin-bottom:18px;
+      box-shadow:none;
+    }
+    @media (max-width:900px) {
+      .vid-tagline-wrap { display:none; }
     }
     .vid-role {
-      font-size:clamp(.85rem,1.4vw,1rem); color:rgba(237,232,224,.6);
+      font-size:clamp(.85rem,1.4vw,1rem); color:var(--muted);
       letter-spacing:.04em; line-height:1.7; margin-bottom:36px;
     }
-    .vid-role strong { color:rgba(245,200,74,.9); font-weight:600; }
+    .vid-role strong { color:var(--acc); font-weight:600; }
     .vid-btns {
       display:flex; gap:12px; flex-wrap:wrap;
     }
@@ -519,15 +587,15 @@
       padding:11px 22px; border-radius:999px; cursor:pointer;
       transition:all .22s; border:none;
     }
-    .vbtn-pri { background:#f5c84a; color:#07070f; }
-    .vbtn-pri:hover { background:#ffefb3; }
+    .vbtn-pri { background:var(--acc); color:#07070f; }
+    .vbtn-pri:hover { background:var(--acc-bright); }
     .vbtn-glass {
-      background:rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.15);
-      color:rgba(237,232,224,.8);
+      background:rgba(60,111,156,.08);
+      border:1px solid rgba(60,111,156,.22);
+      color:var(--txt);
       backdrop-filter:blur(12px);
     }
-    .vbtn-glass:hover { background:rgba(255,255,255,.14); color:#fff; }
+    .vbtn-glass:hover { background:rgba(60,111,156,.14); }
 
     /* Controls (bottom right) */
     .vid-controls {
@@ -570,15 +638,15 @@
       position:absolute; bottom:clamp(20px,4vw,40px); left:50%;
       transform:translateX(-50%); z-index:5;
       display:flex; flex-direction:column; align-items:center; gap:8px;
-      cursor:pointer; color:rgba(237,232,224,.5); transition:color .2s;
+      cursor:pointer; color:var(--dim); transition:color .2s;
     }
-    .vid-scroll:hover { color:rgba(237,232,224,.9); }
+    .vid-scroll:hover { color:var(--txt); }
     .vid-scroll span {
       font-size:.6rem; font-weight:600; letter-spacing:.16em; text-transform:uppercase;
     }
     .scroll-line {
       width:1px; height:40px;
-      background:linear-gradient(to bottom, rgba(245,200,74,.8), transparent);
+      background:linear-gradient(to bottom, var(--acc), transparent);
       animation:scrollPulse 2s ease-in-out infinite;
     }
     @keyframes scrollPulse {
@@ -660,13 +728,12 @@
     <!-- Text content (left) -->
     <div class="vid-content">
       <div class="vid-tag">
-        <span class="sh-dot" style="width:6px;height:6px;border-radius:50%;background:#f5c84a;animation:pulse 1.8s infinite;display:inline-block"></span>
+        <span class="sh-dot" style="width:6px;height:6px;border-radius:50%;background:var(--acc);animation:pulse 1.8s infinite;display:inline-block"></span>
         Product Lead · Compliance as a Growth Engine
       </div>
       <div class="vid-name">
         <span>Roshni</span>
       </div>
-      <p class="vid-tagline" id="vid-tagline">Compliance as a growth engine.</p>
       <p class="vid-role">
         Building <strong>compliance as a growth engine</strong> —<br>
         from KYB pipelines to risk-adjusted onboarding at scale.
@@ -674,6 +741,20 @@
       <div class="vid-btns">
         <a href="#work" class="vbtn vbtn-pri">View case studies ↓</a>
         <a href="#about" class="vbtn vbtn-glass">About me</a>
+      </div>
+    </div>
+
+    <!-- Living tagline (right, beside the lanyard) -->
+    <div class="vid-tagline-wrap">
+      <p class="vid-tagline" id="vid-tagline">Compliance as a growth engine.</p>
+    </div>
+
+    <!-- Skill orbit (Three.js) — sits under the scramble tagline -->
+    <div class="orbit-wrap" id="orbit-wrap">
+      <canvas id="orbit-canvas"></canvas>
+      <div class="orbit-hint">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9"/><path d="M3 4v4h4"/></svg>
+        Drag to rotate
       </div>
     </div>
 
@@ -728,148 +809,107 @@
     </div>
   </section>
 
-  <!-- CASE STUDIES -->
+  <!-- CASE STUDIES — folder stack -->
   <section id="work" class="s">
     <div class="s-inner">
-      <div class="rv">
-        <p class="s-tag">Selected work</p>
-        <h2 class="s-h2">Case studies</h2>
-        <p class="s-desc">Three different dimensions of the same capability: building products that grow businesses while managing risk intelligently.</p>
-      </div>
-      <div class="c-tabs rv">
-        <button class="c-tab active" onclick="showCase(0,this)">01 · Compliance as Growth</button>
-        <button class="c-tab" onclick="showCase(1,this)">02 · Decision Intelligence</button>
-        <button class="c-tab" onclick="showCase(2,this)">03 · Stopping Fraud at Scale</button>
+      <div class="rv" style="text-align:center">
+        <p class="s-tag" style="text-align:center">Selected work</p>
+        <h2 class="bring-h display" style="font-size:clamp(2.2rem,5.2vw,4rem)">Work in action</h2>
+        <p class="s-desc" style="margin:14px auto 0;text-align:center">Three dimensions of one capability — building products that grow the business while managing risk intelligently.</p>
       </div>
 
-      <!-- PANEL 0 -->
-      <div class="c-panel active" id="case-0">
-        <div class="pg">
-          <div style="display:flex;flex-direction:column;gap:22px">
-            <div>
-              <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:18px">
-                <span class="pill">Growth Strategy</span><span class="pill">Customer Experience</span><span class="pill">Platform Vision</span>
+      <div class="folders">
+
+        <!-- Folder 01 -->
+        <article class="folder" style="--i:0;--fbg:#FFFFFF">
+          <div class="folder-card">
+            <span class="folder-tablabel">Project 01</span>
+            <div class="folder-grid">
+              <div>
+                <div class="folder-pills"><span class="fpill">Growth strategy</span><span class="fpill">Platform vision</span></div>
+                <h3 class="folder-title display">Compliance as a growth engine</h3>
+                <p class="folder-desc">Redesigned onboarding, KYB and KYC so controls scale with real risk instead of gating every customer — turning compliance from a tax into a competitive advantage.</p>
+                <button class="folder-view" onclick="toggleFolder(this)">View project <span class="fv-arrow">→</span></button>
               </div>
-              <h3 class="ph">Turning compliance from a gate into a growth enabler</h3>
-              <p class="pb">Regulated products carry a structural tax: customers must prove themselves before experiencing value. The standard response is to accept the friction and optimise around it. The better answer is to redesign the architecture entirely. I led the product vision and team to do exactly that across onboarding, KYB, KYC, and the operational layer beneath them.</p>
-            </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-              <div class="card">
-                <p style="font-size:.64rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:14px">The old model</p>
-                <div style="display:flex;flex-direction:column;gap:9px">
-                  <div class="di"><div class="db-d"></div><p style="font-size:.83rem;color:var(--muted)">Everyone through the same heavy verification queue</p></div>
-                  <div class="di"><div class="db-d"></div><p style="font-size:.83rem;color:var(--muted)">Value delayed until compliance is satisfied</p></div>
-                  <div class="di"><div class="db-d"></div><p style="font-size:.83rem;color:var(--muted)">Operations absorb the inefficiency in spreadsheets</p></div>
-                  <div class="di"><div class="db-d"></div><p style="font-size:.83rem;color:var(--muted)">Growth and risk permanently in tension</p></div>
-                </div>
-              </div>
-              <div class="card-acc">
-                <p style="font-size:.64rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);margin-bottom:14px">The new model</p>
-                <div style="display:flex;flex-direction:column;gap:9px">
-                  <div class="di"><div class="db"></div><p style="font-size:.83rem;color:var(--muted)">Progressive trust: controls calibrated to actual risk</p></div>
-                  <div class="di"><div class="db"></div><p style="font-size:.83rem;color:var(--muted)">Friction at moments of risk, not moments of curiosity</p></div>
-                  <div class="di"><div class="db"></div><p style="font-size:.83rem;color:var(--muted)">Compliance embedded in product, not process</p></div>
-                  <div class="di"><div class="db"></div><p style="font-size:.83rem;color:var(--muted)">Decisions auditable and measurable by default</p></div>
+              <div class="fmetrics">
+                <div class="fm-big"><span class="fm-n">4</span><span class="fm-cap">product teams led<br>across the organisation</span></div>
+                <div class="fm-row">
+                  <div><div class="fm-s-n">19</div><div class="fm-s-l">specialists across Product, Eng, Data, Fraud &amp; Ops</div></div>
+                  <div><div class="fm-s-n">5</div><div class="fm-s-l">platforms owned end-to-end</div></div>
                 </div>
               </div>
             </div>
-            <div>
-              <p style="font-size:.64rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:14px">What we built</p>
-              <div class="bi"><div class="bn">1</div><div><p style="font-weight:600;font-size:.86rem;margin-bottom:3px">Progressive profiling across the onboarding journey</p><p style="font-size:.8rem;color:var(--muted)">Collect information only when necessary, tied to specific risk thresholds rather than a single upfront gate</p></div></div>
-              <div class="bi"><div class="bn">2</div><div><p style="font-weight:600;font-size:.86rem;margin-bottom:3px">An operational platform that replaced manual workflows</p><p style="font-size:.8rem;color:var(--muted)">Moved queue management, case review, and audit trails out of spreadsheets and into a productised internal tool</p></div></div>
-              <div class="bi"><div class="bn">3</div><div><p style="font-weight:600;font-size:.86rem;margin-bottom:3px">Decision transparency at every layer</p><p style="font-size:.8rem;color:var(--muted)">Every policy configurable. Every decision traceable. SLA visibility baked in from day one.</p></div></div>
-            </div>
-            <div class="bq">The future of regulated products is not less compliance. It is smarter compliance. The organisations that win will make controls invisible for legitimate customers while remaining highly effective against risk.</div>
+            <div class="folder-detail"><div class="fd-inner">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+                <div><p style="font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:9px">The old model</p><p class="folder-desc" style="margin:0;max-width:none">Everyone through one heavy verification queue · value delayed until compliance is satisfied · operations absorbing the inefficiency in spreadsheets.</p></div>
+                <div><p style="font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);margin-bottom:9px">The new model</p><p class="folder-desc" style="margin:0;max-width:none">Progressive trust calibrated to actual risk · friction at moments of risk, not curiosity · compliance embedded in the product, auditable by default.</p></div>
+              </div>
+              <p class="hand" style="font-size:1.4rem;color:var(--acc-bright);margin-top:22px">"Compliance should be an asset, not a bottleneck."</p>
+            </div></div>
           </div>
-          <div style="display:flex;flex-direction:column;gap:10px">
-            <p style="font-size:.64rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)">Scale</p>
-            <div class="card"><div class="stat-n">4 teams</div><p class="stat-l">Product organisation led</p><p class="stat-s">19 specialists across Product, Engineering, Data, Fraud, and Operations</p></div>
-            <div class="card">
-              <p style="font-size:.83rem;font-weight:600;margin-bottom:10px">Platforms owned</p>
-              <div style="display:flex;flex-direction:column;gap:7px">
-                <div class="di"><div class="db"></div><p style="font-size:.8rem;color:var(--muted)">Customer onboarding</p></div>
-                <div class="di"><div class="db"></div><p style="font-size:.8rem;color:var(--muted)">KYB and KYC</p></div>
-                <div class="di"><div class="db"></div><p style="font-size:.8rem;color:var(--muted)">Fraud detection</p></div>
-                <div class="di"><div class="db"></div><p style="font-size:.8rem;color:var(--muted)">AML investigations</p></div>
-                <div class="di"><div class="db"></div><p style="font-size:.8rem;color:var(--muted)">Operational review tooling</p></div>
+        </article>
+
+        <!-- Folder 02 -->
+        <article class="folder" style="--i:1;--fbg:#E7F1F8">
+          <div class="folder-card">
+            <span class="folder-tablabel">Project 02</span>
+            <div class="folder-grid">
+              <div>
+                <div class="folder-pills"><span class="fpill">Platform strategy</span><span class="fpill">Risk operations</span></div>
+                <h3 class="folder-title display">Decision intelligence platform</h3>
+                <p class="folder-desc">Consolidated fraud and AML decisioning onto one observable platform — rule management without engineering overhead, plus shadow-mode and A/B testing before anything goes live.</p>
+                <button class="folder-view" onclick="toggleFolder(this)">View project <span class="fv-arrow">→</span></button>
+              </div>
+              <div class="fmetrics">
+                <div class="fm-big"><span class="fm-n">112k</span><span class="fm-cap">euros of fraud identified<br>via the new platform</span></div>
+                <div class="fm-row">
+                  <div><div class="fm-s-n">41.7%</div><div class="fm-s-l">detection rate on resolved investigations</div></div>
+                  <div><div class="fm-s-n">18k+</div><div class="fm-s-l">live transactions processed in rollout</div></div>
+                </div>
               </div>
             </div>
-            <div class="card"><p style="font-size:.83rem;font-weight:600;margin-bottom:6px">Strategic outcome</p><p style="font-size:.8rem;color:var(--muted);line-height:1.6">Reduced manual process dependency. Increased decision consistency. Positioned compliance as a competitive advantage rather than a cost centre.</p></div>
+            <div class="folder-detail"><div class="fd-inner">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px 20px">
+                <div><p style="font-weight:600;font-size:.84rem;margin-bottom:3px">Centralised decision engine</p><p class="folder-desc" style="margin:0;max-width:none;font-size:.82rem">All fraud and AML decisions through a single, observable layer.</p></div>
+                <div><p style="font-weight:600;font-size:.84rem;margin-bottom:3px">Rule management framework</p><p class="folder-desc" style="margin:0;max-width:none;font-size:.82rem">Teams iterate on rules without engineering overhead.</p></div>
+                <div><p style="font-weight:600;font-size:.84rem;margin-bottom:3px">Experimentation built in</p><p class="folder-desc" style="margin:0;max-width:none;font-size:.82rem">Shadow mode and A/B testing for rules before going live.</p></div>
+                <div><p style="font-weight:600;font-size:.84rem;margin-bottom:3px">Case management integration</p><p class="folder-desc" style="margin:0;max-width:none;font-size:.82rem">Decisions surfaced directly into analyst workflows.</p></div>
+              </div>
+              <p class="hand" style="font-size:1.4rem;color:var(--acc-bright);margin-top:22px">"Risk platforms are an operating system for decision-making across a company."</p>
+            </div></div>
           </div>
-        </div>
-      </div>
+        </article>
 
-      <!-- PANEL 1 -->
-      <div class="c-panel" id="case-1">
-        <div class="pg">
-          <div style="display:flex;flex-direction:column;gap:22px">
-            <div>
-              <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:18px"><span class="pill">Platform Strategy</span><span class="pill">Technical Leadership</span><span class="pill">Risk Operations</span></div>
-              <h3 class="ph">Building a decision intelligence platform for fraud and AML</h3>
-              <p class="pb">Fraud and AML controls were distributed across multiple disconnected systems. The result was slow iteration, limited visibility into what was working, and an operational team spending most of their time on process rather than judgement. I led the strategy and cross-functional migration to consolidate decisioning onto a single platform.</p>
-            </div>
-            <div class="card">
-              <p style="font-size:.64rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:18px">What the platform enabled</p>
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-                <div><p style="font-weight:600;font-size:.83rem;margin-bottom:3px">Centralised decision engine</p><p style="font-size:.78rem;color:var(--muted)">All fraud and AML decisions through a single, observable layer</p></div>
-                <div><p style="font-weight:600;font-size:.83rem;margin-bottom:3px">Rule management framework</p><p style="font-size:.78rem;color:var(--muted)">Teams could iterate on rules without engineering overhead</p></div>
-                <div><p style="font-weight:600;font-size:.83rem;margin-bottom:3px">Experimentation capability</p><p style="font-size:.78rem;color:var(--muted)">Shadow mode and A/B testing for rules before going live</p></div>
-                <div><p style="font-weight:600;font-size:.83rem;margin-bottom:3px">Case management integration</p><p style="font-size:.78rem;color:var(--muted)">Decisions surfaced directly into analyst workflows</p></div>
+        <!-- Folder 03 -->
+        <article class="folder" style="--i:2;--fbg:#DBE6F4">
+          <div class="folder-card">
+            <span class="folder-tablabel">Project 03</span>
+            <div class="folder-grid">
+              <div>
+                <div class="folder-pills"><span class="fpill">Customer trust</span><span class="fpill">Fraud prevention</span></div>
+                <h3 class="folder-title display">Stopping fraud at scale</h3>
+                <p class="folder-desc">Shifted from after-the-fact detection to in-the-moment intervention across account takeover and card fraud — keeping legitimate customer journeys low-friction throughout.</p>
+                <button class="folder-view" onclick="toggleFolder(this)">View project <span class="fv-arrow">→</span></button>
+              </div>
+              <div class="fmetrics">
+                <div class="fm-big"><span class="fm-n">258k</span><span class="fm-cap">euros of ATO losses prevented<br>across 54 fraud events</span></div>
+                <div class="fm-row">
+                  <div><div class="fm-s-n">95%</div><div class="fm-s-l">reduction in monthly fraud chargebacks</div></div>
+                  <div><div class="fm-s-n">142→8</div><div class="fm-s-l">fraud cases per month, post-intervention</div></div>
+                </div>
               </div>
             </div>
-            <div>
-              <p style="font-size:.64rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px">Leadership approach</p>
-              <p class="pb" style="margin-bottom:14px">The platform thinking here mattered more than the technical choices. Fraud tools are only as good as the operating model built around them. I worked across Fraud Operations, AML, Compliance, Engineering, and Data Science to align on a shared decisioning layer.</p>
-              <div class="bq">Building risk platforms is not about rule engines. It is about creating an operating system for decision making across a company.</div>
-            </div>
-          </div>
-          <div style="display:flex;flex-direction:column;gap:10px">
-            <p style="font-size:.64rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)">Results</p>
-            <div class="card"><div class="stat-n">112k</div><p class="stat-u">euros</p><p class="stat-l">Fraud identified via the new platform</p><p class="stat-s">961 transactions across 388 cards</p></div>
-            <div class="card"><div class="stat-n">18k+</div><p class="stat-l">Live transactions processed in production rollout</p><p class="stat-s">13 timeouts total</p></div>
-            <div class="card"><div class="stat-n">41.7%</div><p class="stat-l">Detection rate on resolved investigations</p></div>
-            <div class="card"><div class="stat-n">10</div><p class="stat-l">Fraud scenarios launched</p><p class="stat-s">Enabled retirement path from legacy AML tooling</p></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- PANEL 2 -->
-      <div class="c-panel" id="case-2">
-        <div class="pg">
-          <div style="display:flex;flex-direction:column;gap:22px">
-            <div>
-              <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:18px"><span class="pill">Customer Trust</span><span class="pill">Fraud Prevention</span><span class="pill">Measurable Outcomes</span></div>
-              <h3 class="ph">Stopping account takeover and card fraud at scale</h3>
-              <p class="pb">Account takeover attacks and card fraud were creating real customer harm and meaningful financial losses. Existing controls were reactive. I led the product strategy to shift from detection after the fact to intervention in the moment, while keeping the experience low-friction for legitimate customers.</p>
-            </div>
-            <div class="card">
-              <p style="font-size:.64rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:16px">What we shipped</p>
+            <div class="folder-detail"><div class="fd-inner">
               <div style="display:flex;flex-direction:column;gap:14px">
-                <div><p style="font-weight:600;font-size:.83rem;margin-bottom:3px">Magic link protection</p><p style="font-size:.78rem;color:var(--muted)">Suspicious login detection with a customer challenge flow and automated account protection. An emergency kill-switch for the operations team when patterns escalated.</p></div>
-                <hr class="div"/>
-                <div><p style="font-weight:600;font-size:.83rem;margin-bottom:3px">ATO recovery flow</p><p style="font-size:.78rem;color:var(--muted)">Self-service recovery: logout all devices, freeze all cards, notify administrators, and a fast path back to a secure account. Reduced support load significantly.</p></div>
-                <hr class="div"/>
-                <div><p style="font-weight:600;font-size:.83rem;margin-bottom:3px">Asda fraud pattern intervention</p><p style="font-size:.78rem;color:var(--muted)">Identified a large card-not-present attack pattern. Analysed 2,876 historic chargebacks representing 624k in fraudulent spend across 717 affected customers, then designed and shipped targeted controls.</p></div>
+                <div><p style="font-weight:600;font-size:.84rem;margin-bottom:3px">Magic-link protection</p><p class="folder-desc" style="margin:0;max-width:none;font-size:.82rem">Suspicious-login detection with a customer challenge flow, automated account protection, and an emergency kill-switch for ops.</p></div>
+                <div><p style="font-weight:600;font-size:.84rem;margin-bottom:3px">ATO recovery flow</p><p class="folder-desc" style="margin:0;max-width:none;font-size:.82rem">Self-service recovery: log out all devices, freeze all cards, notify admins, and a fast path back to a secure account.</p></div>
+                <div><p style="font-weight:600;font-size:.84rem;margin-bottom:3px">Card-fraud pattern intervention</p><p class="folder-desc" style="margin:0;max-width:none;font-size:.82rem">Analysed 2,876 historic chargebacks (624k in fraudulent spend) and shipped targeted controls — chargebacks fell from 142 to 8 cases a month.</p></div>
               </div>
-            </div>
-            <div class="bq">Fraud prevention succeeds when security controls become part of the customer experience. The goal is making the right thing easy for legitimate customers and difficult for bad actors.</div>
+              <p class="hand" style="font-size:1.4rem;color:var(--acc-bright);margin-top:22px">"Make the right thing easy for legitimate customers and hard for bad actors."</p>
+            </div></div>
           </div>
-          <div style="display:flex;flex-direction:column;gap:10px">
-            <p style="font-size:.64rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)">Impact</p>
-            <div class="card"><div class="stat-n">258k</div><p class="stat-u">euros prevented</p><p class="stat-l">ATO losses stopped</p><p class="stat-s">54 fraud events detected</p></div>
-            <div class="card"><div class="stat-n">95%</div><p class="stat-l">Reduction in monthly fraud chargebacks post-intervention</p></div>
-            <div class="card" style="background:var(--surf2)">
-              <p style="font-size:.64rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Before</p>
-              <p style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:500">142 cases/mo</p>
-              <p style="font-size:.7rem;color:var(--muted);margin-top:3px">64,006 euros in losses</p>
-            </div>
-            <div class="card" style="border-color:var(--acc-border)">
-              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><p style="font-size:.64rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">After</p><span class="pill">95% down</span></div>
-              <p style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:500;color:var(--acc-bright)">8 cases/mo</p>
-              <p style="font-size:.7rem;color:var(--muted);margin-top:3px">3,378 euros in losses</p>
-            </div>
-          </div>
-        </div>
+        </article>
+
       </div>
     </div>
   </section>
@@ -1216,12 +1256,21 @@
     });
   }});
 
-  // Tab switch
-  window.showCase = function(i,btn){
-    document.querySelectorAll('.c-panel').forEach(p=>p.classList.remove('active'));
-    document.querySelectorAll('.c-tab').forEach(t=>t.classList.remove('active'));
-    document.getElementById('case-'+i).classList.add('active');
-    btn.classList.add('active');
+
+  // Folder cards — rise + settle as each enters
+  gsap.utils.toArray('.folder').forEach(card=>{
+    gsap.fromTo(card,{opacity:0,y:60,scale:.97},
+      {opacity:1,y:0,scale:1,duration:.7,ease:'power3.out',
+        scrollTrigger:{trigger:card,start:'top 90%',toggleActions:'play none none none'}});
+  });
+
+  // Folder expand / collapse
+  window.toggleFolder = function(btn){
+    const folder = btn.closest('.folder');
+    if (folder) {
+      folder.classList.toggle('open');
+      btn.firstChild.textContent = folder.classList.contains('open') ? 'Close project ' : 'View project ';
+    }
   };
   /* ── THEME TOGGLE ── */
   (function(){
@@ -1398,9 +1447,9 @@
     const GRAVITY   = 2.6;   // tuned so one swing ≈ 1.8s
     const DAMPING   = 0.9925; // per-frame damping at 60fps
     const MAX_ANGLE = 1.25;  // ~72° hard limit
-    const ANCHOR_X  = 0.6;   // attach right-of-centre to fill the right space
+    const ANCHOR_X  = 0.42;  // left-of-centre: balanced between the name (left) and scramble tagline (right)
 
-    let angle    = 1.05;  // start swung right — physics carries it centre
+    let angle    = 0.45;  // gentle start swing — stays clear of side text
     let velocity = 0;
     let dragging = false;
     let dragStartX = 0, dragStartAngle = 0;
@@ -1499,6 +1548,114 @@
     setTimeout(() => gsap.to(card, { opacity:1, duration:.4, ease:'power1.out' }), 480);
 
     requestAnimationFrame(tick);
+  })();
+
+  /* ── HERO SKILL ORBIT (Three.js + drag-to-rotate) ── */
+  (function(){
+    const canvas = document.getElementById('orbit-canvas');
+    const wrap   = document.getElementById('orbit-wrap');
+    if (!canvas || !wrap || typeof THREE === 'undefined') return;
+    if (window.matchMedia('(max-width:900px)').matches) return;
+
+    const skills = ['Product strategy','Risk & compliance','Growth','KYB / KYC','Onboarding',
+                    'Internal tooling','Fraud prevention','AML','Decisioning platforms','Cross-functional leadership'];
+
+    const glCtx = canvas.getContext('webgl', {alpha:true, antialias:true, premultipliedAlpha:true})
+               || canvas.getContext('experimental-webgl', {alpha:true, antialias:true});
+    const renderer = new THREE.WebGLRenderer({canvas, context:glCtx, alpha:true, antialias:true});
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    const scene  = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
+    camera.position.set(0, 2.1, 8.4);
+    camera.lookAt(0, 0.35, 0);
+
+    scene.add(new THREE.AmbientLight(0xffffff, 0.95));
+    const dir = new THREE.DirectionalLight(0xffffff, 0.45); dir.position.set(3, 6, 4); scene.add(dir);
+
+    // turntable
+    function disc(r, h, color, y){
+      const m = new THREE.Mesh(
+        new THREE.CylinderGeometry(r, r, h, 72),
+        new THREE.MeshStandardMaterial({color, roughness:.9, metalness:0}));
+      m.position.y = y; return m;
+    }
+    const platform = new THREE.Group();
+    platform.add(disc(2.45, .24, 0xdce9f7, -1.20));
+    platform.add(disc(2.78, .42, 0xc4d6ee, -1.48));
+    scene.add(platform);
+
+    function roundRect(ctx,x,y,w,h,r){ ctx.beginPath(); ctx.moveTo(x+r,y);
+      ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r);
+      ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+
+    function pillSprite(text){
+      const dpr=2, fs=52, font=`600 ${fs}px "DM Sans",sans-serif`, padX=42, h=124;
+      const m=document.createElement('canvas').getContext('2d'); m.font=font;
+      const w=Math.ceil(m.measureText(text).width)+padX*2;
+      const c=document.createElement('canvas'); c.width=w*dpr; c.height=h*dpr;
+      const ctx=c.getContext('2d'); ctx.scale(dpr,dpr);
+      const r=h/2;
+      ctx.fillStyle='#C7D6F4'; ctx.strokeStyle='rgba(60,111,156,.55)'; ctx.lineWidth=2.5;
+      roundRect(ctx,2,2,w-4,h-4,r-2); ctx.fill(); ctx.stroke();
+      ctx.fillStyle='#1f3566'; ctx.font=font; ctx.textBaseline='middle'; ctx.textAlign='center';
+      ctx.fillText(text, w/2, h/2+2);
+      const tex=new THREE.CanvasTexture(c); tex.minFilter=THREE.LinearFilter; tex.anisotropy=4;
+      const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:tex, transparent:true, depthWrite:false}));
+      const s=0.0032; sp.scale.set(w*s, h*s, 1);
+      return sp;
+    }
+
+    const ring = new THREE.Group(); scene.add(ring);
+    const R=2.75;
+    skills.forEach((s,i)=>{
+      const a=(i/skills.length)*Math.PI*2;
+      const sp=pillSprite(s);
+      sp.position.set(Math.cos(a)*R, 0.25, Math.sin(a)*R);
+      sp.userData.baseY=0.25;
+      ring.add(sp);
+    });
+
+    // centre hub — glowing orb (no face; the pills orbit around it)
+    const hub = new THREE.Mesh(
+      new THREE.SphereGeometry(0.42, 32, 32),
+      new THREE.MeshStandardMaterial({color:0x3c6f9c, emissive:0x2a557c, emissiveIntensity:.5, roughness:.35, metalness:.15}));
+    hub.position.set(0, 0.45, 0); scene.add(hub);
+    (function(){
+      const s=256, c=document.createElement('canvas'); c.width=c.height=s;
+      const ctx=c.getContext('2d');
+      const g=ctx.createRadialGradient(s/2,s/2,0,s/2,s/2,s/2);
+      g.addColorStop(0,'rgba(135,206,235,.85)'); g.addColorStop(.42,'rgba(135,206,235,.32)'); g.addColorStop(1,'rgba(135,206,235,0)');
+      ctx.fillStyle=g; ctx.fillRect(0,0,s,s);
+      const glow=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c), transparent:true, depthWrite:false}));
+      glow.scale.set(2.8,2.8,1); glow.position.set(0,0.45,0); scene.add(glow);
+    })();
+    // faint orbit path
+    const orbitRing = new THREE.Mesh(
+      new THREE.TorusGeometry(R, 0.012, 8, 140),
+      new THREE.MeshBasicMaterial({color:0x6e95c4, transparent:true, opacity:.45}));
+    orbitRing.rotation.x = Math.PI/2; orbitRing.position.y = 0.25; scene.add(orbitRing);
+
+    function resize(){
+      const w=wrap.clientWidth, h=wrap.clientHeight;
+      if(!w||!h) return;
+      renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix();
+    }
+    resize(); window.addEventListener('resize', resize);
+
+    let vel=0.0018, dragging=false, lastX=0;
+    canvas.addEventListener('pointerdown', e=>{ dragging=true; lastX=e.clientX; vel=0; canvas.setPointerCapture(e.pointerId); });
+    canvas.addEventListener('pointermove', e=>{ if(!dragging) return; const dx=e.clientX-lastX; lastX=e.clientX; ring.rotation.y+=dx*0.006; vel=dx*0.006; });
+    const stop=()=>{ dragging=false; }; canvas.addEventListener('pointerup',stop); canvas.addEventListener('pointercancel',stop);
+
+    const clock=new THREE.Clock();
+    (function animate(){
+      requestAnimationFrame(animate);
+      const t=clock.getElapsedTime();
+      if(!dragging){ ring.rotation.y+=vel; vel+=(0.0018-vel)*0.03; }
+      ring.children.forEach((sp,i)=>{ sp.position.y=sp.userData.baseY+Math.sin(t*0.8+i)*0.05; });
+      platform.rotation.y=ring.rotation.y*0.35;
+      renderer.render(scene, camera);
+    })();
   })();
 
   </script>
