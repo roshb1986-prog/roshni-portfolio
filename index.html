@@ -180,6 +180,18 @@
     .orbit-hint svg { width:14px; height:14px; }
     @media (max-width:900px) { .orbit-wrap { display:none; } }
 
+    /* "What I bring to the table" illustration (replaces the Three.js orbit) */
+    .bring-img {
+      position:absolute;
+      top:42%; right:clamp(16px,3vw,48px);
+      transform:translateY(-50%);
+      width:min(48vw,600px); height:auto;
+      border-radius:20px;
+      box-shadow:0 28px 64px rgba(22,36,46,.20);
+      z-index:3;
+    }
+    @media (max-width:900px) { .bring-img { display:none; } }
+
     /* ── CASE STUDIES — folder stack ── */
     .folders { position:relative; margin-top:clamp(40px,5vw,64px); }
     .folder { position:sticky; top:calc(96px + var(--i) * 22px); margin-bottom:30px; }
@@ -211,6 +223,10 @@
     }
     .folder-view .fv-arrow { transition:transform .3s ease; }
     .folder.open .folder-view .fv-arrow { transform:rotate(90deg); }
+    /* whole card is a link to the project detail page */
+    a.folder-card { text-decoration:none; color:inherit; display:block; transition:transform .25s ease; }
+    a.folder-card:hover { transform:translateY(-3px); }
+    a.folder-card:hover .fv-arrow { transform:translateX(5px); }
     /* metric panel (right) */
     .fmetrics { background:rgba(255,255,255,.5); border:1px solid rgba(22,36,46,.12); border-radius:14px; padding:clamp(20px,2.4vw,30px); }
     .fm-big { display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
@@ -223,6 +239,12 @@
     .folder-detail { max-height:0; overflow:hidden; transition:max-height .5s cubic-bezier(.4,0,.2,1); }
     .folder.open .folder-detail { max-height:640px; }
     .fd-inner { margin-top:26px; padding-top:24px; border-top:1px solid rgba(22,36,46,.12); }
+    /* placeholder highlight — fill these in, then remove the .tofill class */
+    .tofill { background:rgba(255,193,7,.22); border-bottom:1px dashed rgba(176,124,0,.7); border-radius:3px; padding:0 3px; }
+    /* POV ("how I think") cards — leaner than the initiative cards */
+    .folder-pov .folder-grid { grid-template-columns:1fr; }
+    .folder-pov .folder-desc { max-width:62ch; font-size:1rem; }
+    .fpov-q { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:clamp(1.3rem,2.4vw,1.9rem); color:var(--acc-bright); line-height:1.3; margin-top:20px; max-width:36ch; }
 
     .pg { display:grid; grid-template-columns:1fr 300px; gap:28px; }
     @media (max-width:860px) { .pg { grid-template-columns:1fr; } }
@@ -549,8 +571,9 @@
     }
     .vid-name span { display:block; }
     .vid-name .name-acc { color:var(--acc); font-style:italic; }
-    /* Living tagline — out of flow, sits just right of the lanyard */
+    /* Living tagline — hidden now the bring-to-table image occupies the right side */
     .vid-tagline-wrap {
+      display:none;
       position:absolute;
       left:calc(50% + 135px);   /* just past the centred badge's right edge */
       right:clamp(20px,3vw,56px);
@@ -714,37 +737,6 @@
 
   <!-- VIDEO INTRO -->
   <section id="vid-intro">
-    <!-- Lanyard badge (physics-driven) -->
-    <div class="lanyard-wrap" id="lanyard-wrap">
-      <!-- SVG bezier rope - path updated by physics JS -->
-      <svg id="lanyard-rope-svg" aria-hidden="true">
-        <defs>
-          <filter id="rope-glow" x="-60%" y="-60%" width="220%" height="220%">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="3.5" result="blur"/>
-            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-          </filter>
-        </defs>
-        <path id="lanyard-rope-path" fill="none" stroke="#c8f000" stroke-width="13"
-              stroke-linecap="round" filter="url(#rope-glow)"/>
-      </svg>
-      <!-- Fixed clip at top center -->
-      <div class="lanyard-clip-anchor" id="lanyard-clip-anchor">
-        <div class="lanyard-clip"></div>
-      </div>
-      <!-- Badge card - transform set by physics JS -->
-      <div class="lanyard-card" id="lanyard-card">
-        <div class="lcard-hole"></div>
-        <div class="lcard-photo-wrap">
-          <img class="lcard-photo" src="roshni-headshot.jpg" alt="Roshni">
-        </div>
-        <div class="lcard-footer">
-          <div class="lcard-name">Roshni</div>
-          <div class="lcard-role">Product Lead</div>
-          <div class="lcard-badge">Compliance × Growth</div>
-        </div>
-      </div>
-    </div>
-
     <!-- Cinematic gradient layers -->
     <div class="vid-grad-left"></div>
     <div class="vid-grad-top"></div>
@@ -784,14 +776,8 @@
       <p class="vid-tagline" id="vid-tagline">Compliance as a growth engine.</p>
     </div>
 
-    <!-- Skill orbit (Three.js) — sits under the scramble tagline -->
-    <div class="orbit-wrap" id="orbit-wrap">
-      <canvas id="orbit-canvas"></canvas>
-      <div class="orbit-hint">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9"/><path d="M3 4v4h4"/></svg>
-        Drag to rotate
-      </div>
-    </div>
+    <!-- "What I bring to the table" illustration (replaces the Three.js orbit) -->
+    <img class="bring-img" src="bring-to-table.png" alt="What I bring to the table — the range of a whole product org: product strategy, growth, onboarding, KYB/KYC, AML, fraud prevention, risk & compliance, decisioning platforms, internal tooling and cross-functional leadership."/>
 
     <!-- Scroll indicator -->
     <div class="vid-scroll" id="vid-scroll" onclick="document.getElementById('hero').scrollIntoView({behavior:'smooth'})">
@@ -802,6 +788,33 @@
 
   <!-- HERO -->
   <section id="hero" class="s-surf">
+    <!-- Lanyard badge (physics-driven) — hangs into the How-I-work section -->
+    <div class="lanyard-wrap" id="lanyard-wrap">
+      <svg id="lanyard-rope-svg" aria-hidden="true">
+        <defs>
+          <filter id="rope-glow" x="-60%" y="-60%" width="220%" height="220%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="3.5" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <path id="lanyard-rope-path" fill="none" stroke="#c8f000" stroke-width="13"
+              stroke-linecap="round" filter="url(#rope-glow)"/>
+      </svg>
+      <div class="lanyard-clip-anchor" id="lanyard-clip-anchor">
+        <div class="lanyard-clip"></div>
+      </div>
+      <div class="lanyard-card" id="lanyard-card">
+        <div class="lcard-hole"></div>
+        <div class="lcard-photo-wrap">
+          <img class="lcard-photo" src="roshni-headshot.jpg" alt="Roshni">
+        </div>
+        <div class="lcard-footer">
+          <div class="lcard-name">Roshni</div>
+          <div class="lcard-role">Product Lead</div>
+          <div class="lcard-badge">Compliance × Growth</div>
+        </div>
+      </div>
+    </div>
     <div class="hero-cap">
       <p class="s-tag rv">How I work</p>
       <h2 class="hero-caph rv">Growth and risk, built to move as one</h2>
@@ -840,99 +853,105 @@
       <div class="rv" style="text-align:center">
         <p class="s-tag" style="text-align:center">Selected work</p>
         <h2 class="bring-h display" style="font-size:clamp(2.2rem,5.2vw,4rem)">Work in action</h2>
-        <p class="s-desc" style="margin:14px auto 0;text-align:center">Three dimensions of one capability — building products that grow the business while managing risk intelligently.</p>
+        <p class="s-desc" style="margin:14px auto 0;text-align:center">Three decisions I owned end-to-end — and two on how I think when the answer isn't obvious.</p>
       </div>
 
       <div class="folders">
 
-        <!-- Folder 01 -->
+        <!-- Folder 01 — KYB/KYC re-platforming (vendor anonymised) -->
         <article class="folder" style="--i:0;--fbg:#FFFFFF">
-          <div class="folder-card">
+          <a class="folder-card" href="case-verification.html">
             <span class="folder-tablabel">Project 01</span>
             <div class="folder-grid">
               <div>
-                <div class="folder-pills"><span class="fpill">Growth strategy</span><span class="fpill">Platform vision</span></div>
-                <h3 class="folder-title display">Compliance as a growth engine</h3>
-                <p class="folder-desc">Redesigned onboarding, KYB and KYC so controls scale with real risk instead of gating every customer — turning compliance from a tax into a competitive advantage.</p>
-                <button class="folder-view" onclick="toggleFolder(this)">View project <span class="fv-arrow">→</span></button>
+                <div class="folder-pills"><span class="fpill">Buy vs build</span><span class="fpill">Vendor strategy</span><span class="fpill">Onboarding</span></div>
+                <h3 class="folder-title display">Knowing when to stop building</h3>
+                <p class="folder-desc">KYB/KYC checks were entirely home-built — every new market, rule and risk signal became an engineering ticket. I made the call that verification is infrastructure to partner on, not a differentiator to maintain, and led the move to a specialist KYB/KYC provider.</p>
+                <span class="folder-view">View project <span class="fv-arrow">→</span></span>
               </div>
               <div class="fmetrics">
-                <div class="fm-big"><span class="fm-n">4</span><span class="fm-cap">product teams led<br>across the organisation</span></div>
+                <div class="fm-big"><span class="fm-n tofill">[X]</span><span class="fm-cap">eng-weeks per quarter<br>reclaimed from maintenance</span></div>
                 <div class="fm-row">
-                  <div><div class="fm-s-n">19</div><div class="fm-s-l">specialists across Product, Eng, Data, Fraud &amp; Ops</div></div>
-                  <div><div class="fm-s-n">5</div><div class="fm-s-l">platforms owned end-to-end</div></div>
+                  <div><div class="fm-s-n tofill">[Y]</div><div class="fm-s-l">markets / checks shipped config-not-code</div></div>
+                  <div><div class="fm-s-n tofill">[Z]%</div><div class="fm-s-l">faster time-to-verify a customer</div></div>
                 </div>
               </div>
             </div>
-            <div class="folder-detail"><div class="fd-inner">
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
-                <div><p style="font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:9px">The old model</p><p class="folder-desc" style="margin:0;max-width:none">Everyone through one heavy verification queue · value delayed until compliance is satisfied · operations absorbing the inefficiency in spreadsheets.</p></div>
-                <div><p style="font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);margin-bottom:9px">The new model</p><p class="folder-desc" style="margin:0;max-width:none">Progressive trust calibrated to actual risk · friction at moments of risk, not curiosity · compliance embedded in the product, auditable by default.</p></div>
-              </div>
-              <p class="hand" style="font-size:1.4rem;color:var(--acc-bright);margin-top:22px">"Compliance should be an asset, not a bottleneck."</p>
-            </div></div>
-          </div>
+          </a>
         </article>
 
-        <!-- Folder 02 -->
+        <!-- Folder 02 — decisioning platform (vendor anonymised) -->
         <article class="folder" style="--i:1;--fbg:#E7F1F8">
-          <div class="folder-card">
+          <a class="folder-card" href="case-decisioning.html">
             <span class="folder-tablabel">Project 02</span>
             <div class="folder-grid">
               <div>
-                <div class="folder-pills"><span class="fpill">Platform strategy</span><span class="fpill">Risk operations</span></div>
-                <h3 class="folder-title display">Decision intelligence platform</h3>
-                <p class="folder-desc">Consolidated fraud and AML decisioning onto one observable platform — rule management without engineering overhead, plus shadow-mode and A/B testing before anything goes live.</p>
-                <button class="folder-view" onclick="toggleFolder(this)">View project <span class="fv-arrow">→</span></button>
+                <div class="folder-pills"><span class="fpill">Platform strategy</span><span class="fpill">Influence without authority</span><span class="fpill">Cost control</span></div>
+                <h3 class="folder-title display">Stopping the bleed</h3>
+                <p class="folder-desc">Our decisioning stack was quietly burning <span class="tofill">[a six-figure monthly run-rate]</span>. I got <span class="tofill">[the CXO]</span> to approve <span class="tofill">[the spend/runway]</span> to stabilise it, stopped the bleed, then led the migration to a purpose-built decisioning platform so rule changes stopped being engineering projects.</p>
+                <span class="folder-view">View project <span class="fv-arrow">→</span></span>
               </div>
               <div class="fmetrics">
-                <div class="fm-big"><span class="fm-n">112k</span><span class="fm-cap">euros of fraud identified<br>via the new platform</span></div>
+                <div class="fm-big"><span class="fm-n tofill">[€X]</span><span class="fm-cap">monthly run-rate<br>stopped</span></div>
                 <div class="fm-row">
-                  <div><div class="fm-s-n">41.7%</div><div class="fm-s-l">detection rate on resolved investigations</div></div>
-                  <div><div class="fm-s-n">18k+</div><div class="fm-s-l">live transactions processed in rollout</div></div>
+                  <div><div class="fm-s-n tofill">[Y]%</div><div class="fm-s-l">faster rule changes, post-migration</div></div>
+                  <div><div class="fm-s-n tofill">[Z]</div><div class="fm-s-l">decisions / month on the new platform</div></div>
                 </div>
               </div>
             </div>
-            <div class="folder-detail"><div class="fd-inner">
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px 20px">
-                <div><p style="font-weight:600;font-size:.84rem;margin-bottom:3px">Centralised decision engine</p><p class="folder-desc" style="margin:0;max-width:none;font-size:.82rem">All fraud and AML decisions through a single, observable layer.</p></div>
-                <div><p style="font-weight:600;font-size:.84rem;margin-bottom:3px">Rule management framework</p><p class="folder-desc" style="margin:0;max-width:none;font-size:.82rem">Teams iterate on rules without engineering overhead.</p></div>
-                <div><p style="font-weight:600;font-size:.84rem;margin-bottom:3px">Experimentation built in</p><p class="folder-desc" style="margin:0;max-width:none;font-size:.82rem">Shadow mode and A/B testing for rules before going live.</p></div>
-                <div><p style="font-weight:600;font-size:.84rem;margin-bottom:3px">Case management integration</p><p class="folder-desc" style="margin:0;max-width:none;font-size:.82rem">Decisions surfaced directly into analyst workflows.</p></div>
-              </div>
-              <p class="hand" style="font-size:1.4rem;color:var(--acc-bright);margin-top:22px">"Risk platforms are an operating system for decision-making across a company."</p>
-            </div></div>
-          </div>
+          </a>
         </article>
 
-        <!-- Folder 03 -->
+        <!-- Folder 03 — PLG demo (employer + AI tool anonymised) -->
         <article class="folder" style="--i:2;--fbg:#DBE6F4">
-          <div class="folder-card">
+          <a class="folder-card" href="case-plg-demo.html">
             <span class="folder-tablabel">Project 03</span>
             <div class="folder-grid">
               <div>
-                <div class="folder-pills"><span class="fpill">Customer trust</span><span class="fpill">Fraud prevention</span></div>
-                <h3 class="folder-title display">Stopping fraud at scale</h3>
-                <p class="folder-desc">Shifted from after-the-fact detection to in-the-moment intervention across account takeover and card fraud — keeping legitimate customer journeys low-friction throughout.</p>
-                <button class="folder-view" onclick="toggleFolder(this)">View project <span class="fv-arrow">→</span></button>
+                <div class="folder-pills"><span class="fpill">PLG</span><span class="fpill">0&#8594;1</span><span class="fpill">AI-native building</span></div>
+                <h3 class="folder-title display">A first PLG-led demo — in two months</h3>
+                <p class="folder-desc">A B2B fintech scale-up had no product-led demo experience — sales carried every first impression. With no precedent to copy, I built the demo experience from scratch using AI, and launched in two months.</p>
+                <span class="folder-view">View project <span class="fv-arrow">→</span></span>
               </div>
               <div class="fmetrics">
-                <div class="fm-big"><span class="fm-n">258k</span><span class="fm-cap">euros of ATO losses prevented<br>across 54 fraud events</span></div>
+                <div class="fm-big"><span class="fm-n">2</span><span class="fm-cap">months from nothing<br>to launched</span></div>
                 <div class="fm-row">
-                  <div><div class="fm-s-n">95%</div><div class="fm-s-l">reduction in monthly fraud chargebacks</div></div>
-                  <div><div class="fm-s-n">142→8</div><div class="fm-s-l">fraud cases per month, post-intervention</div></div>
+                  <div><div class="fm-s-n tofill">[X]%</div><div class="fm-s-l">demo &#8594; activation</div></div>
+                  <div><div class="fm-s-n tofill">[Y]</div><div class="fm-s-l">qualified pipeline influenced</div></div>
                 </div>
               </div>
             </div>
-            <div class="folder-detail"><div class="fd-inner">
-              <div style="display:flex;flex-direction:column;gap:14px">
-                <div><p style="font-weight:600;font-size:.84rem;margin-bottom:3px">Magic-link protection</p><p class="folder-desc" style="margin:0;max-width:none;font-size:.82rem">Suspicious-login detection with a customer challenge flow, automated account protection, and an emergency kill-switch for ops.</p></div>
-                <div><p style="font-weight:600;font-size:.84rem;margin-bottom:3px">ATO recovery flow</p><p class="folder-desc" style="margin:0;max-width:none;font-size:.82rem">Self-service recovery: log out all devices, freeze all cards, notify admins, and a fast path back to a secure account.</p></div>
-                <div><p style="font-weight:600;font-size:.84rem;margin-bottom:3px">Card-fraud pattern intervention</p><p class="folder-desc" style="margin:0;max-width:none;font-size:.82rem">Analysed 2,876 historic chargebacks (624k in fraudulent spend) and shipped targeted controls — chargebacks fell from 142 to 8 cases a month.</p></div>
+          </a>
+        </article>
+
+        <!-- Folder 04 — POV: buy vs build -->
+        <article class="folder folder-pov" style="--i:3;--fbg:#CFDCF0">
+          <a class="folder-card" href="case-buy-vs-build.html">
+            <span class="folder-tablabel">Point of view</span>
+            <div class="folder-grid">
+              <div>
+                <div class="folder-pills"><span class="fpill">How I think</span></div>
+                <h3 class="folder-title display">How I decide buy vs build</h3>
+                <p class="folder-desc">Four questions, every time — differentiation, true cost of ownership, regulatory surface, and speed to be right. Verification was a buy. The PLG demo was a build. Same rubric, opposite answers.</p>
+                <span class="folder-view">Read <span class="fv-arrow">→</span></span>
               </div>
-              <p class="hand" style="font-size:1.4rem;color:var(--acc-bright);margin-top:22px">"Make the right thing easy for legitimate customers and hard for bad actors."</p>
-            </div></div>
-          </div>
+            </div>
+          </a>
+        </article>
+
+        <!-- Folder 05 — POV: staying current with AI -->
+        <article class="folder folder-pov" style="--i:4;--fbg:#C3D2EC">
+          <a class="folder-card" href="case-staying-current.html">
+            <span class="folder-tablabel">Point of view</span>
+            <div class="folder-grid">
+              <div>
+                <div class="folder-pills"><span class="fpill">How I think</span></div>
+                <h3 class="folder-title display">How I stay current with AI</h3>
+                <p class="folder-desc">I don't read about AI — I build with it. Personal projects are where I pressure-test what's actually possible, then carry the patterns into work.</p>
+                <span class="folder-view">Read <span class="fv-arrow">→</span></span>
+              </div>
+            </div>
+          </a>
         </article>
 
       </div>
@@ -1468,11 +1487,11 @@
     if (!wrap || !card || !ropePath) return;
 
     // Pendulum constants
-    const ROPE_LEN  = 430;   // pixels from clip to card top (longer strap)
+    const ROPE_LEN  = 300;   // pixels from clip to card top
     const GRAVITY   = 2.6;   // tuned so one swing ≈ 1.8s
     const DAMPING   = 0.9925; // per-frame damping at 60fps
     const MAX_ANGLE = 1.25;  // ~72° hard limit
-    const ANCHOR_X  = 0.42;  // left-of-centre: balanced between the name (left) and scramble tagline (right)
+    const ANCHOR_X  = 0.15;  // far-left: hangs in the whitespace beside the centred How-I-work text
 
     let angle    = 0.45;  // gentle start swing — stays clear of side text
     let velocity = 0;

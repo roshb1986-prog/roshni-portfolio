@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>How I decide buy vs build — Roshni</title>
+  <meta name="description" content="A point of view: the four-question rubric I use to decide buy vs build — and two decisions that came out opposite."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Anton&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="case.css"/>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="nav-logo">Roshni</a>
+    <div class="nav-links">
+      <a href="index.html#work" class="nav-a">Work</a>
+      <a href="index.html#principles" class="nav-a">Thinking</a>
+      <a href="index.html#about" class="nav-a">About</a>
+      <a href="https://www.linkedin.com/in/roshni-bharadwaj-09867043/" target="_blank" rel="noopener" class="nav-cta">Connect →</a>
+      <button class="theme-btn" id="theme-toggle" aria-label="Toggle light/dark mode" title="Toggle theme">🌙</button>
+    </div>
+  </nav>
+
+  <main class="wrap">
+    <a href="index.html#work" class="case-back">← All work</a>
+
+    <!-- HEADER -->
+    <header class="case-head">
+      <div class="case-eyebrow">
+        <span class="fpill">Point of view</span>
+        <span class="fpill">How I think</span>
+      </div>
+      <h1 class="case-h1 display">How I decide<br>buy vs build</h1>
+      <p class="case-lead">Buy-vs-build isn't a gut call or a cost spreadsheet — it's the same four questions every time. The interesting part: run two honest decisions through the same rubric and they can come out opposite. That's the rubric working, not failing.</p>
+    </header>
+
+    <div class="case-body">
+
+      <!-- FOUR QUESTIONS -->
+      <section class="case-sec">
+        <p class="case-sec-label">The rubric</p>
+        <h2 class="case-sec-h">Four questions, every time</h2>
+        <div class="qgrid">
+          <div class="qcell"><div class="qn">01</div><div class="qt">Differentiator or infrastructure?</div><div class="qd">Will customers ever choose us because of this? Or is it table stakes everyone needs and no one rewards?</div></div>
+          <div class="qcell"><div class="qn">02</div><div class="qt">What's the true cost of ownership?</div><div class="qd">Not the build — the forever. Maintenance, the roadmap tax, the eng time quietly spent keeping it alive.</div></div>
+          <div class="qcell"><div class="qn">03</div><div class="qt">How much regulatory surface?</div><div class="qd">Every line we own in a regulated path is a line we have to defend, audit and keep compliant as rules change.</div></div>
+          <div class="qcell"><div class="qn">04</div><div class="qt">How fast do I need to be right?</div><div class="qd">If speed-to-correct matters more than control, that pulls toward partnering. If the learning is the point, build.</div></div>
+        </div>
+      </section>
+
+      <!-- FIGURE: diverging rubric -->
+      <figure class="figure">
+        <figcaption class="fig-label">Same rubric, opposite answers</figcaption>
+        <div class="fig-legend">
+          <span class="leg"><span class="leg-sw buy"></span>Verification (KYB/KYC)</span>
+          <span class="leg"><span class="leg-sw build"></span>The PLG demo</span>
+        </div>
+        <div class="rubric">
+          <div class="rub-ends"><span>← Build in-house</span><span>Buy / partner →</span></div>
+          <div class="rub-row"><div class="rub-name">Differentiation</div><div class="rub-track"><span class="rub-dot build" style="left:18%"></span><span class="rub-dot buy" style="left:86%"></span></div></div>
+          <div class="rub-row"><div class="rub-name">Cost of ownership</div><div class="rub-track"><span class="rub-dot build" style="left:30%"></span><span class="rub-dot buy" style="left:80%"></span></div></div>
+          <div class="rub-row"><div class="rub-name">Regulatory surface</div><div class="rub-track"><span class="rub-dot build" style="left:22%"></span><span class="rub-dot buy" style="left:68%"></span></div></div>
+          <div class="rub-row"><div class="rub-name">Speed to be right</div><div class="rub-track"><span class="rub-dot build" style="left:36%"></span><span class="rub-dot buy" style="left:83%"></span></div></div>
+        </div>
+        <figcaption class="fig-cap">Verification scores toward <em>buy</em> on every axis; the demo scores toward <em>build</em>. The dots cluster on opposite sides — which is exactly why both calls were right. <span class="tofill">[Nudge any marker if your read differs.]</span></figcaption>
+      </figure>
+
+      <!-- WORKED EXAMPLES -->
+      <section class="case-sec">
+        <p class="case-sec-label">Two decisions</p>
+        <h2 class="case-sec-h">The rubric in practice</h2>
+        <div class="verdicts">
+          <div class="verdict">
+            <span class="verdict-badge buy">Verdict · Buy</span>
+            <div class="verdict-t">KYB/KYC verification</div>
+            <div class="verdict-d">Low differentiation, high cost of ownership, heavy regulatory surface, and speed mattered. Every axis pointed to partner — so we moved to a specialist provider and kept only the risk policy on top, where the advantage actually lives.</div>
+          </div>
+          <div class="verdict">
+            <span class="verdict-badge build">Verdict · Build</span>
+            <div class="verdict-t">The PLG demo experience</div>
+            <div class="verdict-d">Here the experience <em>was</em> the differentiator, the regulatory surface was light, and AI made building fast enough that owning it cost little. So we built it ground-up — and learned more by doing than any vendor could have taught us.</div>
+          </div>
+        </div>
+      </section>
+
+      <blockquote class="case-quote">"Buy the infrastructure. Build the thing that only you can."</blockquote>
+
+    </div>
+
+    <!-- PREV / NEXT -->
+    <nav class="case-footnav">
+      <a href="case-plg-demo.html" class="cfn-link"><div class="cfn-l">← Previous</div><div class="cfn-t">A first PLG-led demo</div></a>
+      <a href="case-staying-current.html" class="cfn-link cfn-next"><div class="cfn-l">Next →</div><div class="cfn-t">How I stay current with AI</div></a>
+    </nav>
+  </main>
+
+  <footer>
+    <a href="index.html" class="fl">Roshni</a>
+    <p class="fc">Designing trust into product-led growth.</p>
+    <a href="https://www.linkedin.com/in/roshni-bharadwaj-09867043/" target="_blank" rel="noopener" class="fla">LinkedIn →</a>
+  </footer>
+
+  <script src="case.js"></script>
+</body>
+</html>
