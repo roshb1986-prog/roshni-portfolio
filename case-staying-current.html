@@ -63,10 +63,11 @@
         </div>
       </section>
 
-      <!-- FIGURE: Morsel food graph -->
+      <!-- FIGURE: Morsel screens -->
       <figure class="figure">
         <figcaption class="fig-label">Morsel: the food graph behind the conversation</figcaption>
-        <img src="morsel-foods.png" alt="Die-cut food photography from Morsel's canonical food graph: pho, a poke bowl, pancakes, and tacos." style="width:100%;height:auto;display:block;margin:6px 0 14px"/>
+        <img src="morsel-screens.png" alt="Three Morsel app screens. First: the app asks 'What did you last eat?', the user types 'dosa' and it resolves to Plain Dosa, 1 piece, about 133 kcal, with the note 'I've got it from here'. Second: the Today view logs Plain Dosa with its macros, and when the user mentions an unknown food the model admits it isn't in the offline list instead of guessing. Third: an insight card noting an after-dinner walk has been the user's best sleep trick, seen 30 times." style="width:100%;height:auto;display:block;margin:6px 0 14px;border-radius:12px"/>
+        <figcaption class="fig-cap" style="margin-top:0;margin-bottom:18px">Left to right: "dosa" resolves through the graph to Plain Dosa at 133 kcal; the model logs facts and <em>admits</em> when a food isn't in its list rather than guessing; patterns surface back as gentle, evidenced nudges.</figcaption>
         <div class="flow">
           <div class="flow-row is-after">
             <span class="flow-tag">Pipeline</span>
@@ -78,7 +79,7 @@
             <span class="flow-node">LLM narrates</span>
           </div>
         </div>
-        <figcaption class="fig-cap">The graph owns the facts; the model only narrates them. Images are part of the graph too, one hero image per canonical food. Accuracy checks compare what the model says against what the graph knows.</figcaption>
+        <figcaption class="fig-cap">The graph owns the facts; the model only narrates them. Accuracy checks compare what the model says against what the graph knows.</figcaption>
       </figure>
 
       <!-- FEEDS BACK -->
