@@ -4,10 +4,10 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Knowing when to stop building — Roshni</title>
-  <meta name="description" content="Re-platforming KYB/KYC onto a specialist provider: a buy-vs-build decision owned end to end."/>
+  <meta name="description" content="KYB tooling buy-vs-build: buying commoditised verification automations while building the case management that differentiates."/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Anton&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800;900&family=Silkscreen:wght@400;700&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="case.css"/>
 </head>
 <body>
@@ -31,105 +31,134 @@
     <header class="case-head">
       <div class="case-eyebrow">
         <span class="fpill">Buy vs build</span>
-        <span class="fpill">Vendor strategy</span>
-        <span class="fpill">Onboarding</span>
+        <span class="fpill">KYB / verification</span>
+        <span class="fpill">Platform strategy</span>
       </div>
       <h1 class="case-h1 display">Knowing when<br>to stop building</h1>
-      <p class="case-lead">KYB/KYC checks were entirely home-built — every new market, rule and risk signal became an engineering ticket. I made the call that verification is infrastructure to partner on, not a differentiator to maintain, and led the move to a specialist KYB/KYC provider.</p>
+      <p class="case-lead">Our KYB tooling ran on a backoffice that couldn't scale; every new market, check and rule became engineering work. I led the buy-vs-build analysis and landed on neither extreme: <strong>buy the commoditised verification automations, build the case management that actually differentiates us.</strong></p>
       <div class="case-meta">
-        <div><div class="cmeta-l">My role</div><div class="cmeta-v tofill">[e.g. Lead PM, owned the decision]</div></div>
-        <div><div class="cmeta-l">Timeframe</div><div class="cmeta-v tofill">[e.g. ~6 months]</div></div>
-        <div><div class="cmeta-l">Team</div><div class="cmeta-v tofill">[e.g. Eng, Risk, Compliance, Ops]</div></div>
+        <div><div class="cmeta-l">My role</div><div class="cmeta-v">Product Lead, owned the analysis &amp; the decision</div></div>
+        <div><div class="cmeta-l">Where</div><div class="cmeta-v">B2B spend-management scale-up</div></div>
+        <div><div class="cmeta-l">Team</div><div class="cmeta-v">Product · Eng · Risk &amp; Compliance · Ops</div></div>
       </div>
     </header>
 
     <!-- METRICS -->
     <section class="case-metrics">
-      <div class="cm-item"><div class="cm-n tofill">[X]</div><div class="cm-l">eng-weeks per quarter reclaimed from maintenance</div></div>
-      <div class="cm-item"><div class="cm-n tofill">[Y]</div><div class="cm-l">markets / checks shipped config-not-code</div></div>
-      <div class="cm-item"><div class="cm-n tofill">[Z]%</div><div class="cm-l">faster time-to-verify a customer</div></div>
+      <div class="cm-item"><div class="cm-n">75%</div><div class="cm-l">of KYB checks covered by pre-built vendor automations in the proposed model</div></div>
+      <div class="cm-item"><div class="cm-n">4</div><div class="cm-l">core KYB capabilities mapped: identification, verification, risk assessment, monitoring</div></div>
+      <div class="cm-item"><div class="cm-n">2</div><div class="cm-l">clean halves of the decision: buy the plumbing, build the workbench</div></div>
     </section>
 
     <!-- BODY -->
     <div class="case-body">
 
+      <section class="case-sec">
+        <p class="case-sec-label"><span class="step-n">01</span>Situation</p>
+        <h2 class="case-sec-h">KYB is four jobs, and we hand-built all of them</h2>
+        <p class="case-p">Know Your Business verification underpins regulated onboarding: <strong>identify</strong> the customer, <strong>verify</strong> them (CDD/EDD, PEP &amp; sanctions screening, ownership structures and UBOs), <strong>assess risk</strong>, and <strong>monitor continuously</strong>, because it never ends at onboarding. All four ran through a home-grown backoffice tool that nobody owned as a product.</p>
+      </section>
+
+      <!-- FIGURE: the 4 KYB steps -->
+      <figure class="figure">
+        <figcaption class="fig-label">What KYB actually is: four capabilities, not one check</figcaption>
+        <div class="qgrid">
+          <div class="qcell"><div class="qn">01</div><div class="qt">Customer identification</div><div class="qd">Who is this business, and who is on the other side of the screen? Verified against reliable sources.</div></div>
+          <div class="qcell"><div class="qn">02</div><div class="qt">Verification (CDD / EDD)</div><div class="qd">Due diligence, PEP &amp; sanctions screening, ownership &amp; control structures, ultimate beneficial owners.</div></div>
+          <div class="qcell"><div class="qn">03</div><div class="qt">Risk assessment</div><div class="qd">Entity type, industry, country, product, transparency, combined into a risk profile that drives treatment.</div></div>
+          <div class="qcell"><div class="qn">04</div><div class="qt">Ongoing monitoring</div><div class="qd">KYB is not a one-time event: data, risk and transactions must be monitored continuously.</div></div>
+        </div>
+      </figure>
+
+      <section class="case-sec">
+        <p class="case-sec-label"><span class="step-n">02</span>Problem</p>
+        <h2 class="case-sec-h">The backoffice was the bottleneck</h2>
+        <p class="case-p">The home-grown tool couldn't scale with verification volume: <strong>slow processing that delayed onboarding</strong>, manual workarounds that grew the maintenance burden, a clunky analyst experience that bred data-entry errors, failing integrations, data silos, and a rising compliance risk every time regulation moved faster than our roadmap. Every improvement competed with feature work for the same engineers.</p>
+      </section>
+
+      <section class="case-sec">
+        <p class="case-sec-label"><span class="step-n">03</span>Goal</p>
+        <h2 class="case-sec-h">Scalable, compliant KYB, without betting the roadmap</h2>
+        <p class="case-p">Decide deliberately (buy, build, or something smarter) against explicit criteria, and get analysts a tool that scales with volume, keeps pace with regulation, and stops taxing engineering.</p>
+      </section>
+
       <div class="case-2col">
         <section class="case-sec">
-          <p class="case-sec-label">The situation</p>
-          <h2 class="case-sec-h">A stack nobody owned as a product</h2>
-          <p class="case-p">A home-grown verification stack that no one owned as a product. Every new market, rule and risk signal turned into an engineering ticket, and the cost was paid quietly across the roadmap — the build-vs-partner question had simply never been asked.</p>
-          <p class="case-p tofill">[Add the concrete pain: how long a new market took, how much eng time was sunk, what kept breaking.]</p>
+          <p class="case-sec-label"><span class="step-n">04</span>My role</p>
+          <p class="case-p">Product Lead. I framed the decision criteria, ran the market analysis across KYB vendors, built the buy-vs-build case, and drove the proposal through Risk, Compliance, Engineering and Ops.</p>
         </section>
         <section class="case-sec">
-          <p class="case-sec-label">The bet</p>
-          <h2 class="case-sec-h">Verification is infrastructure, not advantage</h2>
-          <p class="case-p">Verification is commoditising. The durable advantage isn't the plumbing — it's the risk policy and orchestration layered on top. So the thesis was simple: <strong>partner for verification, keep decisioning and policy in-house.</strong></p>
-          <p class="case-p">That reframed a vague "our KYC is painful" complaint into an explicit, defensible capital-allocation decision.</p>
+          <p class="case-sec-label"><span class="step-n">05</span>Team</p>
+          <p class="case-p">Product &amp; Engineering (integration and case-management build), Risk &amp; Compliance (policy, regulatory surface), Operations (the analysts living in the tool daily).</p>
         </section>
       </div>
 
-      <!-- FIGURE: buy-vs-build rubric -->
+      <section class="case-sec">
+        <p class="case-sec-label"><span class="step-n">06</span>Diagnosis</p>
+        <h2 class="case-sec-h">Both pure options had structural flaws</h2>
+        <p class="case-p"><strong>Pure buy</strong> wins on time-to-market, vendor expertise, regulatory updates and support, but costs you customisation, creates vendor lock-in and data-sharing surface, and never fits your workflows exactly. <strong>Pure build</strong> wins on customisation, integration and agility, but demands scarce compliance expertise, high upfront cost, and a permanent regulatory maintenance burden. The real question became: <em>which parts of KYB are commodity, and which parts are our competitive edge?</em></p>
+      </section>
+
+      <section class="case-sec">
+        <p class="case-sec-label"><span class="step-n">07</span>Decision making</p>
+        <h2 class="case-sec-h">Five criteria, applied per-capability</h2>
+        <p class="case-p">We scored options against five explicit criteria: <strong>regulatory compliance, cost-benefit, time-to-market, core competencies</strong> (risk engine, data collection, tool integrations) <strong>and long-term vision</strong>. Applied per-capability instead of wholesale, the answer split cleanly: verification data and checks are commoditising; vendors do them better, faster, and keep them current. But the <strong>case management and risk workbench</strong>, how analysts work, how decisions flow, how our risk logic evolves, is where differentiation and agility live.</p>
+      </section>
+
+      <!-- FIGURE: the decision rubric -->
       <figure class="figure">
-        <figcaption class="fig-label">The decision, on four axes</figcaption>
+        <figcaption class="fig-label">The split decision: per capability, not wholesale</figcaption>
+        <div class="fig-legend">
+          <span class="leg"><span class="leg-sw acc"></span>Verification checks &amp; data</span>
+          <span class="leg"><span class="leg-sw turq"></span>Case management &amp; risk logic</span>
+        </div>
         <div class="rubric">
           <div class="rub-ends"><span>← Build in-house</span><span>Buy / partner →</span></div>
-          <div class="rub-row"><div class="rub-name">Differentiation</div><div class="rub-track"><span class="rub-dot" style="left:86%"></span></div></div>
-          <div class="rub-row"><div class="rub-name">Total cost of ownership</div><div class="rub-track"><span class="rub-dot" style="left:79%"></span></div></div>
-          <div class="rub-row"><div class="rub-name">Regulatory surface</div><div class="rub-track"><span class="rub-dot" style="left:66%"></span></div></div>
-          <div class="rub-row"><div class="rub-name">Speed to be right</div><div class="rub-track"><span class="rub-dot" style="left:83%"></span></div></div>
+          <div class="rub-row"><div class="rub-name">Differentiation</div><div class="rub-track"><span class="rub-dot build" style="left:16%"></span><span class="rub-dot buy" style="left:86%"></span></div></div>
+          <div class="rub-row"><div class="rub-name">Regulatory surface</div><div class="rub-track"><span class="rub-dot build" style="left:34%"></span><span class="rub-dot buy" style="left:76%"></span></div></div>
+          <div class="rub-row"><div class="rub-name">Time-to-market</div><div class="rub-track"><span class="rub-dot build" style="left:30%"></span><span class="rub-dot buy" style="left:84%"></span></div></div>
+          <div class="rub-row"><div class="rub-name">Cost of ownership</div><div class="rub-track"><span class="rub-dot build" style="left:38%"></span><span class="rub-dot buy" style="left:72%"></span></div></div>
         </div>
-        <figcaption class="fig-cap">Every axis pointed the same way: verification is low-differentiation, high-TCO and regulator-heavy. The one axis we kept in-house — risk policy and orchestration — is the one that actually compounds. <span class="tofill">[Nudge any marker if your read differs.]</span></figcaption>
+        <figcaption class="fig-cap">Checks and data pointed to buy on every axis; the analyst workbench pointed to build. So we did both, deliberately.</figcaption>
       </figure>
 
       <section class="case-sec">
-        <p class="case-sec-label">How I led</p>
-        <h2 class="case-sec-h">From a complaint to a decision the whole org backed</h2>
+        <p class="case-sec-label"><span class="step-n">08</span>Solution</p>
+        <h2 class="case-sec-h">Buy the plumbing, build the workbench</h2>
         <div class="how-list">
-          <div class="how-item"><div class="how-n">1</div><div><div class="how-t">Built the buy-vs-build thesis with a rubric</div><div class="how-d">Differentiation, total cost of ownership, regulatory surface, and speed-to-right — scored honestly so the answer was the rubric's, not mine.</div></div></div>
-          <div class="how-item"><div class="how-n">2</div><div><div class="how-t">Ran the vendor evaluation</div><div class="how-d tofill">[How you evaluated providers — criteria, who you shortlisted, what won it.]</div></div></div>
-          <div class="how-item"><div class="how-n">3</div><div><div class="how-t">Aligned Risk, Compliance, Eng and Ops</div><div class="how-d">Each function resisted differently — owning their objections directly, not papering over them, was what turned a contested call into a shared one.</div></div></div>
-          <div class="how-item"><div class="how-n">4</div><div><div class="how-t">Sequenced the migration so onboarding never broke</div><div class="how-d">Held the team on migration over new work, and phased the cutover so live customer onboarding never took a hit.</div></div></div>
+          <div class="how-item"><div class="how-n">1</div><div><div class="how-t">~75% of KYB checks via pre-built automations</div><div class="how-d">Vendor-powered verification (identification, screening, registry data) integrated into the backoffice instead of hand-built and hand-maintained.</div></div></div>
+          <div class="how-item"><div class="how-n">2</div><div><div class="how-t">A custom case-management system</div><div class="how-d">Built in-house around our analysts, our risk logic and our audit needs. Transparent, streamlined KYB casework where differentiation actually lives.</div></div></div>
+          <div class="how-item"><div class="how-n">3</div><div><div class="how-t">Risk-assessment redesign</div><div class="how-d">The risk engine and its inputs redesigned as the durable, owned core, fed by bought data rather than bought wholesale.</div></div></div>
+          <div class="how-item"><div class="how-n">4</div><div><div class="how-t">Market analysis with named criteria</div><div class="how-d">KYB vendors evaluated against the five criteria, so the recommendation read as evidence, not preference.</div></div></div>
         </div>
       </section>
-
-      <!-- FIGURE: before / after work flow -->
-      <figure class="figure">
-        <figcaption class="fig-label">What changed — a new check, before &amp; after</figcaption>
-        <div class="flow">
-          <div class="flow-row">
-            <span class="flow-tag">Before</span>
-            <span class="flow-node">New market / rule</span><span class="flow-arrow">→</span>
-            <span class="flow-node">Eng ticket</span><span class="flow-arrow">→</span>
-            <span class="flow-node">Eng builds &amp; tests</span><span class="flow-arrow">→</span>
-            <span class="flow-node">Ships</span>
-            <span class="flow-cost slow tofill">[weeks each time]</span>
-          </div>
-          <div class="flow-row is-after">
-            <span class="flow-tag">After</span>
-            <span class="flow-node">New market / rule</span><span class="flow-arrow">→</span>
-            <span class="flow-node">Config change</span><span class="flow-arrow">→</span>
-            <span class="flow-node">Ships</span>
-            <span class="flow-cost fast tofill">[same day]</span>
-          </div>
-        </div>
-        <figcaption class="fig-cap">Verification work moved off the engineering critical path — new checks became configuration, not code.</figcaption>
-      </figure>
 
       <section class="case-sec">
-        <p class="case-sec-label">The outcome</p>
-        <h2 class="case-sec-h">Compliance became a configurable capability</h2>
-        <p class="case-p tofill">[Quantify it: eng capacity reclaimed, new markets/checks now shipped without engineering, time-to-verify change, timeframe. Ranges are fine.]</p>
-        <p class="case-p">Beyond the numbers, the deeper shift: compliance stopped being a roadmap tax and became a configurable capability the business could move on at will.</p>
+        <p class="case-sec-label"><span class="step-n">09</span>Trade-offs</p>
+        <h2 class="case-sec-h">What the hybrid costs</h2>
+        <p class="case-p">The hybrid keeps <strong>build effort</strong> on the case-management side: time, resources and ongoing maintenance we consciously accepted because that's where our leverage is. On the buy side we accepted <strong>vendor dependence and data-sharing surface</strong>, managed through vetting and integration design rather than avoided. And we said no to the comfortable default, which was to keep patching the old backoffice, because "no decision" was quietly the most expensive option on the table.</p>
       </section>
 
-      <blockquote class="case-quote">"Verification is infrastructure to partner on, not a differentiator to maintain."</blockquote>
+      <section class="case-sec">
+        <p class="case-sec-label"><span class="step-n">10</span>Impact</p>
+        <h2 class="case-sec-h">Verification stopped being a roadmap tax</h2>
+        <p class="case-p">New checks and markets became configuration on bought automations instead of engineering projects; analysts got a workbench designed for their casework instead of a strained backoffice; and the regulatory-update treadmill moved to the vendor, while risk logic, the part regulators and customers actually feel, stayed ours.</p>
+      </section>
+
+      <section class="case-sec">
+        <p class="case-sec-label"><span class="step-n">11</span>Learning</p>
+        <h2 class="case-sec-h">Buy-vs-build is rarely the right question</h2>
+        <p class="case-p">The right question is <em>per capability</em>: what's commodity, what's core? Verification data is commoditising; the way your analysts and risk logic work is not. Split the decision and you stop paying build costs for commodity, and stop renting your differentiation.</p>
+      </section>
+
+      <blockquote class="case-quote">"Buy the plumbing. Build the workbench."</blockquote>
 
     </div>
 
     <!-- PREV / NEXT -->
     <nav class="case-footnav">
-      <a href="index.html#work" class="cfn-link"><div class="cfn-l">←</div><div class="cfn-t">All work</div></a>
-      <a href="case-decisioning.html" class="cfn-link cfn-next"><div class="cfn-l">Next project →</div><div class="cfn-t">Stopping the bleed</div></a>
+      <a href="case-fraud-strategy.html" class="cfn-link"><div class="cfn-l">← Previous</div><div class="cfn-t">Making the step change on fraud</div></a>
+      <a href="case-plg-demo.html" class="cfn-link cfn-next"><div class="cfn-l">Next project →</div><div class="cfn-t">A first PLG-led demo</div></a>
     </nav>
   </main>
 

@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>A first PLG-led demo, in two months — Roshni</title>
-  <meta name="description" content="Building a B2B fintech's first product-led demo experience from scratch with AI, launched in two months."/>
+  <title>A first PLG-led demo — Roshni</title>
+  <meta name="description" content="Building a self-serve, production-near demo platform: guard-based real-app exploration, a mock-data lifecycle, and a sales motion shifted toward product-led."/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Anton&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800;900&family=Silkscreen:wght@400;700&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="case.css"/>
 </head>
 <body>
@@ -32,87 +32,125 @@
       <div class="case-eyebrow">
         <span class="fpill">PLG</span>
         <span class="fpill">0→1</span>
-        <span class="fpill">AI-native building</span>
+        <span class="fpill">Platform architecture</span>
       </div>
-      <h1 class="case-h1 display">A first PLG-led<br>demo, in two months</h1>
-      <p class="case-lead">A B2B fintech scale-up had no product-led demo experience — sales carried every first impression. With no precedent to copy, I built the demo experience from scratch using AI, and launched in two months.</p>
+      <h1 class="case-h1 display">A first<br>PLG-led demo</h1>
+      <p class="case-lead">Sales couldn't show the real product without a bespoke setup, and the guided-tour tool showed a product that no longer existed. I defined and drove a self-serve demo platform (the real app, guarded and seeded), shifting the demo motion from "watch a tour" to "try it yourself."</p>
       <div class="case-meta">
-        <div><div class="cmeta-l">My role</div><div class="cmeta-v tofill">[e.g. PM, built it hands-on]</div></div>
-        <div><div class="cmeta-l">Timeframe</div><div class="cmeta-v">2 months, zero to launch</div></div>
-        <div><div class="cmeta-l">Team</div><div class="cmeta-v tofill">[e.g. solo / small pod]</div></div>
+        <div><div class="cmeta-l">My role</div><div class="cmeta-v">Product: strategy, ICPs, priorities, metrics; not delivery</div></div>
+        <div><div class="cmeta-l">Where</div><div class="cmeta-v">B2B spend-management scale-up</div></div>
+        <div><div class="cmeta-l">Dependencies</div><div class="cmeta-v">5 teams: web core, backend, SRE, auth, all product teams</div></div>
       </div>
     </header>
 
     <!-- METRICS -->
     <section class="case-metrics">
-      <div class="cm-item"><div class="cm-n">2</div><div class="cm-l">months from nothing to launched</div></div>
-      <div class="cm-item"><div class="cm-n tofill">[X]%</div><div class="cm-l">demo → activation</div></div>
-      <div class="cm-item"><div class="cm-n tofill">[Y]</div><div class="cm-l">qualified pipeline influenced</div></div>
+      <div class="cm-item"><div class="cm-n">80%</div><div class="cm-l">north star: share of core SMB product surface demoable without sales intervention</div></div>
+      <div class="cm-item"><div class="cm-n">5</div><div class="cm-l">core flows in the MVP: issue card, expense, approve, invoice, export</div></div>
+      <div class="cm-item"><div class="cm-n">−30%</div><div class="cm-l">target reduction in custom demo-build requests per deal</div></div>
     </section>
 
     <!-- BODY -->
     <div class="case-body">
 
+      <section class="case-sec">
+        <p class="case-sec-label"><span class="step-n">01</span>Situation</p>
+        <h2 class="case-sec-h">Every first impression ran through sales</h2>
+        <p class="case-p">Prospects had two options: wait for a bespoke demo account hand-built by the demo team, or click through a guided tour built in a third-party tool: curated screenshots of a product that kept evolving underneath it. As the company shifted toward product-led growth, the demo motion was still entirely sales-led.</p>
+      </section>
+
+      <section class="case-sec">
+        <p class="case-sec-label"><span class="step-n">02</span>Problem</p>
+        <h2 class="case-sec-h">Four failure modes, compounding</h2>
+        <div class="qgrid">
+          <div class="qcell"><div class="qn">01</div><div class="qt">Demo drift</div><div class="qd">Click-throughs frozen at a point in time diverged from the real product. A misrepresentation risk in live deals.</div></div>
+          <div class="qcell"><div class="qn">02</div><div class="qt">Wrong persona coverage</div><div class="qd">The guided tour served passive buyers. The "active explorer", who wants to test real flows, had nothing.</div></div>
+          <div class="qcell"><div class="qn">03</div><div class="qt">Sales bottleneck</div><div class="qd">Every bespoke demo needed manual setup by one team; sales couldn't run demos independently.</div></div>
+          <div class="qcell"><div class="qn">04</div><div class="qt">No data lifecycle</div><div class="qd">Demo mock data broke after every release: fragile environments, reactive fixes, eroding trust.</div></div>
+        </div>
+      </section>
+
+      <section class="case-sec">
+        <p class="case-sec-label"><span class="step-n">03</span>Goal</p>
+        <h2 class="case-sec-h">Self-serve exploration of the real product</h2>
+        <p class="case-p">Let the "active explorer" prospect test real flows, with no company setup, no onboarding and no sales call, covering <strong>80%+ of core flows</strong> for the 50–499-employee ICP in a stable, production-near environment, with demo data that maintains itself.</p>
+      </section>
+
       <div class="case-2col">
         <section class="case-sec">
-          <p class="case-sec-label">The situation</p>
-          <h2 class="case-sec-h">Every first impression ran through sales</h2>
-          <p class="case-p">No product-led demo experience existed — every prospect's first real look at the product depended on getting time with sales. That capped how fast the top of the funnel could grow.</p>
-          <p class="case-p tofill">[What the demo experience actually is — interactive product tour, sandbox, guided trial? And who it's for.]</p>
+          <p class="case-sec-label"><span class="step-n">04</span>My role</p>
+          <p class="case-p">Product owner of the demo experience: set the strategy, defined the ICP presets, prioritised requirements P0→P2, owned success metrics and coordinated five teams' dependencies. Explicitly <strong>not</strong> the engineering delivery owner; the platform had to be owned by the product development process, not one heroic team.</p>
         </section>
         <section class="case-sec">
-          <p class="case-sec-label">The bet</p>
-          <h2 class="case-sec-h">Let the product make its own case</h2>
-          <p class="case-p">A product that sells itself needs a first run that proves value in minutes. The bet: build the experience <strong>product-first</strong>, and use AI to compress what would normally be months of build into weeks — so the idea could be in front of real users fast enough to learn from.</p>
+          <p class="case-sec-label"><span class="step-n">05</span>Team</p>
+          <p class="case-p">Web core (guards, routing, subdomain), backend core (mock-data API), SRE (hosting, uptime, session isolation), auth (demo auth model), and <strong>every product team</strong>, each owning their slice of demo data as part of Definition of Done.</p>
         </section>
       </div>
 
-      <!-- FIGURE: self-serve funnel -->
-      <figure class="figure">
-        <figcaption class="fig-label">The self-serve funnel it opened</figcaption>
-        <div class="funnel">
-          <div class="fun-step s1" style="width:100%"><span class="fun-n tofill">[X]</span><span class="fun-l">Reach the demo</span></div>
-          <div class="fun-step s2" style="width:68%"><span class="fun-n tofill">[Y]</span><span class="fun-l">Start it</span></div>
-          <div class="fun-step s3" style="width:40%"><span class="fun-n tofill">[Z]%</span><span class="fun-l">Activate</span></div>
-        </div>
-        <figcaption class="fig-cap">A front door prospects could walk through without booking a call. <span class="tofill">[Set the real step values / widths once you have them.]</span></figcaption>
-      </figure>
+      <section class="case-sec">
+        <p class="case-sec-label"><span class="step-n">06</span>Diagnosis</p>
+        <h2 class="case-sec-h">The persona nobody served</h2>
+        <p class="case-p">Mapping the funnel showed a missing persona: the <strong>active explorer</strong>: a finance lead or founder who has seen the pitch, done the guided tour, and now wants to <em>do</em> things: submit an expense, upload an invoice, approve a request. They either waited days for a bespoke account or churned on a stale tour. A full flow inventory (onboarding, wallet, cards, expenses, approvals, invoices, export, controls, reporting) prioritised what they'd actually need first.</p>
+      </section>
 
       <section class="case-sec">
-        <p class="case-sec-label">How I led</p>
-        <h2 class="case-sec-h">Building ground-up with AI, in the open</h2>
+        <p class="case-sec-label"><span class="step-n">07</span>Decision making</p>
+        <h2 class="case-sec-h">Real app, guarded. Not a better tour</h2>
+        <p class="case-p">The obvious path was extending the incumbent guided-tour tool. We evaluated it and rejected it: its architecture is optimised for curated click-throughs and can't support interactive, real-app exploration. The decision: run the <strong>real product</strong> on a demo subdomain with action/navigation guards, accepting the harder infrastructure problem in exchange for a demo that can never drift from reality. Flows were prioritised by value story, buyer relevance, feasibility, and the Pay → Manage → Control → Optimise narrative arc.</p>
+      </section>
+
+      <section class="case-sec">
+        <p class="case-sec-label"><span class="step-n">08</span>Solution</p>
+        <h2 class="case-sec-h">DemoX: three layers</h2>
         <div class="how-list">
-          <div class="how-item"><div class="how-n">1</div><div><div class="how-t">Defined the "aha" the demo had to deliver</div><div class="how-d tofill">[The single moment of value you designed the experience around.]</div></div></div>
-          <div class="how-item"><div class="how-n">2</div><div><div class="how-t">Built it ground-up with AI</div><div class="how-d tofill">[What "built with AI" meant in practice — what you built vs. prompted, the stack, solo or with a small team.]</div></div></div>
-          <div class="how-item"><div class="how-n">3</div><div><div class="how-t">Shipped to real users in two months</div><div class="how-d tofill">[How you got from idea to launched — what you cut, what you insisted on, how you got buy-in.]</div></div></div>
+          <div class="how-item"><div class="how-n">1</div><div><div class="how-t">Guard-based real-app exploration</div><div class="how-d">The production web app on a dedicated demo subdomain; guards block unfinished states; a persistent demo banner; sessions reset to baseline in under 5 seconds.</div></div></div>
+          <div class="how-item"><div class="how-n">2</div><div><div class="how-t">Seeded mock-data layer</div><div class="how-d">Versioned JSON fixtures served by a dedicated API (&lt;200ms), with ICP persona presets like an 80-person tech company or a 120-person hospitality business.</div></div></div>
+          <div class="how-item"><div class="how-n">3</div><div><div class="how-t">Mock-data lifecycle infrastructure</div><div class="how-d">Demo data generated from teams' existing test mocks; each team owns its slice via Definition of Done; CI schema-drift detection alerts before sales ever sees a break.</div></div></div>
         </div>
       </section>
 
-      <!-- FIGURE: 2-month build timeline -->
+      <!-- FIGURE: the 5 P0 flows -->
       <figure class="figure">
-        <figcaption class="fig-label">Zero to launch in two months</figcaption>
-        <div class="timeline">
-          <div class="tl-item"><div class="tl-wk">Week 0</div><div class="tl-body"><span class="tl-dot"></span><div class="tl-t">Kickoff</div><div class="tl-d">Defined the single "aha" the demo had to land, and scoped ruthlessly to it.</div></div></div>
-          <div class="tl-item"><div class="tl-wk tofill">[Wk ~2]</div><div class="tl-body"><span class="tl-dot"></span><div class="tl-t">First working slice</div><div class="tl-d tofill">[The first end-to-end version that proved the concept.]</div></div></div>
-          <div class="tl-item"><div class="tl-wk tofill">[Wk ~5]</div><div class="tl-body"><span class="tl-dot"></span><div class="tl-t">Hardened on real feedback</div><div class="tl-d tofill">[What you tightened — content, flow, edge cases — before going live.]</div></div></div>
-          <div class="tl-item"><div class="tl-wk">Week 8</div><div class="tl-body"><span class="tl-dot"></span><div class="tl-t">Live to real users</div><div class="tl-d">Launched the product-led demo — two months from a blank page.</div></div></div>
+        <figcaption class="fig-label">The MVP: five flows, in narrative order</figcaption>
+        <div class="stages">
+          <div class="stage"><span class="stage-n">1</span><span class="stage-l">Issue card + limit</span></div>
+          <span class="stage-arrow">→</span>
+          <div class="stage"><span class="stage-n">2</span><span class="stage-l">Expense + receipt</span></div>
+          <span class="stage-arrow">→</span>
+          <div class="stage"><span class="stage-n">3</span><span class="stage-l">Approve / review</span></div>
+          <span class="stage-arrow">→</span>
+          <div class="stage"><span class="stage-n">4</span><span class="stage-l">Invoice upload + AP</span></div>
+          <span class="stage-arrow">→</span>
+          <div class="stage"><span class="stage-n">5</span><span class="stage-l">Export to accounting</span></div>
         </div>
+        <figcaption class="fig-cap">"Control without friction" in the first 3–5 clicks, closing the loop at month-end export. The flows AEs actually show, made self-serve.</figcaption>
       </figure>
 
       <section class="case-sec">
-        <p class="case-sec-label">The outcome</p>
-        <h2 class="case-sec-h">A self-serve front door to the funnel</h2>
-        <p class="case-p tofill">[Quantify it: demo → activation, conversion, pipeline influenced, anything you can share — and the two-month timeline as proof of velocity.]</p>
-        <p class="case-p">It also proved a way of working: AI as a way to ship real product fast, not just to read about.</p>
+        <p class="case-sec-label"><span class="step-n">09</span>Trade-offs</p>
+        <h2 class="case-sec-h">A demo, not a trial</h2>
+        <p class="case-p">Explicit non-goals kept v1 shippable: <strong>no real money movement</strong> (demo, not sandbox), <strong>data freshness tied to release cycles</strong> not daily parity, <strong>SMB ICP only</strong> (enterprise multi-entity deferred), <strong>web only</strong> (mobile later). Each cut something sales wanted eventually, in exchange for something they could trust now.</p>
       </section>
 
-      <blockquote class="case-quote">"The fastest way to learn a new way of building is to ship something real with it."</blockquote>
+      <section class="case-sec">
+        <p class="case-sec-label"><span class="step-n">10</span>Impact</p>
+        <h2 class="case-sec-h">Measured at two levels</h2>
+        <p class="case-p">Platform health: sessions growing <strong>+20% MoM</strong>, <strong>≥60%</strong> of sessions completing a core flow, <strong>99.5%</strong> uptime, break incidents reported by sales down to <strong>≤2/month</strong> within 60 days. Business impact: <strong>30% fewer custom demo builds per deal</strong> by Q3 and win-rate lift tracked against a control group. Built ground-up with AI-assisted development, from blank page to launched v1 in <strong>two months</strong>.</p>
+      </section>
+
+      <section class="case-sec">
+        <p class="case-sec-label"><span class="step-n">11</span>Learning</p>
+        <h2 class="case-sec-h">A demo that lies is worse than no demo</h2>
+        <p class="case-p">Demo drift looks like a tooling nuisance; it's actually a trust problem. The durable fix wasn't better screenshots. It was making demo data a first-class part of the development process, so the demo <em>cannot</em> diverge from the product. And the platform only works if it's owned by everyone: that's why the DoD clause mattered more than any feature.</p>
+      </section>
+
+      <blockquote class="case-quote">"From 'watch a tour' to 'try it yourself.'"</blockquote>
 
     </div>
 
     <!-- PREV / NEXT -->
     <nav class="case-footnav">
-      <a href="case-decisioning.html" class="cfn-link"><div class="cfn-l">← Previous</div><div class="cfn-t">Stopping the bleed</div></a>
+      <a href="case-verification.html" class="cfn-link"><div class="cfn-l">← Previous</div><div class="cfn-t">Knowing when to stop building</div></a>
       <a href="case-buy-vs-build.html" class="cfn-link cfn-next"><div class="cfn-l">Next →</div><div class="cfn-t">How I decide buy vs build</div></a>
     </nav>
   </main>

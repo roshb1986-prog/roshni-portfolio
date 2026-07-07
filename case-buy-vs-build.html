@@ -4,10 +4,10 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>How I decide buy vs build — Roshni</title>
-  <meta name="description" content="A point of view: the four-question rubric I use to decide buy vs build — and two decisions that came out opposite."/>
+  <meta name="description" content="A point of view: the four-question rubric I use to decide buy vs build, and two decisions that came out opposite."/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Anton&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800;900&family=Silkscreen:wght@400;700&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="case.css"/>
 </head>
 <body>
@@ -34,7 +34,7 @@
         <span class="fpill">How I think</span>
       </div>
       <h1 class="case-h1 display">How I decide<br>buy vs build</h1>
-      <p class="case-lead">Buy-vs-build isn't a gut call or a cost spreadsheet — it's the same four questions every time. The interesting part: run two honest decisions through the same rubric and they can come out opposite. That's the rubric working, not failing.</p>
+      <p class="case-lead">Buy-vs-build isn't a gut call or a cost spreadsheet. It's the same four questions every time. The interesting part: run two honest decisions through the same rubric and they can come out opposite. That's the rubric working, not failing.</p>
     </header>
 
     <div class="case-body">
@@ -45,7 +45,7 @@
         <h2 class="case-sec-h">Four questions, every time</h2>
         <div class="qgrid">
           <div class="qcell"><div class="qn">01</div><div class="qt">Differentiator or infrastructure?</div><div class="qd">Will customers ever choose us because of this? Or is it table stakes everyone needs and no one rewards?</div></div>
-          <div class="qcell"><div class="qn">02</div><div class="qt">What's the true cost of ownership?</div><div class="qd">Not the build — the forever. Maintenance, the roadmap tax, the eng time quietly spent keeping it alive.</div></div>
+          <div class="qcell"><div class="qn">02</div><div class="qt">What's the true cost of ownership?</div><div class="qd">Not the build, the forever: maintenance, the roadmap tax, the eng time quietly spent keeping it alive.</div></div>
           <div class="qcell"><div class="qn">03</div><div class="qt">How much regulatory surface?</div><div class="qd">Every line we own in a regulated path is a line we have to defend, audit and keep compliant as rules change.</div></div>
           <div class="qcell"><div class="qn">04</div><div class="qt">How fast do I need to be right?</div><div class="qd">If speed-to-correct matters more than control, that pulls toward partnering. If the learning is the point, build.</div></div>
         </div>
@@ -65,25 +65,35 @@
           <div class="rub-row"><div class="rub-name">Regulatory surface</div><div class="rub-track"><span class="rub-dot build" style="left:22%"></span><span class="rub-dot buy" style="left:68%"></span></div></div>
           <div class="rub-row"><div class="rub-name">Speed to be right</div><div class="rub-track"><span class="rub-dot build" style="left:36%"></span><span class="rub-dot buy" style="left:83%"></span></div></div>
         </div>
-        <figcaption class="fig-cap">Verification scores toward <em>buy</em> on every axis; the demo scores toward <em>build</em>. The dots cluster on opposite sides — which is exactly why both calls were right. <span class="tofill">[Nudge any marker if your read differs.]</span></figcaption>
+        <figcaption class="fig-cap">Verification scores toward <em>buy</em> on every axis; the demo scores toward <em>build</em>. The dots cluster on opposite sides, which is exactly why both calls were right.</figcaption>
       </figure>
 
-      <!-- WORKED EXAMPLES -->
+      <!-- WORKED EXAMPLE 1 — BUY -->
       <section class="case-sec">
-        <p class="case-sec-label">Two decisions</p>
-        <h2 class="case-sec-h">The rubric in practice</h2>
-        <div class="verdicts">
-          <div class="verdict">
-            <span class="verdict-badge buy">Verdict · Buy</span>
-            <div class="verdict-t">KYB/KYC verification</div>
-            <div class="verdict-d">Low differentiation, high cost of ownership, heavy regulatory surface, and speed mattered. Every axis pointed to partner — so we moved to a specialist provider and kept only the risk policy on top, where the advantage actually lives.</div>
-          </div>
-          <div class="verdict">
-            <span class="verdict-badge build">Verdict · Build</span>
-            <div class="verdict-t">The PLG demo experience</div>
-            <div class="verdict-d">Here the experience <em>was</em> the differentiator, the regulatory surface was light, and AI made building fast enough that owning it cost little. So we built it ground-up — and learned more by doing than any vendor could have taught us.</div>
-          </div>
+        <p class="case-sec-label">Worked example · 1</p>
+        <h2 class="case-sec-h"><span class="verdict-badge buy" style="vertical-align:middle;margin-right:10px">Verdict · Buy</span>KYB verification</h2>
+        <p class="case-p">Our KYB checks ran through a home-grown backoffice that couldn't scale: slow processing, manual workarounds, analyst errors, and a compliance treadmill every time regulation moved. Running it through the rubric:</p>
+        <div class="how-list">
+          <div class="how-item"><div class="how-n">1</div><div><div class="how-t">Differentiator or infrastructure? → Infrastructure.</div><div class="how-d">No customer ever chose us for prettier sanctions screening. Identification, PEP checks, registry data, UBO verification: table stakes every competitor needs and no buyer rewards.</div></div></div>
+          <div class="how-item"><div class="how-n">2</div><div><div class="how-t">True cost of ownership? → Brutal, and forever.</div><div class="how-d">Not the build, the maintenance: registry integrations per market, data sources that change, checks that must track every regulatory update. Our backoffice was already showing the bill: workarounds, error rates, engineering time bleeding away from the roadmap.</div></div></div>
+          <div class="how-item"><div class="how-n">3</div><div><div class="how-t">Regulatory surface? → Maximal.</div><div class="how-d">Every line of owned verification code is a line we must defend to a regulator as rules evolve. Vendors carry that update burden across jurisdictions as their core business; we'd carry it as a distraction.</div></div></div>
+          <div class="how-item"><div class="how-n">4</div><div><div class="how-t">Speed to be right? → Vendor-fast.</div><div class="how-d">New markets couldn't wait quarters for hand-built checks. Pre-built automations meant new checks became configuration, not engineering projects.</div></div></div>
         </div>
+        <p class="case-p" style="margin-top:16px">All four questions pointed the same way: <strong>buy</strong>. But the rubric also drew the line precisely: the <em>case management</em>, how our analysts work and how our risk logic evolves, scored as differentiation, so that we built. Roughly <strong>75% bought automations, one custom workbench</strong>. The nuance is the point: the rubric works per-capability, not per-vendor-contract. <a href="case-verification.html" style="color:var(--acc-bright)">Full case →</a></p>
+      </section>
+
+      <!-- WORKED EXAMPLE 2 — BUILD -->
+      <section class="case-sec">
+        <p class="case-sec-label">Worked example · 2</p>
+        <h2 class="case-sec-h"><span class="verdict-badge build" style="vertical-align:middle;margin-right:10px">Verdict · Build</span>The PLG demo platform</h2>
+        <p class="case-p">Same rubric, opposite reality. We already <em>had</em> a bought solution, a guided-tour vendor, and it was failing in live deals. Running the questions:</p>
+        <div class="how-list">
+          <div class="how-item"><div class="how-n">1</div><div><div class="how-t">Differentiator or infrastructure? → The differentiator itself.</div><div class="how-d">In a product-led motion, the demo <em>is</em> the pitch. Prospects deciding whether to buy the product were judging us on a vendor's click-through of screenshots of a product that no longer existed. Demo drift wasn't a tooling annoyance; it was misrepresentation risk.</div></div></div>
+          <div class="how-item"><div class="how-n">2</div><div><div class="how-t">True cost of ownership? → Lower than it looked.</div><div class="how-d">The real cost driver isn't building the demo. It's keeping demo data current as the product ships. That only works wired into our own development process (demo data as part of Definition of Done). No vendor can own our release cycle; the maintenance cost of buying was actually <em>higher</em>.</div></div></div>
+          <div class="how-item"><div class="how-n">3</div><div><div class="how-t">Regulatory surface? → Light.</div><div class="how-d">Mock data, no real money movement, guarded flows. The compliance argument for buying simply didn't apply here.</div></div></div>
+          <div class="how-item"><div class="how-n">4</div><div><div class="how-t">Speed to be right? → Building was the only path to right.</div><div class="how-d">The vendor was faster to <em>something</em>, but its architecture is built for curated walkthroughs and can't do real-app exploration at all. And AI-assisted development collapsed the build premium: ground-up to launched v1 in two months.</div></div></div>
+        </div>
+        <p class="case-p" style="margin-top:16px">Verification failed the differentiation test, so we bought it. The demo <em>was</em> the differentiation, so we built it as the real product, guarded and seeded, so it can never drift from reality. <a href="case-plg-demo.html" style="color:var(--acc-bright)">Full case →</a></p>
       </section>
 
       <blockquote class="case-quote">"Buy the infrastructure. Build the thing that only you can."</blockquote>

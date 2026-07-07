@@ -13,3 +13,10 @@ Thumbs.db
 
 # Screen recordings
 *.mov
+
+# Source case-study materials (internal documents — never publish)
+Portfolio cases/
+
+# Personal media not used by the site
+roshni-talking.mp4
+roshni-photo.png

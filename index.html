@@ -6,7 +6,7 @@
   <title>Roshni — Designing Trust Into Product-Led Growth</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Anton&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800;900&family=Silkscreen:wght@400;700&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet"/>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrambleTextPlugin.min.js"></script>
@@ -15,19 +15,19 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:         #07070f;
-      --surf:       #0e0e1a;
-      --surf2:      #161626;
-      --surf-alt:   #0e0e1a;   /* alternate section background */
-      --acc:        #f5c84a;
-      --acc-bright: #ffefb3;
-      --acc-deep:   #d4980a;
-      --acc-dim:    rgba(245,200,74,.10);
-      --acc-border: rgba(245,200,74,.26);
-      --txt:        #ede8e0;
-      --muted:      #7e7a74;
-      --dim:        rgba(237,232,224,.32);
-      --line:       rgba(237,232,224,.07);
+      --bg:         #241E23;   /* wine-ash dark */
+      --surf:       #2D262C;
+      --surf2:      #372F36;
+      --surf-alt:   #2D262C;   /* alternate section background */
+      --acc:        #D9A0CC;   /* orchid */
+      --acc-bright: #E5BDDF;
+      --acc-deep:   #A85497;
+      --acc-dim:    rgba(217,160,204,.12);
+      --acc-border: rgba(217,160,204,.30);
+      --txt:        #F2ECF0;
+      --muted:      #A399A0;
+      --dim:        rgba(242,236,240,.32);
+      --line:       rgba(242,236,240,.09);
       --r:          14px;
     }
 
@@ -36,7 +36,7 @@
     body {
       background: var(--bg);
       color: var(--txt);
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Urbanist', sans-serif;
       font-size: 1rem;
       line-height: 1.6;
       overflow-x: hidden;
@@ -56,10 +56,10 @@
       height:58px; display:flex; align-items:center;
       padding:0 clamp(20px,5vw,80px);
       border-bottom:1px solid var(--line);
-      background:rgba(7,7,15,.88);
+      background:rgba(36,30,35,.88);
       backdrop-filter:blur(18px);
     }
-    .nav-logo { font-family:'Cormorant Garamond',serif; font-size:1.15rem; font-weight:500; color:var(--txt); text-decoration:none; letter-spacing:.02em; margin-right:auto; }
+    .nav-logo { font-family:'Urbanist',sans-serif; font-size:1.15rem; font-weight:500; color:var(--txt); text-decoration:none; letter-spacing:.02em; margin-right:auto; }
     .nav-links { display:flex; align-items:center; gap:32px; }
     .nav-a { color:var(--muted); text-decoration:none; font-size:.84rem; font-weight:500; letter-spacing:.02em; transition:color .2s; }
     .nav-a:hover { color:var(--txt); }
@@ -76,7 +76,7 @@
       padding:clamp(64px,8vw,110px) clamp(20px,5vw,80px) 4px;
     }
     .hero-caph {
-      font-family:'Cormorant Garamond',serif; font-size:clamp(2rem,4vw,3.3rem);
+      font-family:'Urbanist',sans-serif; font-size:clamp(2rem,4vw,3.3rem);
       font-weight:500; line-height:1.12; letter-spacing:-.01em; margin:14px 0 16px;
     }
     .hero-capsub { font-size:clamp(.95rem,1.2vw,1.1rem); color:var(--muted); line-height:1.7; max-width:620px; margin:0 auto; }
@@ -94,7 +94,7 @@
     @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.3;transform:scale(.6)} }
 
     h1.hero-h1 {
-      font-family:'Cormorant Garamond',serif;
+      font-family:'Urbanist',sans-serif;
       font-size:clamp(3rem,6.5vw,5.6rem);
       font-weight:500; line-height:1.04; letter-spacing:-.01em;
       margin-bottom:24px;
@@ -138,17 +138,17 @@
     .s-surf2 { background:var(--surf2); }
 
     .s-tag { font-size:.68rem; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--acc); margin-bottom:14px; }
-    .s-h2 { font-family:'Cormorant Garamond',serif; font-size:clamp(2rem,3.8vw,3rem); font-weight:500; line-height:1.1; margin-bottom:12px; }
+    .s-h2 { font-family:'Urbanist',sans-serif; font-size:clamp(2rem,3.8vw,3rem); font-weight:500; line-height:1.1; margin-bottom:12px; }
     .s-desc { font-size:1rem; color:var(--muted); max-width:500px; line-height:1.75; margin-bottom:44px; }
 
     /* ��─ STATEMENT ── */
     #statement .s-inner { text-align:center; }
-    .stmt-q { font-family:'Cormorant Garamond',serif; font-size:clamp(1.7rem,3.5vw,2.9rem); font-weight:400; line-height:1.25; max-width:860px; margin:0 auto 28px; }
+    .stmt-q { font-family:'Urbanist',sans-serif; font-size:clamp(1.7rem,3.5vw,2.9rem); font-weight:400; line-height:1.25; max-width:860px; margin:0 auto 28px; }
     .stmt-sub { font-size:1rem; color:var(--muted); max-width:520px; margin:0 auto 28px; line-height:1.75; }
-    .stmt-co { font-family:'Cormorant Garamond',serif; font-size:1.25rem; font-style:italic; color:var(--acc-bright); }
+    .stmt-co { font-family:'Urbanist',sans-serif; font-size:1.25rem; font-style:italic; color:var(--acc-bright); }
 
     /* ── DISPLAY / PLAYFUL TYPE ── */
-    .display { font-family:'Anton',sans-serif; font-weight:400; text-transform:uppercase; letter-spacing:.012em; line-height:.98; }
+    .display { font-family:'Urbanist',sans-serif; font-weight:800; letter-spacing:-.022em; line-height:.95; }
     .hand { font-family:'Caveat',cursive; }
 
     /* ── Shared display bits (used by the work section headings) ── */
@@ -180,17 +180,17 @@
     .orbit-hint svg { width:14px; height:14px; }
     @media (max-width:900px) { .orbit-wrap { display:none; } }
 
-    /* "What I bring to the table" illustration (replaces the Three.js orbit) */
-    .bring-img {
-      position:absolute;
-      top:42%; right:clamp(16px,3vw,48px);
-      transform:translateY(-50%);
-      width:min(48vw,600px); height:auto;
-      border-radius:20px;
-      box-shadow:0 28px 64px rgba(22,36,46,.20);
+    /* Hero avatar scene — animated 3D avatar at her desk (flex sibling of the text) */
+    .hero-avatar {
+      flex:0 0 clamp(360px,36vw,520px);
+      width:clamp(360px,36vw,520px); height:auto; aspect-ratio:1/1;
+      border-radius:24px;
+      box-shadow:0 30px 70px rgba(50,41,47,.22);
+      object-fit:cover;
       z-index:3;
+      background:var(--surf2);
     }
-    @media (max-width:900px) { .bring-img { display:none; } }
+    @media (max-width:900px) { .hero-avatar { display:none; } }
 
     /* ── CASE STUDIES — folder stack ── */
     .folders { position:relative; margin-top:clamp(40px,5vw,64px); }
@@ -204,7 +204,7 @@
       filter:
         drop-shadow(1.4px 0 0 var(--txt)) drop-shadow(-1.4px 0 0 var(--txt))
         drop-shadow(0 1.4px 0 var(--txt)) drop-shadow(0 -1.4px 0 var(--txt))
-        drop-shadow(0 26px 30px rgba(22,36,46,.16));
+        drop-shadow(0 26px 30px rgba(50,41,47,.16));
     }
     .folder-tablabel {
       position:absolute; top:6px; left:30px;
@@ -213,9 +213,9 @@
     .folder-grid { display:grid; grid-template-columns:1fr 1fr; gap:clamp(24px,3vw,48px); align-items:center; }
     @media (max-width:760px) { .folder-grid { grid-template-columns:1fr; gap:22px; } }
     .folder-pills { display:flex; flex-wrap:wrap; gap:7px; margin-bottom:16px; }
-    .fpill { font-size:.62rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--acc-bright); background:rgba(60,111,156,.12); border:1px solid rgba(60,111,156,.24); padding:4px 11px; border-radius:999px; }
+    .fpill { font-family:'Silkscreen',monospace; font-size:.56rem; font-weight:400; letter-spacing:.04em; text-transform:uppercase; color:var(--acc-bright); background:var(--acc-dim); border:1px solid var(--acc-border); padding:5px 11px; border-radius:6px; }
     .folder-title { font-size:clamp(1.7rem,3vw,2.6rem); color:var(--txt); margin-bottom:14px; }
-    .folder-desc { font-size:.92rem; color:#3a4b57; line-height:1.7; margin-bottom:22px; max-width:46ch; }
+    .folder-desc { font-size:.92rem; color:#55494F; line-height:1.7; margin-bottom:22px; max-width:46ch; }
     .folder-view {
       display:inline-flex; align-items:center; gap:8px;
       font-size:.72rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
@@ -228,23 +228,23 @@
     a.folder-card:hover { transform:translateY(-3px); }
     a.folder-card:hover .fv-arrow { transform:translateX(5px); }
     /* metric panel (right) */
-    .fmetrics { background:rgba(255,255,255,.5); border:1px solid rgba(22,36,46,.12); border-radius:14px; padding:clamp(20px,2.4vw,30px); }
+    .fmetrics { background:rgba(255,255,255,.5); border:1px solid rgba(50,41,47,.12); border-radius:14px; padding:clamp(20px,2.4vw,30px); }
     .fm-big { display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
-    .fm-n { font-family:'Anton',sans-serif; font-weight:400; font-size:clamp(2.6rem,5vw,3.8rem); color:var(--acc-bright); line-height:.9; }
-    .fm-cap { font-size:.74rem; color:#52606b; line-height:1.5; }
-    .fm-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:20px; padding-top:18px; border-top:1px solid rgba(22,36,46,.1); }
-    .fm-s-n { font-family:'Anton',sans-serif; font-weight:400; font-size:1.5rem; color:var(--txt); line-height:1; }
-    .fm-s-l { font-size:.68rem; color:#52606b; margin-top:5px; line-height:1.4; }
+    .fm-n { font-family:'Urbanist',sans-serif; font-weight:400; font-size:clamp(2.6rem,5vw,3.8rem); color:var(--acc-bright); line-height:.9; }
+    .fm-cap { font-size:.74rem; color:#6E6270; line-height:1.5; }
+    .fm-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:20px; padding-top:18px; border-top:1px solid rgba(50,41,47,.1); }
+    .fm-s-n { font-family:'Urbanist',sans-serif; font-weight:400; font-size:1.5rem; color:var(--txt); line-height:1; }
+    .fm-s-l { font-size:.68rem; color:#6E6270; margin-top:5px; line-height:1.4; }
     /* expandable detail */
     .folder-detail { max-height:0; overflow:hidden; transition:max-height .5s cubic-bezier(.4,0,.2,1); }
     .folder.open .folder-detail { max-height:640px; }
-    .fd-inner { margin-top:26px; padding-top:24px; border-top:1px solid rgba(22,36,46,.12); }
+    .fd-inner { margin-top:26px; padding-top:24px; border-top:1px solid rgba(50,41,47,.12); }
     /* placeholder highlight — fill these in, then remove the .tofill class */
     .tofill { background:rgba(255,193,7,.22); border-bottom:1px dashed rgba(176,124,0,.7); border-radius:3px; padding:0 3px; }
     /* POV ("how I think") cards — leaner than the initiative cards */
     .folder-pov .folder-grid { grid-template-columns:1fr; }
     .folder-pov .folder-desc { max-width:62ch; font-size:1rem; }
-    .fpov-q { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:clamp(1.3rem,2.4vw,1.9rem); color:var(--acc-bright); line-height:1.3; margin-top:20px; max-width:36ch; }
+    .fpov-q { font-family:'Urbanist',sans-serif; font-style:italic; font-size:clamp(1.3rem,2.4vw,1.9rem); color:var(--acc-bright); line-height:1.3; margin-top:20px; max-width:36ch; }
 
     .pg { display:grid; grid-template-columns:1fr 300px; gap:28px; }
     @media (max-width:860px) { .pg { grid-template-columns:1fr; } }
@@ -258,10 +258,10 @@
     .db { width:5px; height:5px; border-radius:50%; background:var(--acc); flex-shrink:0; margin-top:8px; }
     .db-d { width:5px; height:5px; border-radius:50%; background:var(--muted); opacity:.4; flex-shrink:0; margin-top:8px; }
 
-    .ph { font-family:'Cormorant Garamond',serif; font-size:clamp(1.3rem,2.2vw,1.75rem); font-weight:500; line-height:1.2; margin-bottom:14px; }
+    .ph { font-family:'Urbanist',sans-serif; font-size:clamp(1.3rem,2.2vw,1.75rem); font-weight:500; line-height:1.2; margin-bottom:14px; }
     .pb { font-size:.9rem; color:var(--muted); line-height:1.8; }
 
-    .stat-n { font-family:'Cormorant Garamond',serif; font-size:2.5rem; font-weight:500; color:var(--acc-bright); line-height:1; }
+    .stat-n { font-family:'Urbanist',sans-serif; font-size:2.5rem; font-weight:500; color:var(--acc-bright); line-height:1; }
     .stat-u { font-size:.66rem; color:var(--muted); margin-top:2px; }
     .stat-l { font-size:.83rem; color:var(--muted); margin-top:6px; }
     .stat-s { font-size:.7rem; color:var(--dim); margin-top:3px; }
@@ -278,7 +278,7 @@
     @media (max-width:440px) { .pg-grid { grid-template-columns:1fr; } }
     .pc { background:var(--surf); padding:32px 26px; transition:background .2s; }
     .pc:hover { background:var(--surf2); }
-    .pn { font-family:'Cormorant Garamond',serif; font-size:2.8rem; font-weight:400; color:rgba(255,239,179,0.42); line-height:1; margin-bottom:14px; }
+    .pn { font-family:'Urbanist',sans-serif; font-size:2.8rem; font-weight:400; color:rgba(255,239,179,0.42); line-height:1; margin-bottom:14px; }
     .pt { font-weight:600; font-size:.9rem; color:var(--txt); margin-bottom:8px; line-height:1.4; }
     .pp { font-size:.83rem; color:var(--muted); line-height:1.7; }
 
@@ -297,15 +297,15 @@
     /* ── ABOUT ── */
     .ag { display:grid; grid-template-columns:1fr 1fr; gap:72px; align-items:start; }
     @media (max-width:860px) { .ag { grid-template-columns:1fr; gap:44px; } }
-    .ah { font-family:'Cormorant Garamond',serif; font-size:clamp(1.75rem,3vw,2.6rem); font-weight:500; line-height:1.15; margin-bottom:24px; }
+    .ah { font-family:'Urbanist',sans-serif; font-size:clamp(1.75rem,3vw,2.6rem); font-weight:500; line-height:1.15; margin-bottom:24px; }
     .ab { font-size:.93rem; color:var(--muted); line-height:1.8; margin-bottom:18px; }
-    .aq { font-family:'Cormorant Garamond',serif; font-size:1.35rem; font-style:italic; color:var(--acc-bright); margin:28px 0; line-height:1.4; }
+    .aq { font-family:'Urbanist',sans-serif; font-size:1.35rem; font-style:italic; color:var(--acc-bright); margin:28px 0; line-height:1.4; }
     .a-cta { display:inline-flex; align-items:center; gap:8px; background:var(--acc); color:#07070f; text-decoration:none; font-size:.86rem; font-weight:700; padding:13px 26px; border-radius:999px; transition:opacity .2s; }
     .a-cta:hover { opacity:.86; }
 
     .sg { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
     .sc { background:var(--surf2); border:1px solid var(--line); border-radius:var(--r); padding:18px; }
-    .sc .sn { font-family:'Cormorant Garamond',serif; font-size:2.1rem; font-weight:500; color:var(--txt); line-height:1; }
+    .sc .sn { font-family:'Urbanist',sans-serif; font-size:2.1rem; font-weight:500; color:var(--txt); line-height:1; }
     .sc .su { font-size:.64rem; color:var(--muted); margin-top:1px; }
     .sc .sd { font-size:.78rem; color:var(--muted); margin-top:5px; line-height:1.4; }
     .sci { grid-column:span 2; background:var(--surf2); border:1px solid var(--line); border-radius:var(--r); padding:18px; }
@@ -316,7 +316,7 @@
 
     /* ── FOOTER ── */
     footer { padding:32px clamp(20px,5vw,80px); border-top:1px solid var(--line); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px; }
-    .fl { font-family:'Cormorant Garamond',serif; font-size:1.05rem; font-weight:500; color:var(--txt); text-decoration:none; }
+    .fl { font-family:'Urbanist',sans-serif; font-size:1.05rem; font-weight:500; color:var(--txt); text-decoration:none; }
     .fc { font-size:.78rem; color:var(--muted); }
     .fla { font-size:.78rem; color:var(--muted); text-decoration:none; transition:color .2s; }
     .fla:hover { color:var(--acc); }
@@ -336,7 +336,7 @@
     #loader.exit { transform:translateY(-100%); }
 
     .ld-brand {
-      font-family:'Cormorant Garamond',serif;
+      font-family:'Urbanist',sans-serif;
       font-size:1.4rem; font-weight:500; letter-spacing:.04em;
       color:rgba(237,232,224,.3);
       margin-bottom:52px;
@@ -379,30 +379,30 @@
     /* ── LIGHT MODE ── */
     /* Serene Sky — calm, professional blue system */
     [data-theme="light"] {
-      --bg:         #F0F8FF;   /* alice blue — page */
+      --bg:         #FBF8FA;   /* whisper-orchid off-white — page */
       --surf:       #FFFFFF;   /* white — cards */
-      --surf2:      #E4F1F7;   /* powder-tinted surface */
-      --surf-alt:   #D8E6F4;   /* soft steel-blue — alternate sections */
-      --acc:        #3C6F9C;   /* steel blue — primary accent (legible) */
-      --acc-bright: #2A557C;   /* deep steel — emphasis text */
-      --acc-deep:   #87CEEB;   /* sky blue — light end of gradients */
-      --acc-dim:    rgba(70,130,180,.10);
-      --acc-border: rgba(70,130,180,.24);
-      --txt:        #16242E;   /* deep slate */
-      --muted:      #5C6B78;   /* slate grey-blue */
-      --dim:        rgba(22,36,46,.30);
-      --line:       rgba(22,36,46,.10);
+      --surf2:      #F5EAF2;   /* orchid-tinted surface */
+      --surf-alt:   #EFE2EB;   /* deeper orchid tint — alternate sections */
+      --acc:        #A85497;   /* deep orchid — primary accent */
+      --acc-bright: #8D4380;   /* deepest orchid — emphasis text */
+      --acc-deep:   #E5BDDF;   /* Orchid #E5BDDF — light end of gradients */
+      --acc-dim:    rgba(168,84,151,.10);
+      --acc-border: rgba(168,84,151,.26);
+      --txt:        #32292F;   /* Wine Ash */
+      --muted:      #6E6270;   /* wine grey */
+      --dim:        rgba(50,41,47,.30);
+      --line:       rgba(50,41,47,.12);
     }
     [data-theme="light"] body { cursor: auto; }
     [data-theme="light"] #cd,[data-theme="light"] #cr { display:none; }
-    [data-theme="light"] nav { background:rgba(240,248,255,.92); }
+    [data-theme="light"] nav { background:rgba(251,248,250,.9); }
     [data-theme="light"] .btn-g:hover { border-color:rgba(26,22,18,.22); }
     [data-theme="light"] .ld-brand { color:rgba(26,22,18,.35); }
     [data-theme="light"] .ld-item { color:rgba(26,22,18,.25); border-bottom-color:rgba(26,22,18,.06); }
     [data-theme="light"] .ld-item.on { color:rgba(26,22,18,.6); }
     [data-theme="light"] .ld-bar-wrap { background:rgba(26,22,18,.08); }
     [data-theme="light"] .ld-status { color:rgba(26,22,18,.22); }
-    [data-theme="light"] .pn { color:rgba(60,111,156,.32); }
+    [data-theme="light"] .pn { color:rgba(168,84,151,.30); }
     [data-theme="light"] .nav-cta { color:#fff; }
     [data-theme="light"] .btn-p { color:#fff; }
     [data-theme="light"] .a-cta { color:#fff; }
@@ -421,13 +421,21 @@
     #vid-intro {
       position:relative; width:100%; height:100vh;
       overflow:hidden;
-      display:flex; align-items:flex-end;
-      /* Serene Sky — light hero that merges into the skills section below */
+      display:flex; align-items:center;
+      padding-top:58px;
       background:
-        radial-gradient(circle, rgba(60,111,156,.12) 1.4px, transparent 1.6px) 0 0 / 38px 38px,
-        radial-gradient(ellipse 80% 70% at 72% 30%, var(--acc-dim) 0%, transparent 72%),
+        radial-gradient(circle, rgba(50,41,47,.07) 1.4px, transparent 1.6px) 0 0 / 38px 38px,
+        radial-gradient(ellipse 62% 66% at 66% 46%, var(--acc-dim) 0%, transparent 72%),
         var(--bg);
     }
+    /* Centered composition container — keeps text & avatar balanced on any width */
+    .vid-inner {
+      width:100%; max-width:1400px; margin:0 auto;
+      display:flex; align-items:center; justify-content:space-between;
+      gap:clamp(40px,6vw,110px);
+      padding:0 clamp(28px,5vw,80px);
+    }
+    @media (max-width:900px) { .vid-inner { display:block; } }
 
     /* ── LANYARD ── */
     .lanyard-wrap {
@@ -513,7 +521,7 @@
       border-top:1px solid rgba(26,22,18,.07);
     }
     .lcard-name {
-      font-family:'Cormorant Garamond',serif;
+      font-family:'Urbanist',sans-serif;
       font-size:clamp(.95rem,1.2vw,1.2rem);
       font-weight:600;
       color:#1a1612;
@@ -535,8 +543,8 @@
       font-weight:800;
       letter-spacing:.1em;
       text-transform:uppercase;
-      background:#c8f000;
-      color:#1a1612;
+      background:#A85497;
+      color:#fff;
       padding:3px 10px;
       border-radius:999px;
     }
@@ -549,28 +557,36 @@
     /* Dark vignette overlays + bokeh removed for the light hero */
     .vid-grad-left, .vid-grad-top, .vid-corner, .vid-grad-bot, #bokeh-canvas { display:none; }
 
-    /* Content overlay */
+    /* Content column (left of the avatar) */
     .vid-content {
       position:relative; z-index:4;
-      padding:0 clamp(28px,6vw,100px) clamp(64px,8vw,110px);
-      max-width:680px;
+      flex:0 1 640px;
+      max-width:640px;
     }
     .vid-tag {
-      display:inline-flex; align-items:center; gap:8px;
-      font-size:.68rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
-      color:var(--acc);
-      border:1px solid var(--acc-border);
-      padding:5px 14px; border-radius:999px;
-      margin-bottom:28px;
+      display:inline-flex; align-items:center; gap:9px;
+      font-family:'Silkscreen',monospace;
+      font-size:.6rem; font-weight:400; letter-spacing:.02em; text-transform:uppercase;
+      color:var(--acc-bright);
+      margin-bottom:26px;
     }
     .vid-name {
-      font-family:'Cormorant Garamond',serif;
-      font-size:clamp(3.5rem,9vw,8rem);
-      font-weight:600; line-height:.96; letter-spacing:-.02em;
-      color:var(--txt); margin-bottom:20px;
+      font-family:'Urbanist',sans-serif;
+      font-size:clamp(2.6rem,6.6vw,6rem);
+      font-weight:900; line-height:.92; letter-spacing:-.035em;
+      color:var(--txt); margin-bottom:22px;
     }
     .vid-name span { display:block; }
-    .vid-name .name-acc { color:var(--acc); font-style:italic; }
+    .vid-name .name-acc { color:var(--acc); font-style:normal; }
+    .vid-tags-hero {
+      display:flex; flex-wrap:wrap; gap:8px; margin-bottom:32px; max-width:540px;
+    }
+    .vid-tags-hero span {
+      font-family:'Silkscreen',monospace; font-size:.56rem; letter-spacing:.02em; text-transform:uppercase;
+      color:var(--muted); background:var(--surf2); border:1px solid var(--line);
+      padding:6px 11px; border-radius:6px;
+    }
+    @media (max-width:900px) { .vid-tags-hero { display:none; } }
     /* Living tagline — hidden now the bring-to-table image occupies the right side */
     .vid-tagline-wrap {
       display:none;
@@ -583,7 +599,7 @@
     }
     .vid-tagline {
       margin:0;
-      font-family:'Cormorant Garamond',serif;
+      font-family:'Urbanist',sans-serif;
       font-size:clamp(1.6rem,2.7vw,2.9rem);
       font-style:italic; font-weight:500; line-height:1.12;
       color:var(--acc-bright); letter-spacing:.005em;
@@ -604,10 +620,10 @@
     }
     .vid-m-photo, .vid-m-skills { display:none; }
     .vid-role {
-      font-size:clamp(.85rem,1.4vw,1rem); color:var(--muted);
-      letter-spacing:.04em; line-height:1.7; margin-bottom:36px;
+      font-size:clamp(1rem,1.4vw,1.18rem); color:var(--muted);
+      letter-spacing:0; line-height:1.6; margin-bottom:30px; max-width:30ch;
     }
-    .vid-role strong { color:var(--acc); font-weight:600; }
+    .vid-role strong { color:var(--txt); font-weight:700; }
     .vid-btns {
       display:flex; gap:12px; flex-wrap:wrap;
     }
@@ -620,12 +636,12 @@
     .vbtn-pri { background:var(--acc); color:#07070f; }
     .vbtn-pri:hover { background:var(--acc-bright); }
     .vbtn-glass {
-      background:rgba(60,111,156,.08);
-      border:1px solid rgba(60,111,156,.22);
+      background:var(--surf2);
+      border:1px solid var(--line);
       color:var(--txt);
       backdrop-filter:blur(12px);
     }
-    .vbtn-glass:hover { background:rgba(60,111,156,.14); }
+    .vbtn-glass:hover { background:var(--surf-alt); }
 
     /* Controls (bottom right) */
     .vid-controls {
@@ -689,19 +705,20 @@
       .lanyard-wrap, #bokeh-canvas, .vid-grad-left, .vid-grad-top,
       .vid-grad-bot, .vid-corner, .vid-scroll { display:none !important; }
       #vid-intro { height:auto; min-height:100vh; overflow:visible; align-items:center; padding:96px 0 64px; }
+      .vid-inner { padding:0; }
       .vid-content { max-width:none; width:100%; text-align:center; padding:0 26px;
         display:flex; flex-direction:column; align-items:center; }
       .vid-m-photo { display:block; width:124px; height:124px; border-radius:50%;
         object-fit:cover; object-position:center 18%; border:4px solid #fff;
-        box-shadow:0 14px 32px rgba(22,36,46,.20); margin-bottom:26px; }
+        box-shadow:0 14px 32px rgba(50,41,47,.20); margin-bottom:26px; }
       .vid-tag { margin-bottom:22px; }
       .vid-name { font-size:clamp(3rem,16vw,4.4rem); margin-bottom:16px; }
       .vid-role { margin-bottom:26px; }
       .vid-role br { display:none; }
       .vid-btns { justify-content:center; }
       .vid-m-skills { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-top:32px; }
-      .vid-m-skills span { font-size:.72rem; font-weight:600; color:#27407A;
-        background:#D8E6F4; border:1px solid rgba(60,111,156,.28); padding:7px 14px; border-radius:999px; }
+      .vid-m-skills span { font-size:.72rem; font-weight:600; color:var(--acc-bright);
+        background:var(--surf2); border:1px solid var(--acc-border); padding:7px 14px; border-radius:999px; }
     }
   </style>
   <!-- Vercel Analytics -->
@@ -747,19 +764,23 @@
     <canvas id="bokeh-canvas"></canvas>
 
     <!-- Text content (left) -->
+    <div class="vid-inner">
     <div class="vid-content">
       <img class="vid-m-photo" src="roshni-headshot.jpg" alt="Roshni" />
       <div class="vid-tag">
-        <span class="sh-dot" style="width:6px;height:6px;border-radius:50%;background:var(--acc);animation:pulse 1.8s infinite;display:inline-block"></span>
-        Product Lead · Compliance as a Growth Engine
+        <span class="sh-dot" style="width:7px;height:7px;border-radius:50%;background:var(--acc);animation:pulse 1.8s infinite;display:inline-block"></span>
+        PRODUCT LEAD · COMPLIANCE × GROWTH
       </div>
-      <div class="vid-name">
-        <span>Roshni</span>
-      </div>
+      <h1 class="vid-name display">
+        <span>Compliance as</span>
+        <span class="name-acc">a growth engine.</span>
+      </h1>
       <p class="vid-role">
-        Building <strong>compliance as a growth engine</strong> —<br>
-        from KYB pipelines to risk-adjusted onboarding at scale.
+        I'm <strong>Roshni</strong>, a product leader working across product-led growth, risk &amp; compliance, and the platforms that connect them.
       </p>
+      <div class="vid-tags-hero">
+        <span>Product strategy</span><span>Risk &amp; compliance</span><span>Growth</span><span>KYB / KYC</span><span>AML</span><span>Decisioning platforms</span>
+      </div>
       <div class="vid-btns">
         <a href="#work" class="vbtn vbtn-pri">View case studies ↓</a>
         <a href="#about" class="vbtn vbtn-glass">About me</a>
@@ -771,13 +792,10 @@
       </div>
     </div>
 
-    <!-- Living tagline (right, beside the lanyard) -->
-    <div class="vid-tagline-wrap">
-      <p class="vid-tagline" id="vid-tagline">Compliance as a growth engine.</p>
-    </div>
-
-    <!-- "What I bring to the table" illustration (replaces the Three.js orbit) -->
-    <img class="bring-img" src="bring-to-table.png" alt="What I bring to the table — the range of a whole product org: product strategy, growth, onboarding, KYB/KYC, AML, fraud prevention, risk & compliance, decisioning platforms, internal tooling and cross-functional leadership."/>
+    <!-- Animated avatar scene: Roshni's 3D avatar working at her desk (animated WebP loop) -->
+    <img class="hero-avatar" src="hero-avatar.webp"
+         alt="Animated 3D avatar of Roshni working at her desk. A notification pops on her second monitor, she glances over, then gets back to work."/>
+    </div><!-- /.vid-inner -->
 
     <!-- Scroll indicator -->
     <div class="vid-scroll" id="vid-scroll" onclick="document.getElementById('hero').scrollIntoView({behavior:'smooth'})">
@@ -797,7 +815,7 @@
             <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
           </filter>
         </defs>
-        <path id="lanyard-rope-path" fill="none" stroke="#c8f000" stroke-width="13"
+        <path id="lanyard-rope-path" fill="none" stroke="#A85497" stroke-width="13"
               stroke-linecap="round" filter="url(#rope-glow)"/>
       </svg>
       <div class="lanyard-clip-anchor" id="lanyard-clip-anchor">
@@ -818,7 +836,7 @@
     <div class="hero-cap">
       <p class="s-tag rv">How I work</p>
       <h2 class="hero-caph rv">Growth and risk, built to move as one</h2>
-      <p class="hero-capsub rv">I work across the whole system — product-led growth, risk &amp; compliance, and the platforms that connect them — so they reinforce each other instead of fighting.</p>
+      <p class="hero-capsub rv">I work across the whole system: product-led growth, risk &amp; compliance, and the platforms that connect them. Each part reinforces the others instead of fighting them.</p>
       <canvas id="hero-canvas" width="420" height="420"></canvas>
     </div>
     <div class="hero-strip">
@@ -853,102 +871,168 @@
       <div class="rv" style="text-align:center">
         <p class="s-tag" style="text-align:center">Selected work</p>
         <h2 class="bring-h display" style="font-size:clamp(2.2rem,5.2vw,4rem)">Work in action</h2>
-        <p class="s-desc" style="margin:14px auto 0;text-align:center">Three decisions I owned end-to-end — and two on how I think when the answer isn't obvious.</p>
+        <p class="s-desc" style="margin:14px auto 0;text-align:center">Six initiatives I owned end to end, plus two on how I think when the answer isn't obvious.</p>
       </div>
 
       <div class="folders">
 
-        <!-- Folder 01 — KYB/KYC re-platforming (vendor anonymised) -->
+        <!-- Folder 01 — Fraud strategy -->
         <article class="folder" style="--i:0;--fbg:#FFFFFF">
-          <a class="folder-card" href="case-verification.html">
+          <a class="folder-card" href="case-fraud-strategy.html">
             <span class="folder-tablabel">Project 01</span>
             <div class="folder-grid">
               <div>
-                <div class="folder-pills"><span class="fpill">Buy vs build</span><span class="fpill">Vendor strategy</span><span class="fpill">Onboarding</span></div>
-                <h3 class="folder-title display">Knowing when to stop building</h3>
-                <p class="folder-desc">KYB/KYC checks were entirely home-built — every new market, rule and risk signal became an engineering ticket. I made the call that verification is infrastructure to partner on, not a differentiator to maintain, and led the move to a specialist KYB/KYC provider.</p>
-                <span class="folder-view">View project <span class="fv-arrow">→</span></span>
+                <div class="folder-pills"><span class="fpill">Fraud strategy</span><span class="fpill">Investment case</span><span class="fpill">Influence</span></div>
+                <h3 class="folder-title display">Making the step change on fraud</h3>
+                <p class="folder-desc">Phishing-led account takeovers were 73% of our fraud losses, and the defence was scattered across squads. I priced every gap in euros, built the three-lever strategy, and won a five-month tiger-team mandate.</p>
+                <span class="folder-view">View project <span class="fv-arrow">&#8594;</span></span>
               </div>
               <div class="fmetrics">
-                <div class="fm-big"><span class="fm-n tofill">[X]</span><span class="fm-cap">eng-weeks per quarter<br>reclaimed from maintenance</span></div>
+                <div class="fm-big"><span class="fm-n">&#8364;625K</span><span class="fm-cap">preventable losses<br>quantified &amp; put to execs</span></div>
                 <div class="fm-row">
-                  <div><div class="fm-s-n tofill">[Y]</div><div class="fm-s-l">markets / checks shipped config-not-code</div></div>
-                  <div><div class="fm-s-n tofill">[Z]%</div><div class="fm-s-l">faster time-to-verify a customer</div></div>
+                  <div><div class="fm-s-n">73%</div><div class="fm-s-l">of losses from one attack typology</div></div>
+                  <div><div class="fm-s-n">2&#8594;8</div><div class="fm-s-l">weakest lever maturity, before &#8594; target</div></div>
                 </div>
               </div>
             </div>
           </a>
         </article>
 
-        <!-- Folder 02 — decisioning platform (vendor anonymised) -->
-        <article class="folder" style="--i:1;--fbg:#E7F1F8">
-          <a class="folder-card" href="case-decisioning.html">
+        <!-- Folder 02 — KYC conversion cohorts -->
+        <article class="folder" style="--i:1;--fbg:#F8EFF5">
+          <a class="folder-card" href="case-kyc-conversion.html">
             <span class="folder-tablabel">Project 02</span>
             <div class="folder-grid">
               <div>
-                <div class="folder-pills"><span class="fpill">Platform strategy</span><span class="fpill">Influence without authority</span><span class="fpill">Cost control</span></div>
-                <h3 class="folder-title display">Stopping the bleed</h3>
-                <p class="folder-desc">Our decisioning stack was quietly burning <span class="tofill">[a six-figure monthly run-rate]</span>. I got <span class="tofill">[the CXO]</span> to approve <span class="tofill">[the spend/runway]</span> to stabilise it, stopped the bleed, then led the migration to a purpose-built decisioning platform so rule changes stopped being engineering projects.</p>
-                <span class="folder-view">View project <span class="fv-arrow">→</span></span>
+                <div class="folder-pills"><span class="fpill">Regulated onboarding</span><span class="fpill">Cohort analysis</span><span class="fpill">Operating model</span></div>
+                <h3 class="folder-title display">Finding the real bottleneck</h3>
+                <p class="folder-desc">Top-of-funnel was improving but activation wasn't following. I pushed past aggregate conversion into weekly cohorts, caught the KYC completion slide hiding in the averages, and refocused six teams on one constraint.</p>
+                <span class="folder-view">View project <span class="fv-arrow">&#8594;</span></span>
               </div>
               <div class="fmetrics">
-                <div class="fm-big"><span class="fm-n tofill">[€X]</span><span class="fm-cap">monthly run-rate<br>stopped</span></div>
+                <div class="fm-big"><span class="fm-n">50.7&#8594;43.5%</span><span class="fm-cap">the cohort completion slide<br>invisible in aggregates</span></div>
                 <div class="fm-row">
-                  <div><div class="fm-s-n tofill">[Y]%</div><div class="fm-s-l">faster rule changes, post-migration</div></div>
-                  <div><div class="fm-s-n tofill">[Z]</div><div class="fm-s-l">decisions / month on the new platform</div></div>
+                  <div><div class="fm-s-n">5</div><div class="fm-s-l">funnel stages, one shared definition</div></div>
+                  <div><div class="fm-s-n">6</div><div class="fm-s-l">teams aligned on a single diagnosis</div></div>
                 </div>
               </div>
             </div>
           </a>
         </article>
 
-        <!-- Folder 03 — PLG demo (employer + AI tool anonymised) -->
-        <article class="folder" style="--i:2;--fbg:#DBE6F4">
+        <!-- Folder 03 — PLG demo -->
+        <article class="folder" style="--i:2;--fbg:#F3E4EE">
           <a class="folder-card" href="case-plg-demo.html">
             <span class="folder-tablabel">Project 03</span>
             <div class="folder-grid">
               <div>
-                <div class="folder-pills"><span class="fpill">PLG</span><span class="fpill">0&#8594;1</span><span class="fpill">AI-native building</span></div>
-                <h3 class="folder-title display">A first PLG-led demo — in two months</h3>
-                <p class="folder-desc">A B2B fintech scale-up had no product-led demo experience — sales carried every first impression. With no precedent to copy, I built the demo experience from scratch using AI, and launched in two months.</p>
-                <span class="folder-view">View project <span class="fv-arrow">→</span></span>
+                <div class="folder-pills"><span class="fpill">PLG</span><span class="fpill">0&#8594;1</span><span class="fpill">Platform architecture</span></div>
+                <h3 class="folder-title display">A first PLG-led demo</h3>
+                <p class="folder-desc">Sales couldn't show the real product without bespoke setup, and the guided tour showed a product that no longer existed. I drove a guard-based, self-serve demo of the real app, built ground-up with AI in two months.</p>
+                <span class="folder-view">View project <span class="fv-arrow">&#8594;</span></span>
               </div>
               <div class="fmetrics">
-                <div class="fm-big"><span class="fm-n">2</span><span class="fm-cap">months from nothing<br>to launched</span></div>
+                <div class="fm-big"><span class="fm-n">80%</span><span class="fm-cap">of core product surface<br>demoable without sales</span></div>
                 <div class="fm-row">
-                  <div><div class="fm-s-n tofill">[X]%</div><div class="fm-s-l">demo &#8594; activation</div></div>
-                  <div><div class="fm-s-n tofill">[Y]</div><div class="fm-s-l">qualified pipeline influenced</div></div>
+                  <div><div class="fm-s-n">5</div><div class="fm-s-l">core flows in the self-serve MVP</div></div>
+                  <div><div class="fm-s-n">&#8722;30%</div><div class="fm-s-l">custom demo builds per deal (target)</div></div>
                 </div>
               </div>
             </div>
           </a>
         </article>
 
-        <!-- Folder 04 — POV: buy vs build -->
-        <article class="folder folder-pov" style="--i:3;--fbg:#CFDCF0">
+        <!-- Folder 04 — KYB buy vs build -->
+        <article class="folder" style="--i:3;--fbg:#EDDCE8">
+          <a class="folder-card" href="case-verification.html">
+            <span class="folder-tablabel">Project 04</span>
+            <div class="folder-grid">
+              <div>
+                <div class="folder-pills"><span class="fpill">Buy vs build</span><span class="fpill">KYB / verification</span><span class="fpill">Platform strategy</span></div>
+                <h3 class="folder-title display">Knowing when to stop building</h3>
+                <p class="folder-desc">Our KYB tooling ran on a backoffice that couldn't scale. I led the buy-vs-build analysis to a sharper answer than either extreme: buy the commoditised verification automations, build the case management that differentiates.</p>
+                <span class="folder-view">View project <span class="fv-arrow">&#8594;</span></span>
+              </div>
+              <div class="fmetrics">
+                <div class="fm-big"><span class="fm-n">75%</span><span class="fm-cap">of KYB checks covered by<br>pre-built vendor automations</span></div>
+                <div class="fm-row">
+                  <div><div class="fm-s-n">4</div><div class="fm-s-l">core KYB capabilities mapped &amp; split</div></div>
+                  <div><div class="fm-s-n">5</div><div class="fm-s-l">explicit decision criteria</div></div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </article>
+
+        <!-- Folder 05 — Feedback loops -->
+        <article class="folder" style="--i:4;--fbg:#E7D1E1">
+          <a class="folder-card" href="case-feedback-loops.html">
+            <span class="folder-tablabel">Project 05</span>
+            <div class="folder-grid">
+              <div>
+                <div class="folder-pills"><span class="fpill">Regulated onboarding</span><span class="fpill">Ops &#215; Product</span><span class="fpill">CX</span></div>
+                <h3 class="folder-title display">Fewer surprises, not fewer checks</h3>
+                <p class="folder-desc">KYC feedback loops looked like an ops workflow. In reality they were a silent conversion killer. I reframed loops as a product metric, instrumented the causes, and cut avoidable loops without touching a single control.</p>
+                <span class="folder-view">View project <span class="fv-arrow">&#8594;</span></span>
+              </div>
+              <div class="fmetrics">
+                <div class="fm-big"><span class="fm-n">&#8595;40s</span><span class="fm-cap">cohort completion in weeks<br>where loops spiked</span></div>
+                <div class="fm-row">
+                  <div><div class="fm-s-n">5</div><div class="fm-s-l">moves against avoidable loops</div></div>
+                  <div><div class="fm-s-n">0</div><div class="fm-s-l">regulatory checks loosened</div></div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </article>
+
+        <!-- Folder 06 — Signup growth experiments -->
+        <article class="folder" style="--i:5;--fbg:#E1C6DA">
+          <a class="folder-card" href="case-signup-growth.html">
+            <span class="folder-tablabel">Project 06</span>
+            <div class="folder-grid">
+              <div>
+                <div class="folder-pills"><span class="fpill">Growth experiments</span><span class="fpill">Activation</span><span class="fpill">A/B testing</span></div>
+                <h3 class="folder-title display">Compounding the top of funnel</h3>
+                <p class="folder-desc">Signup is the cheapest place to win: every point gained multiplies downstream. Disciplined experiments on the first two steps of a regulated funnel moved both metrics, hard, without poisoning cohort quality.</p>
+                <span class="folder-view">View project <span class="fv-arrow">&#8594;</span></span>
+              </div>
+              <div class="fmetrics">
+                <div class="fm-big"><span class="fm-n">+59%</span><span class="fm-cap">create-company conversion<br>0.95% &#8594; 1.51%</span></div>
+                <div class="fm-row">
+                  <div><div class="fm-s-n">+34.6%</div><div class="fm-s-l">email signup actioned, 3.24 &#8594; 4.37%</div></div>
+                  <div><div class="fm-s-n">Q1</div><div class="fm-s-l">gains landed while diagnosis ran in parallel</div></div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </article>
+
+        <!-- Folder 07 — POV: buy vs build -->
+        <article class="folder folder-pov" style="--i:6;--fbg:#D5B1CC">
           <a class="folder-card" href="case-buy-vs-build.html">
             <span class="folder-tablabel">Point of view</span>
             <div class="folder-grid">
               <div>
                 <div class="folder-pills"><span class="fpill">How I think</span></div>
                 <h3 class="folder-title display">How I decide buy vs build</h3>
-                <p class="folder-desc">Four questions, every time — differentiation, true cost of ownership, regulatory surface, and speed to be right. Verification was a buy. The PLG demo was a build. Same rubric, opposite answers.</p>
-                <span class="folder-view">Read <span class="fv-arrow">→</span></span>
+                <p class="folder-desc">Four questions, every time: differentiation, true cost of ownership, regulatory surface, and speed to be right. Verification was a buy. The PLG demo was a build. Same rubric, opposite answers.</p>
+                <span class="folder-view">Read <span class="fv-arrow">&#8594;</span></span>
               </div>
             </div>
           </a>
         </article>
 
-        <!-- Folder 05 — POV: staying current with AI -->
-        <article class="folder folder-pov" style="--i:4;--fbg:#C3D2EC">
+        <!-- Folder 08 — POV: staying current with AI -->
+        <article class="folder folder-pov" style="--i:7;--fbg:#CFA6C5">
           <a class="folder-card" href="case-staying-current.html">
             <span class="folder-tablabel">Point of view</span>
             <div class="folder-grid">
               <div>
                 <div class="folder-pills"><span class="fpill">How I think</span></div>
                 <h3 class="folder-title display">How I stay current with AI</h3>
-                <p class="folder-desc">I don't read about AI — I build with it. Personal projects are where I pressure-test what's actually possible, then carry the patterns into work.</p>
-                <span class="folder-view">Read <span class="fv-arrow">→</span></span>
+                <p class="folder-desc">I don't read about AI, I build with it. This portfolio is my reflection journal; Morsel is a food-tracking app where the model never invents a fact. Both feed straight back into the work.</p>
+                <span class="folder-view">Read <span class="fv-arrow">&#8594;</span></span>
               </div>
             </div>
           </a>
@@ -1001,7 +1085,7 @@
         <div>
           <p class="s-tag">About</p>
           <h2 class="ah">Hi, I'm Roshni. I build products regulated businesses can grow on.</h2>
-          <p class="ab">I'm a Product Lead based in Stockholm, specialising in the intersection of growth and trust. I've spent years building and scaling fraud, AML, KYB/KYC, and onboarding platforms used by millions of customers across fintech. My edge is making compliance a competitive advantage — turning friction into conversion, and risk into a product feature.</p>
+          <p class="ab">I'm a Product Lead based in Stockholm, specialising in the intersection of growth and trust. I've spent years building and scaling fraud, AML, KYB/KYC, and onboarding platforms used by millions of customers across fintech. My edge is making compliance a competitive advantage: friction becomes conversion, and risk becomes a product feature.</p>
           <p class="ab">I grew up in Chennai, and somewhere between India and Sweden I developed strong opinions about product, cold-weather hiking, and the right ratio of oat milk in a flat white. I have done Spartan races, chased the Northern Lights in Abisko, and I am convinced that fika is one of the better cultural inventions of the 20th century. I share my apartment with a dog and a cat who have very different opinions about that.</p>
           <p class="ab">I am curious by default, collaborative by nature, and outcome-driven above everything else.</p>
           <p class="aq">"Compliance should be an asset, not a bottleneck."</p>
@@ -1014,8 +1098,8 @@
           <div class="sg">
             <div class="sc"><p class="sn">4+</p><p class="sd">Teams led simultaneously</p></div>
             <div class="sc"><p class="sn">19+</p><p class="sd">Specialists across disciplines</p></div>
-            <div class="sc"><p class="sn">370k+</p><p class="su">euros</p><p class="sd">Fraud losses prevented</p></div>
-            <div class="sc"><p class="sn">95%</p><p class="sd">Fraud reduction on targeted attack</p></div>
+            <div class="sc"><p class="sn">&#8364;625K</p><p class="su">quantified</p><p class="sd">Preventable fraud losses priced &amp; funded</p></div>
+            <div class="sc"><p class="sn">+59%</p><p class="sd">Conversion lift from growth experiments</p></div>
             <div class="sci">
               <p class="sit">Based in Stockholm. Originally from Chennai.</p>
               <p class="sis">Hiking trails, Spartan races, Northern Lights in Abisko, fika, dog and cat parent.</p>
@@ -1150,13 +1234,13 @@
       const light = document.documentElement.getAttribute('data-theme') === 'light';
       return {
         light,
-        acc:        light ? 'rgba(124,168,0,'    : 'rgba(245,200,74,',
-        accBright:  light ? 'rgba(150,196,0,'    : 'rgba(255,239,179,',
-        hubCore:    light ? 'rgba(124,168,0,0.95)':'rgba(245,200,74,0.92)',
-        hubRing:    light ? 'rgba(150,196,0,0.35)':'rgba(245,200,74,0.28)',
-        glowStop:   light ? 'rgba(180,224,40,0.20)':'rgba(245,200,74,0.14)',
-        labelTxt:   light ? 'rgba(22,36,46,0.72)' : 'rgba(237,232,224,0.72)',
-        satLabel:   light ? 'rgba(22,36,46,'       : 'rgba(237,232,224,',
+        acc:        light ? 'rgba(168,84,151,'   : 'rgba(217,160,204,',
+        accBright:  light ? 'rgba(141,67,128,'   : 'rgba(229,189,223,',
+        hubCore:    light ? 'rgba(168,84,151,0.95)':'rgba(217,160,204,0.92)',
+        hubRing:    light ? 'rgba(168,84,151,0.32)':'rgba(217,160,204,0.28)',
+        glowStop:   light ? 'rgba(229,189,223,0.28)':'rgba(217,160,204,0.14)',
+        labelTxt:   light ? 'rgba(50,41,47,0.72)' : 'rgba(242,236,240,0.72)',
+        satLabel:   light ? 'rgba(50,41,47,'       : 'rgba(242,236,240,',
       };
     }
 
@@ -1443,17 +1527,19 @@
   /* ── HERO TEXT ENTRANCE ── */
   gsap.set('.vid-tag',  {opacity:0, y:24});
   gsap.set('.vid-name', {opacity:0, y:40});
-  gsap.set('.vid-tagline', {opacity:0, y:20});
   gsap.set('.vid-role', {opacity:0, y:24});
+  gsap.set('.vid-tags-hero', {opacity:0, y:18});
   gsap.set('.vid-btns', {opacity:0, y:16});
   gsap.set('.vid-scroll', {opacity:0});
   gsap.timeline({delay:.3})
     .to('.vid-tag',     {opacity:1, y:0, duration:.7, ease:'power2.out'})
     .to('.vid-name',    {opacity:1, y:0, duration:.9, ease:'power3.out'}, '-=.4')
-    .to('.vid-tagline', {opacity:1, y:0, duration:.6, ease:'power2.out', onComplete:startTagline}, '-=.45')
     .to('.vid-role',    {opacity:1, y:0, duration:.7, ease:'power2.out'}, '-=.4')
+    .to('.vid-tags-hero',{opacity:1, y:0, duration:.6, ease:'power2.out'}, '-=.4')
     .to('.vid-btns',    {opacity:1, y:0, duration:.6, ease:'power2.out'}, '-=.4')
     .to('.vid-scroll',  {opacity:1,      duration:.5, ease:'power2.out'}, '-=.3');
+
+  /* (hero avatar is an animated WebP — no JS needed; sound intentionally dropped for now) */
 
   /* ── SCRAMBLE TAGLINE (rotating) ── */
   function startTagline() {
